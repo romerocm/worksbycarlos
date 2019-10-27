@@ -1,0 +1,48 @@
+a {
+  text-decoration: none;
+  color: "#fff";
+}
+
+.footer_social {
+  color: #fff;
+}
+
+.footer_social {
+  margin-top: 1rem;
+  max-width: 100%;
+}
+
+.footer_social i {
+  font-size: 2rem;
+  color: #fff;
+}
+
+a:link {
+  color: white;
+}
+
+.hover_effect:hover {
+  color: #b52e31;
+}
+
+.link_styles {
+  color: #fff;
+}
+
+.link_styles:hover {
+  color: #b52e31;
+}
+
+.redCarlos {
+  color: #b52e31;
+}
+
+.redCarlos:hover {
+  color: white;
+}
+
+@media (max-width: 550px) {
+  .jumbo_social i {
+    font-size: 1.4rem;
+  }
+}
