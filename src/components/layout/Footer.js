@@ -45,7 +45,7 @@ const Footer = () => (
       </Row>
       <Row className="text-center" style={{ marginTop: "3rem" }}>
         <Col>
-          worksbycarlos.com © {new Date().getFullYear()}, built with ❤️ in El Salvador
+          worksbycarlos.com © {new Date().getFullYear()} <br></br> Built with ❤️ in El Salvador
         </Col>
       </Row>
     </Container>
