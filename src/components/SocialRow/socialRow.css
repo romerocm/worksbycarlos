@@ -17,6 +17,7 @@ a:link {
 
 @media (max-width: 550px) {
   .jumbo_social i {
+    margin-top: 3rem;
     font-size: 1.6rem;
   }
 }
