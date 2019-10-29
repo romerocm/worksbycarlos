@@ -31,7 +31,7 @@ const project1 = {
   date: "2019-03-28",
   decription:
     "Built a Web Based application using React to keep track of user expenses. The application is hosted on Heroku and is using Firebase as its database to keep track of user data and its account creation using Google's login API.",
-  sourceURL: "https://github.com",
+  sourceURL: "https://github.com/romerocm/control-de-gastos-react",
   hostedURL: "https://control-gastos-react-2.herokuapp.com/",
 }
 
@@ -66,7 +66,8 @@ export default () => (
     */}
       <MyJumbo
         title={"Projects Portfolio"}
-        body={"I think the best way of learning is by building Stuff."}
+        body={"This is where I'll be keeping my projects hostage."}
+        body2={"Shhh... don't tell anyone."}
       />
       <hr />
 

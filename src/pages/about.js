@@ -16,10 +16,10 @@ export default () => (
     <Layout>
       <MyJumbo
         body={
-          "If you don't see me exploring  🎹"
+          "Work In Progress"
         }
-        body2={"but also enjoy the design aspect of things."}
-        title={"About me."}
+        body2={"ask me anything though."}
+        title={"WHO'S THIS DUDE? THE MAN, THE LEGEND?"}
       />
       <hr />
       <Container fluid>

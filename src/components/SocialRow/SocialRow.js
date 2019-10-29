@@ -8,7 +8,7 @@ export default () => (
     <Col>
       <a
         style={{ color: "#000" }}
-        href="https://www.github.com/"
+        href="https://github.com/romerocm/"
         target="_blank"
         rel="noopener noreferrer"
       >
@@ -18,7 +18,7 @@ export default () => (
     <Col>
       <a
         style={{ color: "#000" }}
-        href="https://twitter.com/"
+        href="https://twitter.com/askmecarlos"
         target="_blank"
         rel="noopener noreferrer"
       >
