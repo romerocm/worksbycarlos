@@ -19,7 +19,7 @@ export default () => (
           "Work In Progress"
         }
         body2={"ask me anything though."}
-        title={"WHO'S THIS DUDE? THE MAN, THE LEGEND?"}
+        title={"Sinking my life into DevOps – Fuel me with some code and coffee. 🤖☕"}
       />
       <hr />
       <Container fluid>
@@ -95,13 +95,13 @@ export default () => (
         </Row>
         <hr /> */}
         {/* This is the beginning of the education section*/}
-        <Row>
+        {/* <Row>
           <Col>
             <h3>Education</h3>
           </Col>
-        </Row>
+        </Row> */}
         {/* Masters Degreee*/}
-        <Row>
+        {/* <Row>
           <Col>
             <h5>Universidad Evangélica de El Salvador / Computer Systems Engineer</h5>
           </Col>
@@ -109,7 +109,7 @@ export default () => (
         <Row>
           <Col>Universidad Evangélica, San Salvador, El Salvador</Col>
           <Col>2016.01 - Current</Col>
-        </Row>
+        </Row> */}
         <Row>
           <Col>
             <p style={{ marginTop: "1rem" }}>
