@@ -128,21 +128,15 @@
 }
  
 @keyframes float {
-  0%, 100% {
-    transform: translateY(0);
-  }
-  50% {
-    transform: translateY(-10px);
-  }
+  0% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+  100% { transform: translateY(0); }
 }
 
 @keyframes float-reverse {
-  0%, 100% {
-    transform: translateY(0);
-  }
-  50% {
-    transform: translateY(10px);
-  }
+  0% { transform: translateY(0); }
+  50% { transform: translateY(10px); }
+  100% { transform: translateY(0); }
 }
 
 @layer base {
@@ -165,11 +159,12 @@
   border-color: rgba(255, 255, 255, 0.4);
 }
 
-.bg-[#0B93F6] {
+.message-bubble {
   position: relative;
+  background-color: #0B93F6;
 }
 
-.bg-[#0B93F6]::before {
+.message-bubble::before {
   content: "";
   position: absolute;
   top: 0;
