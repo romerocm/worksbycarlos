@@ -169,8 +169,8 @@ export default function Home() {
             <Card className="p-8 bg-gray-900 dark:bg-gray-800 text-white overflow-hidden">
               <div className="flex flex-col">
                 <div className="mb-6">
-                  <h3 className="text-3xl font-bold mb-2">Tech Wizardry Tools</h3>
-                  <p className="text-lg opacity-80">Where bugs fear to tread and servers dance to my command</p>
+                  <h3 className="text-3xl font-bold mb-2">curl | bash My Favorites</h3>
+                  <p className="text-lg opacity-80">Don't try this in production (or do, I'm not your dad)</p>
                 </div>
                 <div className="overflow-x-scroll scrollbar-hide">
                   <div className="flex gap-8 items-center py-4 min-w-max">
