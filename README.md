@@ -10,7 +10,7 @@
     <a href="https://github.com/romerocm/worksbycarlos/issues">Request Feature</a>
   </p>
 
-  <img src="public/assets/images/aimedica-cover.png" alt="Project Screenshot" width="600">
+  <img src="public/assets/images/worksbycarlos-cover.png" alt="Project Screenshot" width="600">
 </div>
 
 ## ✨ Features
@@ -38,22 +38,26 @@
 ## 🚀 Quick Start
 
 1. Clone the repository:
+
 ```bash
 git clone https://github.com/romerocm/worksbycarlos.git
 ```
 
 2. Install dependencies:
+
 ```bash
 cd worksbycarlos
 npm install
 ```
 
 3. Create a `.env` file:
+
 ```bash
 cp .env.example .env.local
 ```
 
 4. Start the development server:
+
 ```bash
 npm run dev
 ```
@@ -74,12 +78,12 @@ worksbycarlos/
 
 ## 🎨 Color Reference
 
-| Color          | Hex                                                                |
-| -------------- | ------------------------------------------------------------------ |
-| Primary        | ![#7B68EE](https://via.placeholder.com/10/7B68EE?text=+) #7B68EE |
-| Secondary      | ![#5B4BC5](https://via.placeholder.com/10/5B4BC5?text=+) #5B4BC5 |
-| Success        | ![#98FB98](https://via.placeholder.com/10/98FB98?text=+) #98FB98 |
-| Warning        | ![#FFB6C1](https://via.placeholder.com/10/FFB6C1?text=+) #FFB6C1 |
+| Color     | Hex                                                              |
+| --------- | ---------------------------------------------------------------- |
+| Primary   | ![#7B68EE](https://via.placeholder.com/10/7B68EE?text=+) #7B68EE |
+| Secondary | ![#5B4BC5](https://via.placeholder.com/10/5B4BC5?text=+) #5B4BC5 |
+| Success   | ![#98FB98](https://via.placeholder.com/10/98FB98?text=+) #98FB98 |
+| Warning   | ![#FFB6C1](https://via.placeholder.com/10/FFB6C1?text=+) #FFB6C1 |
 
 ## 🤝 Contributing
 
@@ -99,6 +103,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 ## 👨‍💻 Author
 
 **Carlos Romero**
+
 - Website: [worksbycarlos.com](https://worksbycarlos.com)
 - LinkedIn: [@romerocm](https://linkedin.com/in/romerocm)
 - Email: cmromero.dev@gmail.com
