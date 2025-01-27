@@ -4,7 +4,10 @@ export interface CaseStudy {
   title: string
   description: string
   year: string
-  funding?: string
+  metrics?: {
+    value: string
+    label: string
+  }
   tags: string[]
   scope: string[]
   stack: string[]
@@ -23,7 +26,10 @@ export const caseStudies: CaseStudy[] = [
     title: "Healthcare Platform Transformation",
     description: "Revolutionizing healthcare infrastructure with cloud-native solutions and HIPAA compliance",
     year: "2024 - ONGOING",
-    funding: "$5.2M",
+    metrics: {
+      value: "99.99%",
+      label: "system uptime"
+    },
     tags: ["Healthcare", "Cloud Infrastructure", "HIPAA"],
     scope: ["Cloud Architecture", "DevOps", "Security"],
     stack: ["AWS", "Kubernetes", "Terraform"],
@@ -50,7 +56,10 @@ export const caseStudies: CaseStudy[] = [
     title: "Enterprise Infrastructure Automation",
     description: "Developing a comprehensive Terraform module library for multi-cloud infrastructure",
     year: "2023 - 2024",
-    funding: "$2.8M",
+    metrics: {
+      value: "70%",
+      label: "faster deployments"
+    },
     tags: ["Infrastructure", "Automation", "Multi-cloud"],
     scope: ["Infrastructure as Code", "Cloud Architecture", "DevOps"],
     stack: ["Terraform", "AWS", "Azure", "GCP"],
@@ -77,7 +86,10 @@ export const caseStudies: CaseStudy[] = [
     title: "Kubernetes Optimization Platform",
     description: "Building a custom Kubernetes cluster autoscaler for optimal resource utilization",
     year: "2023",
-    funding: "$1.5M",
+    metrics: {
+      value: "40%",
+      label: "resource optimization"
+    },
     tags: ["Kubernetes", "Automation", "DevOps"],
     scope: ["Container Orchestration", "Automation", "Performance"],
     stack: ["Kubernetes", "Go", "Prometheus"],
