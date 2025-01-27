@@ -135,23 +135,27 @@ export default function Projects() {
               className="group"
               onMouseEnter={() => setActiveProject(index)}
             >
-              <Link href={`/projects/${study.id}`} prefetch>
-                <Card className="overflow-hidden border-0 bg-gradient-to-br from-gray-900 to-gray-800">
-                  <div className="relative aspect-[16/9] bg-muted">
+              <Link href={`/projects/${study.id}`} prefetch className="block">
+                <Card className="overflow-hidden border-0 bg-gradient-to-br from-gray-900 to-gray-800 transform transition-all duration-300 hover:scale-[1.02] hover:shadow-2xl">
+                  <div className="relative aspect-[16/9] bg-muted overflow-hidden">
                     <Image
                       src={study.thumbnail || "/placeholder.svg"}
                       alt={study.title}
                       fill
-                      className="object-cover transition-transform group-hover:scale-105"
+                      className="object-cover transition-all duration-500 group-hover:scale-110"
                     />
-                    <div className="absolute inset-0 bg-black/60" />
-                    <div className="absolute inset-0 p-6 flex flex-col justify-between">
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/50 to-transparent transition-all duration-300 group-hover:from-black/95" />
+                    <div className="absolute inset-0 p-6 flex flex-col justify-between transform transition-all duration-300 group-hover:translate-y-[-5px]">
                       <div className="flex items-start justify-between">
                         <div>
                           <h3 className="font-medium text-white mb-2">{study.client}</h3>
                           <div className="flex flex-wrap gap-2">
                             {study.tags.map((tag) => (
-                              <Badge key={tag} variant="outline" className="text-white ring-white/20">
+                              <Badge 
+                                key={tag} 
+                                variant="outline" 
+                                className="text-white border-white/20 bg-white/5 hover:bg-white/10 transition-colors duration-300"
+                              >
                                 {tag}
                               </Badge>
                             ))}
@@ -170,19 +174,22 @@ export default function Projects() {
                       </div>
                     </div>
                   </div>
-                  <div className="p-6 flex items-center justify-between text-white">
-                    <div className="flex items-center gap-4">
+                  <div className="p-6 flex items-center justify-between text-white backdrop-blur-sm bg-black/20 transition-all duration-300 group-hover:bg-black/30">
+                    <div className="flex items-center gap-6">
                       <div className="text-sm">
-                        <div className="text-white/60">Year</div>
-                        <div>{study.year}</div>
+                        <div className="text-white/60 font-medium uppercase tracking-wider text-xs mb-1">Year</div>
+                        <div className="font-semibold">{study.year}</div>
                       </div>
                       <div className="text-sm">
-                        <div className="text-white/60">Stack</div>
-                        <div>{study.stack.join(", ")}</div>
+                        <div className="text-white/60 font-medium uppercase tracking-wider text-xs mb-1">Stack</div>
+                        <div className="font-semibold">{study.stack.join(" · ")}</div>
                       </div>
                     </div>
-                    <Button variant="ghost" className="text-white hover:text-white hover:bg-white/10">
-                      View Case Study <ArrowRight className="ml-2 h-4 w-4" />
+                    <Button 
+                      variant="outline" 
+                      className="text-white border-white/20 hover:bg-white/10 hover:text-white transition-all duration-300 group-hover:border-white/40"
+                    >
+                      View Case Study <ArrowRight className="ml-2 h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
                     </Button>
                   </div>
                 </Card>
