@@ -173,7 +173,7 @@ export default function Home() {
                   <p className="text-lg opacity-80">Don't try this in production (or do, I'm not your dad)</p>
                 </div>
                 <div className="overflow-x-scroll scrollbar-hide">
-                  <div className="flex gap-8 items-center py-4 min-w-max">
+                  <div className="flex gap-8 items-center py-4 min-w-max w-full justify-end">
                     <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/kubernetes/kubernetes-plain.svg" className="w-16 h-16 hover:scale-110 transition-transform" alt="Kubernetes" />
                     <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/terraform/terraform-original.svg" className="w-16 h-16 hover:scale-110 transition-transform" alt="Terraform" />
                     <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/docker/docker-original.svg" className="w-16 h-16 hover:scale-110 transition-transform" alt="Docker" />
