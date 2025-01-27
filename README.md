@@ -80,10 +80,10 @@ worksbycarlos/
 
 | Color     | Hex                                                              |
 | --------- | ---------------------------------------------------------------- |
-| Primary   | ![#7B68EE](https://via.placeholder.com/10/7B68EE?text=+) #7B68EE |
-| Secondary | ![#5B4BC5](https://via.placeholder.com/10/5B4BC5?text=+) #5B4BC5 |
-| Success   | ![#98FB98](https://via.placeholder.com/10/98FB98?text=+) #98FB98 |
-| Warning   | ![#FFB6C1](https://via.placeholder.com/10/FFB6C1?text=+) #FFB6C1 |
+| Primary   | <img src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTAiIGhlaWdodD0iMTAiIHZpZXdCb3g9IjAgMCAxMCAxMCIgZmlsbD0iIzdCNjhFRSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMTAiIGhlaWdodD0iMTAiIGZpbGw9IiM3QjY4RUUiLz48L3N2Zz4=" alt="#7B68EE" /> #7B68EE |
+| Secondary | <img src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTAiIGhlaWdodD0iMTAiIHZpZXdCb3g9IjAgMCAxMCAxMCIgZmlsbD0iIzVCNEJDNSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMTAiIGhlaWdodD0iMTAiIGZpbGw9IiM1QjRCQzUiLz48L3N2Zz4=" alt="#5B4BC5" /> #5B4BC5 |
+| Success   | <img src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTAiIGhlaWdodD0iMTAiIHZpZXdCb3g9IjAgMCAxMCAxMCIgZmlsbD0iIzk4RkI5OCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMTAiIGhlaWdodD0iMTAiIGZpbGw9IiM5OEZCOTY4Ii8+PC9zdmc+" alt="#98FB98" /> #98FB98 |
+| Warning   | <img src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTAiIGhlaWdodD0iMTAiIHZpZXdCb3g9IjAgMCAxMCAxMCIgZmlsbD0iI0ZGQjZDMSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMTAiIGhlaWdodD0iMTAiIGZpbGw9IiNGRkI2QzEiLz48L3N2Zz4=" alt="#FFB6C1" /> #FFB6C1 |
 
 ## 🤝 Contributing
 
