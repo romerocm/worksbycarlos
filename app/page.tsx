@@ -94,19 +94,29 @@ export default function Home() {
             transition={{ duration: 0.6, delay: 0.2 }}
             className="col-span-1 md:col-span-2"
           >
-            <Link href="/projects">
+            <Link href="/projects/health-platform">
               <Card className="group relative overflow-hidden h-[300px] cursor-pointer">
-                <div className="absolute inset-0 bg-gradient-to-b from-transparent to-black/60" />
-                <div className="absolute bottom-6 left-6 right-6 text-white">
-                  <div className="flex items-center gap-2 mb-2">
-                    <Play className="w-4 h-4" />
-                    <span className="text-sm">Featured Project</span>
+                <div className="relative w-full h-full">
+                  <Image
+                    src="/assets/images/aimedica-cover.png"
+                    alt="AI MEDICA Project"
+                    fill
+                    className="object-cover transition-transform duration-300 group-hover:scale-105"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-b from-transparent via-black/50 to-black/80" />
+                  <div className="absolute bottom-6 left-6 right-6 text-white">
+                    <div className="flex items-center gap-2 mb-2">
+                      <Play className="w-4 h-4" />
+                      <span className="text-sm">Featured Project</span>
+                    </div>
+                    <h2 className="text-2xl font-bold mb-2">AI MEDICA Platform</h2>
+                    <p className="text-sm opacity-90">
+                      Next-generation healthcare infrastructure with seamless security and automation
+                    </p>
                   </div>
-                  <h2 className="text-2xl font-bold mb-2">Operation: Cloud Domination</h2>
-                  <p className="text-sm opacity-90">Turning chaotic infrastructure into a well-oiled machine (99.99% uptime, 100% coolness)</p>
-                </div>
-                <div className="absolute top-4 right-4 opacity-0 group-hover:opacity-100 transition-opacity">
-                  <ArrowUpRight className="w-6 h-6 text-white" />
+                  <div className="absolute top-4 right-4 opacity-0 group-hover:opacity-100 transition-opacity">
+                    <ArrowUpRight className="w-6 h-6 text-white" />
+                  </div>
                 </div>
               </Card>
             </Link>
