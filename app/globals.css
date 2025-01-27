@@ -178,11 +178,11 @@
 .logo-gradient {
   background: linear-gradient(
     to right,
-    #40ffaa,
-    #4079ff,
-    #40ffaa,
-    #4079ff,
-    #40ffaa
+    #00cc77,
+    #0055ff,
+    #00cc77,
+    #0055ff,
+    #00cc77
   );
   background-size: 200% auto;
   -webkit-background-clip: text;
