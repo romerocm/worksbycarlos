@@ -75,7 +75,7 @@ export default function Home() {
                     </div>
                   </div>
                 </div>
-                <h1 className="text-5xl font-bold mb-4 text-center animate-float-delayed">
+                <h1 className="text-5xl font-bold mb-4 text-center">
                   Carlos Romero
                 </h1>
                 <p className="text-lg mb-4 opacity-90 text-center">Technology Leader in DevOps & UX/UI Design | Integrating User-Centric Design & Seamless Deployment Processes</p>
