@@ -1,13 +1,38 @@
-"use client"
+"use client";
 
-import Image from 'next/image'
-import { motion } from 'framer-motion'
-import Link from 'next/link'
-import { Header } from '@/components/header'
-import { Card } from '@/components/ui/card'
-import { Play, Award, Briefcase, ArrowUpRight, Layout, Cloud, Palette, Code, Coffee, Pizza } from 'lucide-react'
+import Image from "next/image";
+import { motion } from "framer-motion";
+import Link from "next/link";
+import { Header } from "@/components/header";
+import { Card } from "@/components/ui/card";
+import {
+  Play,
+  Award,
+  Briefcase,
+  ArrowUpRight,
+  Layout,
+  Cloud,
+  Palette,
+  Code,
+  Coffee,
+  Pizza,
+} from "lucide-react";
 
-const ServiceCard = ({ icon: Icon, title, description, delay }) => {
+import { FC } from "react";
+
+interface ServiceCardProps {
+  icon: FC<{ className?: string }>;
+  title: string;
+  description: string;
+  delay: number;
+}
+
+const ServiceCard: FC<ServiceCardProps> = ({
+  icon: Icon,
+  title,
+  description,
+  delay,
+}) => {
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
@@ -42,8 +67,8 @@ const ServiceCard = ({ icon: Icon, title, description, delay }) => {
         </motion.div>
       </motion.div>
     </motion.div>
-  )
-}
+  );
+};
 
 export default function Home() {
   return (
@@ -78,7 +103,10 @@ export default function Home() {
                 <h1 className="text-5xl font-bold mb-4 text-center">
                   Carlos Romero
                 </h1>
-                <p className="text-lg mb-4 opacity-90 text-center">Technology Leader in DevOps & UX/UI Design | Integrating User-Centric Design & Seamless Deployment Processes</p>
+                <p className="text-lg mb-4 opacity-90 text-center">
+                  Technology Leader in DevOps & UX/UI Design | Integrating
+                  User-Centric Design & Seamless Deployment Processes
+                </p>
                 <div className="text-sm opacity-80 text-center">
                   cmromero.dev@gmail.com
                 </div>
@@ -109,9 +137,12 @@ export default function Home() {
                       <Play className="w-4 h-4" />
                       <span className="text-sm">Featured Project</span>
                     </div>
-                    <h2 className="text-2xl font-bold mb-2">AI MEDICA Platform</h2>
+                    <h2 className="text-2xl font-bold mb-2">
+                      AI MEDICA Platform
+                    </h2>
                     <p className="text-sm opacity-90">
-                      Next-generation healthcare infrastructure with seamless security and automation
+                      Next-generation healthcare infrastructure with seamless
+                      security and automation
                     </p>
                   </div>
                   <div className="absolute top-4 right-4 opacity-0 group-hover:opacity-100 transition-opacity">
@@ -169,9 +200,13 @@ export default function Home() {
             <Card className="p-8 bg-gray-900 dark:bg-gray-800 text-white overflow-hidden">
               <div className="flex flex-col">
                 <div className="mb-6 relative group">
-                  <h3 className="text-3xl font-bold mb-2">curl | bash My Favorites</h3>
-                  <p className="text-lg opacity-80">Don't try this in production (or do, I'm not your dad)</p>
-                  
+                  <h3 className="text-3xl font-bold mb-2">
+                    curl | bash My Favorites
+                  </h3>
+                  <p className="text-lg opacity-80">
+                    Don't try this in production (or do, I'm not your dad)
+                  </p>
+
                   {/* Terminal Popup */}
                   <div className="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[500px] scale-0 group-hover:scale-100 transition-transform duration-200 z-[9999] overflow-visible">
                     <div className="bg-gray-900 rounded-lg shadow-xl border border-gray-700 terminal-shadow">
@@ -182,9 +217,11 @@ export default function Home() {
                           <div className="w-3 h-3 rounded-full bg-yellow-500"></div>
                           <div className="w-3 h-3 rounded-full bg-green-500"></div>
                         </div>
-                        <div className="flex-1 text-center text-sm text-gray-400">bash</div>
+                        <div className="flex-1 text-center text-sm text-gray-400">
+                          bash
+                        </div>
                       </div>
-                      
+
                       {/* Terminal Content */}
                       <div className="p-4 font-mono text-sm">
                         <motion.div
@@ -192,7 +229,9 @@ export default function Home() {
                           animate={{ opacity: 1 }}
                           transition={{ duration: 0.3, delay: 0.2 }}
                         >
-                          <span className="text-green-400">➜</span> <span className="text-blue-400">~</span> $ curl https://api.worksbycarlos.dev/favorites.sh | bash
+                          <span className="text-green-400">➜</span>{" "}
+                          <span className="text-blue-400">~</span> $ curl
+                          https://api.worksbycarlos.dev/favorites.sh | bash
                         </motion.div>
                         <motion.pre
                           initial={{ opacity: 0 }}
@@ -200,7 +239,7 @@ export default function Home() {
                           transition={{ duration: 0.3, delay: 0.5 }}
                           className="mt-2 text-green-200"
                         >
-{`# My DevOps Favorites
+                          {`# My DevOps Favorites
 tools:
   - name: Kubernetes
     type: Container Orchestration
@@ -233,14 +272,46 @@ tools:
                 </div>
                 <div className="overflow-x-scroll scrollbar-hide">
                   <div className="flex gap-8 items-center py-4 min-w-max w-full justify-end">
-                    <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/kubernetes/kubernetes-plain.svg" className="w-16 h-16 hover:scale-110 transition-transform" alt="Kubernetes" />
-                    <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/terraform/terraform-original.svg" className="w-16 h-16 hover:scale-110 transition-transform" alt="Terraform" />
-                    <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/docker/docker-original.svg" className="w-16 h-16 hover:scale-110 transition-transform" alt="Docker" />
-                    <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/github/github-original.svg" className="w-16 h-16 hover:scale-110 transition-transform dark:invert" alt="GitHub" />
-                    <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/python/python-original.svg" className="w-16 h-16 hover:scale-110 transition-transform" alt="Python" />
-                    <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/ansible/ansible-original.svg" className="w-16 h-16 hover:scale-110 transition-transform" alt="Ansible" />
-                    <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nginx/nginx-original.svg" className="w-16 h-16 hover:scale-110 transition-transform" alt="Nginx" />
-                    <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/amazonwebservices/amazonwebservices-plain-wordmark.svg" className="w-16 h-16 hover:scale-110 transition-transform dark:invert" alt="AWS" />
+                    <img
+                      src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/kubernetes/kubernetes-plain.svg"
+                      className="w-16 h-16 hover:scale-110 transition-transform"
+                      alt="Kubernetes"
+                    />
+                    <img
+                      src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/terraform/terraform-original.svg"
+                      className="w-16 h-16 hover:scale-110 transition-transform"
+                      alt="Terraform"
+                    />
+                    <img
+                      src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/docker/docker-original.svg"
+                      className="w-16 h-16 hover:scale-110 transition-transform"
+                      alt="Docker"
+                    />
+                    <img
+                      src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/github/github-original.svg"
+                      className="w-16 h-16 hover:scale-110 transition-transform dark:invert"
+                      alt="GitHub"
+                    />
+                    <img
+                      src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/python/python-original.svg"
+                      className="w-16 h-16 hover:scale-110 transition-transform"
+                      alt="Python"
+                    />
+                    <img
+                      src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/ansible/ansible-original.svg"
+                      className="w-16 h-16 hover:scale-110 transition-transform"
+                      alt="Ansible"
+                    />
+                    <img
+                      src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nginx/nginx-original.svg"
+                      className="w-16 h-16 hover:scale-110 transition-transform"
+                      alt="Nginx"
+                    />
+                    <img
+                      src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/amazonwebservices/amazonwebservices-plain-wordmark.svg"
+                      className="w-16 h-16 hover:scale-110 transition-transform dark:invert"
+                      alt="AWS"
+                    />
                   </div>
                 </div>
               </div>
@@ -300,6 +371,5 @@ tools:
         </motion.div>
       </main>
     </div>
-  )
+  );
 }
-
