@@ -172,19 +172,8 @@ export default function Home() {
                   <h3 className="text-3xl font-bold mb-2">Tech Wizardry Tools</h3>
                   <p className="text-lg opacity-80">Where bugs fear to tread and servers dance to my command</p>
                 </div>
-                <div className="overflow-hidden">
-                  <motion.div 
-                    animate={{ 
-                      x: [0, -1000, 0],
-                      transition: { 
-                        repeat: Infinity, 
-                        duration: 30,
-                        ease: "linear"
-                      }
-                    }}
-                    className="flex gap-8 items-center whitespace-nowrap"
-                  >
-                    <div className="flex gap-8 items-center">
+                <div className="overflow-x-scroll scrollbar-hide">
+                  <div className="flex gap-8 items-center py-4 min-w-max">
                     <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/kubernetes/kubernetes-plain.svg" className="w-16 h-16 hover:scale-110 transition-transform" alt="Kubernetes" />
                     <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/terraform/terraform-original.svg" className="w-16 h-16 hover:scale-110 transition-transform" alt="Terraform" />
                     <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/docker/docker-original.svg" className="w-16 h-16 hover:scale-110 transition-transform" alt="Docker" />
@@ -193,19 +182,7 @@ export default function Home() {
                     <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/ansible/ansible-original.svg" className="w-16 h-16 hover:scale-110 transition-transform" alt="Ansible" />
                     <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nginx/nginx-original.svg" className="w-16 h-16 hover:scale-110 transition-transform" alt="Nginx" />
                     <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/amazonwebservices/amazonwebservices-plain-wordmark.svg" className="w-16 h-16 hover:scale-110 transition-transform dark:invert" alt="AWS" />
-                    </div>
-                    {/* Duplicate icons for seamless scrolling */}
-                    <div className="flex gap-8 items-center">
-                    <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/kubernetes/kubernetes-plain.svg" className="w-16 h-16 hover:scale-110 transition-transform" alt="Kubernetes" />
-                    <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/terraform/terraform-original.svg" className="w-16 h-16 hover:scale-110 transition-transform" alt="Terraform" />
-                    <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/docker/docker-original.svg" className="w-16 h-16 hover:scale-110 transition-transform" alt="Docker" />
-                    <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/github/github-original.svg" className="w-16 h-16 hover:scale-110 transition-transform dark:invert" alt="GitHub" />
-                    <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/python/python-original.svg" className="w-16 h-16 hover:scale-110 transition-transform" alt="Python" />
-                    <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/ansible/ansible-original.svg" className="w-16 h-16 hover:scale-110 transition-transform" alt="Ansible" />
-                    <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nginx/nginx-original.svg" className="w-16 h-16 hover:scale-110 transition-transform" alt="Nginx" />
-                    <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/amazonwebservices/amazonwebservices-plain-wordmark.svg" className="w-16 h-16 hover:scale-110 transition-transform dark:invert" alt="AWS" />
-                    </div>
-                  </motion.div>
+                  </div>
                 </div>
               </div>
             </Card>
