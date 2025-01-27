@@ -159,7 +159,7 @@ export default function Home() {
             </Card>
           </motion.div>
 
-          {/* Client Section */}
+          {/* Tech Stack Section */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -167,15 +167,20 @@ export default function Home() {
             className="col-span-1 md:col-span-2 lg:col-span-4"
           >
             <Card className="p-8 bg-gray-900 dark:bg-gray-800 text-white">
-              <div className="flex items-center justify-between">
+              <div className="flex flex-col space-y-4">
                 <div>
-                  <h3 className="text-2xl font-bold mb-2">Trusted by Companies Who Know Their Bits from Their Bytes</h3>
-                  <p className="opacity-80">Making servers purr and clouds rain efficiency</p>
+                  <h3 className="text-2xl font-bold mb-2">Tech Arsenal</h3>
+                  <p className="opacity-80">Crafting solutions with industry-leading technologies</p>
                 </div>
-                <div className="flex gap-4">
-                  <div className="w-12 h-12 rounded-full bg-white/10" />
-                  <div className="w-12 h-12 rounded-full bg-white/10" />
-                  <div className="w-12 h-12 rounded-full bg-white/10" />
+                <div className="grid grid-cols-4 md:grid-cols-8 gap-6 items-center justify-items-center">
+                  <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/kubernetes/kubernetes-plain.svg" className="w-12 h-12 hover:scale-110 transition-transform" alt="Kubernetes" />
+                  <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/terraform/terraform-original.svg" className="w-12 h-12 hover:scale-110 transition-transform" alt="Terraform" />
+                  <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/docker/docker-original.svg" className="w-12 h-12 hover:scale-110 transition-transform" alt="Docker" />
+                  <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/github/github-original.svg" className="w-12 h-12 hover:scale-110 transition-transform dark:invert" alt="GitHub" />
+                  <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/python/python-original.svg" className="w-12 h-12 hover:scale-110 transition-transform" alt="Python" />
+                  <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/ansible/ansible-original.svg" className="w-12 h-12 hover:scale-110 transition-transform" alt="Ansible" />
+                  <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nginx/nginx-original.svg" className="w-12 h-12 hover:scale-110 transition-transform" alt="Nginx" />
+                  <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/amazonwebservices/amazonwebservices-original.svg" className="w-12 h-12 hover:scale-110 transition-transform" alt="AWS" />
                 </div>
               </div>
             </Card>
