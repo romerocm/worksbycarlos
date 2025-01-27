@@ -18,7 +18,8 @@ export default function CaseStudy() {
   }
 
   return (
-    <div className="min-h-screen flex flex-col bg-background">
+    <div className="min-h-screen flex flex-col bg-background/50 relative">
+      <div className="animated-gradient-background" />
       <Header />
       <main className="flex-grow container mx-auto px-4 sm:px-6 lg:px-8 py-12 pt-24">
         <div className="max-w-4xl mx-auto">

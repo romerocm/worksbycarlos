@@ -138,7 +138,8 @@ export default function About() {
   }, [controls])
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-background/50 relative">
+      <div className="animated-gradient-background" />
       <Header />
       <main className="container mx-auto px-4 py-12 pt-24">
         {/* Contact Info */}
