@@ -187,7 +187,7 @@ export default function Projects() {
                     </div>
                     <Button 
                       variant="outline" 
-                      className="text-white border-white/20 hover:bg-white/10 hover:text-white transition-all duration-300 group-hover:border-white/40"
+                      className="project-card-button text-white bg-black/20 hover:bg-white/10 hover:text-white transition-all duration-300"
                     >
                       View Case Study <ArrowRight className="ml-2 h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
                     </Button>

@@ -156,6 +156,15 @@
 
 /* Add these styles at the end of the file */
 
+/* Project card specific button styling */
+.project-card-button {
+  border-color: rgba(255, 255, 255, 0.2);
+}
+
+.project-card-button:hover {
+  border-color: rgba(255, 255, 255, 0.4);
+}
+
 .bg-[#0B93F6] {
   position: relative;
 }
