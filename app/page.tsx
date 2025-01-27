@@ -180,7 +180,7 @@ export default function Home() {
                   <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/python/python-original.svg" className="w-12 h-12 hover:scale-110 transition-transform" alt="Python" />
                   <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/ansible/ansible-original.svg" className="w-12 h-12 hover:scale-110 transition-transform" alt="Ansible" />
                   <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nginx/nginx-original.svg" className="w-12 h-12 hover:scale-110 transition-transform" alt="Nginx" />
-                  <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/amazonwebservices/amazonwebservices-original.svg" className="w-12 h-12 hover:scale-110 transition-transform" alt="AWS" />
+                  <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/amazonwebservices/amazonwebservices-original-wordmark.svg" className="w-12 h-12 hover:scale-110 transition-transform" alt="AWS" />
                 </div>
               </div>
             </Card>
