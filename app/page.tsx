@@ -173,7 +173,7 @@ export default function Home() {
                   <p className="text-lg opacity-80">Don't try this in production (or do, I'm not your dad)</p>
                   
                   {/* Terminal Popup */}
-                  <div className="absolute -top-4 left-0 w-[500px] scale-0 group-hover:scale-100 transition-transform duration-200 origin-top-left z-50 overflow-visible">
+                  <div className="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[500px] scale-0 group-hover:scale-100 transition-transform duration-200 z-[9999] overflow-visible">
                     <div className="bg-gray-900 rounded-lg shadow-xl border border-gray-700 terminal-shadow">
                       {/* Terminal Header */}
                       <div className="flex items-center p-2 border-b border-gray-700">
