@@ -113,7 +113,7 @@ export default function Projects() {
             transition={{ duration: 0.5 }}
             className="text-lg text-muted-foreground mb-4"
           >
-            HOW WE HELPED OTHERS SUCCEED
+            FEATURED PROJECTS & CASE STUDIES
           </motion.p>
           <motion.h1
             initial={{ opacity: 0, y: 20 }}
@@ -121,7 +121,7 @@ export default function Projects() {
             transition={{ duration: 0.5, delay: 0.1 }}
             className="text-4xl md:text-5xl font-bold"
           >
-            OUR SUCCESS STORIES
+            Engineering Excellence
           </motion.h1>
         </div>
 
