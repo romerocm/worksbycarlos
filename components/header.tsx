@@ -52,7 +52,13 @@ export function Header() {
             ))}
           </div>
 
-          <div className="flex items-center space-x-4">
+          <div className="flex items-center justify-between w-full md:w-auto">
+            {/* Mobile Menu Toggle */}
+            <Button variant="ghost" size="icon" className="md:hidden" onClick={() => setIsOpen(!isOpen)}>
+              {isOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
+              <span className="sr-only">Toggle menu</span>
+            </Button>
+
             <Button
               variant="ghost"
               size="icon"
@@ -62,12 +68,6 @@ export function Header() {
               <Sun className="h-[1.2rem] w-[1.2rem] rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />
               <Moon className="absolute h-[1.2rem] w-[1.2rem] rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" />
               <span className="sr-only">Toggle theme</span>
-            </Button>
-
-            {/* Mobile Menu Toggle */}
-            <Button variant="ghost" size="icon" className="md:hidden" onClick={() => setIsOpen(!isOpen)}>
-              {isOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
-              <span className="sr-only">Toggle menu</span>
             </Button>
           </div>
         </nav>
