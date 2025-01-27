@@ -27,51 +27,19 @@ const rubberDuckQuestions = [
 ]
 
 function Model() {
-  const [isLoaded, setIsLoaded] = useState(false)
-  const [error, setError] = useState<string | null>(null)
-  const { scene, errors } = useGLTF("/assets/3d/duck.glb")
   const [currentQuestion, setCurrentQuestion] = useState(0)
-  const intervalRef = useRef<NodeJS.Timeout | null>(null)
+  const gltf = useGLTF("/assets/3d/duck.glb")
 
   useEffect(() => {
-    if (scene) {
-      setIsLoaded(true)
-    }
-    if (errors && errors.length > 0) {
-      console.error("GLTF loading errors:", errors)
-      setError(errors[0].message || "Unknown error occurred while loading the model")
-    }
-  }, [scene, errors])
-
-  useEffect(() => {
-    intervalRef.current = setInterval(() => {
+    const interval = setInterval(() => {
       setCurrentQuestion((prev) => (prev + 1) % rubberDuckQuestions.length)
     }, 5000)
-
-    return () => {
-      if (intervalRef.current) clearInterval(intervalRef.current)
-    }
+    return () => clearInterval(interval)
   }, [])
-
-  if (error) {
-    return (
-      <Html center>
-        <div className="text-red-500">Error loading model: {error}</div>
-      </Html>
-    )
-  }
-
-  if (!isLoaded) {
-    return (
-      <Html center>
-        <LoadingSpinner />
-      </Html>
-    )
-  }
 
   return (
     <group>
-      <primitive object={scene} scale={2} position={[0, -1, 0]} />
+      <primitive object={gltf.scene} scale={2} position={[0, -1, 0]} />
       <Html position={[1, 1, 0]}>
         <AnimatePresence mode="wait">
           <motion.div
