@@ -163,6 +163,34 @@
   font-family: 'Menlo', 'Monaco', 'Courier New', monospace;
 }
 
+@keyframes logo-gradient {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+.logo-gradient {
+  background: linear-gradient(
+    to right,
+    #40ffaa,
+    #4079ff,
+    #40ffaa,
+    #4079ff,
+    #40ffaa
+  );
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  animation: logo-gradient 3s linear infinite;
+}
+
 .project-card-button:hover {
   border-color: rgba(255, 255, 255, 0.4);
 }

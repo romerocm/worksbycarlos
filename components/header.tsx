@@ -35,7 +35,9 @@ export function Header() {
     <header className="fixed top-0 left-0 right-0 z-50 transition-all duration-300 ease-in-out backdrop-blur-xl backdrop-saturate-150 border-b border-gray-200/10 overflow-hidden">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <nav className="flex justify-between items-center h-16">
-          <Link href="/" className="text-xl font-bold">WorksbyCarlos</Link>
+          <Link href="/" className="text-xl font-bold">
+            <span className="logo-gradient">WorksbyCarlos</span>
+          </Link>
           
           {/* Desktop Navigation */}
           <div className="hidden md:flex space-x-6">
