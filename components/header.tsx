@@ -43,8 +43,8 @@ export function Header() {
                 href={link.href} 
                 className={`text-sm transition-colors ${
                   pathname === link.href 
-                    ? "text-foreground font-medium" 
-                    : "text-muted-foreground hover:text-foreground"
+                    ? "text-primary font-medium" 
+                    : "text-secondary-foreground hover:text-primary"
                 }`}
               >
                 {link.label}
@@ -95,8 +95,8 @@ export function Header() {
                         href={link.href}
                         className={`block text-lg font-medium transition-colors ${
                           pathname === link.href 
-                            ? "text-foreground" 
-                            : "text-muted-foreground hover:text-foreground"
+                            ? "text-primary" 
+                            : "text-secondary-foreground hover:text-primary"
                         }`}
                         onClick={() => setIsOpen(false)}
                       >
