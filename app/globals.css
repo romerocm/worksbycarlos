@@ -178,11 +178,11 @@
 .logo-gradient {
   background: linear-gradient(
     to right,
-    #00cc77,
-    #0055ff,
-    #00cc77,
-    #0055ff,
-    #00cc77
+    #2684FF,    /* Atlassian blue */
+    #FF4088,    /* GitLab pink */
+    #2684FF,    /* Back to Atlassian blue */
+    #0DB7ED,    /* Docker blue */
+    #2684FF     /* End with Atlassian blue for smooth loop */
   );
   background-size: 200% auto;
   -webkit-background-clip: text;
