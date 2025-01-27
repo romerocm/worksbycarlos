@@ -168,9 +168,68 @@ export default function Home() {
           >
             <Card className="p-8 bg-gray-900 dark:bg-gray-800 text-white overflow-hidden">
               <div className="flex flex-col">
-                <div className="mb-6">
+                <div className="mb-6 relative group">
                   <h3 className="text-3xl font-bold mb-2">curl | bash My Favorites</h3>
                   <p className="text-lg opacity-80">Don't try this in production (or do, I'm not your dad)</p>
+                  
+                  {/* Terminal Popup */}
+                  <div className="absolute -top-4 left-0 w-[500px] scale-0 group-hover:scale-100 transition-transform duration-200 origin-top-left z-50">
+                    <div className="bg-gray-900 rounded-lg shadow-xl border border-gray-700">
+                      {/* Terminal Header */}
+                      <div className="flex items-center p-2 border-b border-gray-700">
+                        <div className="flex gap-1.5">
+                          <div className="w-3 h-3 rounded-full bg-red-500"></div>
+                          <div className="w-3 h-3 rounded-full bg-yellow-500"></div>
+                          <div className="w-3 h-3 rounded-full bg-green-500"></div>
+                        </div>
+                        <div className="flex-1 text-center text-sm text-gray-400">bash</div>
+                      </div>
+                      
+                      {/* Terminal Content */}
+                      <div className="p-4 font-mono text-sm">
+                        <motion.div
+                          initial={{ opacity: 0 }}
+                          animate={{ opacity: 1 }}
+                          transition={{ duration: 0.3, delay: 0.2 }}
+                        >
+                          <span className="text-green-400">➜</span> <span className="text-blue-400">~</span> $ curl https://api.worksbycarlos.dev/favorites.sh | bash
+                        </motion.div>
+                        <motion.pre
+                          initial={{ opacity: 0 }}
+                          animate={{ opacity: 1 }}
+                          transition={{ duration: 0.3, delay: 0.5 }}
+                          className="mt-2 text-green-200"
+                        >
+{`# My DevOps Favorites
+tools:
+  - name: Kubernetes
+    type: Container Orchestration
+    love_level: Over 9000
+  - name: Terraform
+    type: Infrastructure as Code
+    love_level: Maximum
+  - name: Docker
+    type: Containerization
+    love_level: Infinite
+  - name: GitHub Actions
+    type: CI/CD
+    love_level: Legendary
+  - name: Python
+    type: Automation
+    love_level: Snake Charmer
+  - name: Ansible
+    type: Configuration Management
+    love_level: Playbook Master
+  - name: Nginx
+    type: Web Server
+    love_level: Proxy King
+  - name: AWS
+    type: Cloud Provider
+    love_level: Cloud Native`}
+                        </motion.pre>
+                      </div>
+                    </div>
+                  </div>
                 </div>
                 <div className="overflow-x-scroll scrollbar-hide">
                   <div className="flex gap-8 items-center py-4 min-w-max w-full justify-end">
