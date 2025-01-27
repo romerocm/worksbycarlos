@@ -188,7 +188,7 @@
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
-  animation: logo-gradient 3s linear infinite;
+  animation: logo-gradient 7s linear infinite;
 }
 
 .project-card-button:hover {
