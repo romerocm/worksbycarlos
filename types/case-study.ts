@@ -23,30 +23,34 @@ export const caseStudies: CaseStudy[] = [
   {
     id: "health-platform",
     client: "AI MEDICA",
-    title: "Healthcare Platform Transformation",
-    description: "Revolutionizing healthcare infrastructure with cloud-native solutions and HIPAA compliance",
+    title: "Seamless Healthcare Platform Engineering",
+    description: "Crafting a next-generation healthcare infrastructure that seamlessly blends security, automation, and innovation",
     year: "2024 - ONGOING",
     metrics: {
-      value: "99.99%",
-      label: "system uptime"
+      value: "80%",
+      label: "faster deployments"
     },
-    tags: ["Healthcare", "Cloud Infrastructure", "HIPAA"],
-    scope: ["Cloud Architecture", "DevOps", "Security"],
-    stack: ["AWS", "Kubernetes", "Terraform"],
+    tags: ["Healthcare", "AWS", "DevOps", "Security"],
+    scope: ["Platform Engineering", "CI/CD", "Cloud Architecture"],
+    stack: ["AWS ECS", "Terraform", "GitHub Actions", "Airflow"],
     industry: ["Healthcare", "Technology"],
     thumbnail: "/placeholder.svg?height=450&width=800",
     results: [
       {
-        title: "Infrastructure Reliability",
-        description: "Achieved 99.99% system reliability through implementation of robust cloud-native architecture"
+        title: "Automated Cloud Excellence",
+        description: "Engineered a sophisticated ECS/ECR infrastructure with seamless GitHub Actions integration, enabling continuous deployment that just works"
       },
       {
-        title: "Cost Optimization",
-        description: "Reduced operational costs by 30% through efficient resource utilization and automation"
+        title: "Enterprise-Grade Security",
+        description: "Architected a zero-trust security framework with private networking, internal load balancers, and VPN access, ensuring data remains private and secure"
       },
       {
-        title: "Security Compliance",
-        description: "Implemented comprehensive HIPAA-compliant security measures across all system components"
+        title: "Development Velocity",
+        description: "Implemented trunk-based development with intelligent versioning, dramatically reducing the time from commit to production while maintaining reliability"
+      },
+      {
+        title: "Infrastructure as Code",
+        description: "Created a comprehensive suite of Terraform modules that transform complex infrastructure into elegant, maintainable code"
       }
     ]
   },
