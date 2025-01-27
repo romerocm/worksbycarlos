@@ -78,9 +78,9 @@ export default function Home() {
                 <h1 className="text-5xl font-bold mb-4 text-center animate-float-delayed">
                   Carlos Romero
                 </h1>
-                <p className="text-lg mb-4 opacity-90 text-center animate-float-delayed">DevOps Wizard & Cloud Whisperer</p>
+                <p className="text-lg mb-4 opacity-90 text-center animate-float-delayed">Technology Leader in DevOps & UX/UI Design | Integrating User-Centric Design & Seamless Deployment Processes</p>
                 <div className="text-sm opacity-80 text-center">
-                  carlos@cloudninja.com
+                  cmromero.dev@gmail.com
                 </div>
               </div>
               <div className="absolute inset-0 bg-gradient-to-br from-transparent to-black/20" />
