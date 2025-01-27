@@ -289,7 +289,7 @@ tools:
                     />
                     <img
                       src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/github/github-original.svg"
-                      className="w-16 h-16 hover:scale-110 transition-transform dark:invert"
+                      className="w-16 h-16 hover:scale-110 transition-transform invert dark:invert-0"
                       alt="GitHub"
                     />
                     <img
