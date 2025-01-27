@@ -34,7 +34,7 @@ export const caseStudies: CaseStudy[] = [
     scope: ["Platform Engineering", "CI/CD", "Cloud Architecture"],
     stack: ["AWS ECS", "Terraform", "GitHub Actions", "Airflow"],
     industry: ["Healthcare", "Technology"],
-    thumbnail: "/placeholder.svg?height=450&width=800",
+    thumbnail: "/assets/images/aimedica-cover.png",
     results: [
       {
         title: "Automated Cloud Excellence",
@@ -55,62 +55,66 @@ export const caseStudies: CaseStudy[] = [
     ]
   },
   {
-    id: "terraform-automation",
-    client: "VIMIHOST",
-    title: "Enterprise Infrastructure Automation",
-    description: "Developing a comprehensive Terraform module library for multi-cloud infrastructure",
-    year: "2023 - 2024",
+    id: "autofacil-platform",
+    client: "AUTOFACIL",
+    title: "Azure DevOps Automation & CMS Deployment",
+    description: "Implementing automated CI/CD pipelines and deploying a modern CMS solution with Orchard and Nuxt.js",
+    year: "2021 - 2022",
     metrics: {
-      value: "70%",
-      label: "faster deployments"
+      value: "65%",
+      label: "deployment efficiency"
     },
-    tags: ["Infrastructure", "Automation", "Multi-cloud"],
-    scope: ["Infrastructure as Code", "Cloud Architecture", "DevOps"],
-    stack: ["Terraform", "AWS", "Azure", "GCP"],
-    industry: ["Technology", "Enterprise"],
-    thumbnail: "/placeholder.svg?height=450&width=800",
+    tags: ["Azure", "DevOps", "CMS", "Terraform"],
+    scope: ["CI/CD Automation", "Infrastructure as Code", "CMS Development"],
+    stack: ["Azure DevOps", "Terraform", "Orchard CMS", "Nuxt.js"],
+    industry: ["Automotive", "E-commerce"],
+    thumbnail: "/assets/images/autofacil-cover.png",
     results: [
       {
-        title: "Deployment Efficiency",
-        description: "Reduced infrastructure provisioning time from days to hours"
+        title: "CI/CD Automation",
+        description: "Automated end-to-end deployment pipelines in Azure DevOps using Terraform, significantly reducing manual intervention"
       },
       {
-        title: "Standardization",
-        description: "Implemented consistent infrastructure patterns across multiple cloud providers"
+        title: "Modern CMS Implementation",
+        description: "Successfully deployed and configured Orchard CMS, providing a robust content management solution"
       },
       {
-        title: "Cost Management",
-        description: "Achieved 25% reduction in cloud spending through optimized resource allocation"
+        title: "Frontend Optimization",
+        description: "Deployed and optimized Nuxt.js frontend application, ensuring high performance and seamless user experience"
       }
     ]
   },
   {
-    id: "kubernetes-platform",
-    client: "RESULTIER",
-    title: "Kubernetes Optimization Platform",
-    description: "Building a custom Kubernetes cluster autoscaler for optimal resource utilization",
-    year: "2023",
+    id: "credicomer-transformation",
+    client: "CREDICOMER",
+    title: "Banking Infrastructure Modernization",
+    description: "Transforming legacy banking infrastructure into a modern microservices architecture with on-premise Kubernetes",
+    year: "2020 - 2021",
     metrics: {
-      value: "40%",
-      label: "resource optimization"
+      value: "90%",
+      label: "system reliability"
     },
-    tags: ["Kubernetes", "Automation", "DevOps"],
-    scope: ["Container Orchestration", "Automation", "Performance"],
-    stack: ["Kubernetes", "Go", "Prometheus"],
-    industry: ["Technology"],
-    thumbnail: "/placeholder.svg?height=450&width=800",
+    tags: ["Kubernetes", "DevOps", "Banking", "Infrastructure"],
+    scope: ["Infrastructure Modernization", "DevOps Training", "Version Control"],
+    stack: ["Kubernetes", "Docker", "GitLab", "IBM Power9"],
+    industry: ["Banking", "Financial Services"],
+    thumbnail: "/assets/images/credicomer-cover.png",
     results: [
       {
-        title: "Resource Optimization",
-        description: "Improved cluster resource utilization by 40%"
+        title: "Infrastructure Modernization",
+        description: "Successfully built and deployed Kubernetes infrastructure on IBM Power9 architecture, enabling microservices transformation"
       },
       {
-        title: "Cost Reduction",
-        description: "Reduced cloud infrastructure costs by 25% through intelligent scaling"
+        title: "Version Control Migration",
+        description: "Implemented self-hosted GitLab solution and orchestrated complete repository migration to on-premise infrastructure"
       },
       {
-        title: "Performance Improvement",
-        description: "Decreased application deployment time by 60%"
+        title: "Knowledge Transfer",
+        description: "Conducted comprehensive Docker and Kubernetes training sessions, empowering bank employees with modern DevOps practices"
+      },
+      {
+        title: "Security Compliance",
+        description: "Ensured all implementations met strict banking security standards while enabling modern development practices"
       }
     ]
   }
