@@ -47,7 +47,8 @@ const ServiceCard = ({ icon: Icon, title, description, delay }) => {
 
 export default function Home() {
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-background/50 relative">
+      <div className="animated-gradient-background" />
       <Header />
       <main className="container mx-auto px-4 py-12 pt-24">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-24">
