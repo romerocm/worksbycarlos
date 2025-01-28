@@ -109,21 +109,26 @@ const components = {
 
 export function MDXContent({ source }: { source: any }) {
   if (!source) {
+    console.error('No source provided to MDXContent')
     return (
       <div className="p-4 rounded-md bg-destructive/10 text-destructive">
-        <p>Failed to load content</p>
+        <p>Failed to load content: No source provided</p>
       </div>
     )
   }
 
   try {
     const MDXComponent = useMDXComponent(source)
-    return <MDXComponent components={components} />
+    return (
+      <div className="prose prose-lg dark:prose-invert max-w-none">
+        <MDXComponent components={components} />
+      </div>
+    )
   } catch (error) {
     console.error('Error rendering MDX:', error)
     return (
       <div className="p-4 rounded-md bg-destructive/10 text-destructive">
-        <p>Error rendering content</p>
+        <p>Error rendering content: {(error as Error).message}</p>
       </div>
     )
   }

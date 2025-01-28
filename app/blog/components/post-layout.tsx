@@ -16,6 +16,22 @@ interface PostLayoutProps {
 }
 
 export function PostLayout({ post }: PostLayoutProps) {
+  if (!post) {
+    return (
+      <div className="p-4 rounded-md bg-destructive/10 text-destructive">
+        <p>No post data available</p>
+      </div>
+    )
+  }
+
+  if (!post.content) {
+    console.error('Post content is missing:', post)
+    return (
+      <div className="p-4 rounded-md bg-destructive/10 text-destructive">
+        <p>Post content is missing</p>
+      </div>
+    )
+  }
   return (
     <div className="min-h-screen flex flex-col bg-background/50 relative">
       <div className="animated-gradient-background" />
