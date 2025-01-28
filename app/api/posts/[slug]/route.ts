@@ -20,10 +20,11 @@ export async function GET(
 
     const fileContents = fs.readFileSync(filePath, 'utf8')
     const { data, content } = matter(fileContents)
-    const mdxSource = await serialize(content, {
-      scope: data,
-    })
+    
+    // Serialize the MDX content
+    const mdxSource = await serialize(content)
 
+    // Return both the frontmatter data and serialized content
     return NextResponse.json({
       ...data,
       content: mdxSource,
@@ -32,7 +33,7 @@ export async function GET(
   } catch (error) {
     console.error('Error fetching post:', error)
     return NextResponse.json(
-      { error: 'Failed to fetch post', details: process.env.NODE_ENV === 'development' ? error.message : undefined },
+      { error: 'Failed to fetch post' },
       { status: 500 }
     )
   }

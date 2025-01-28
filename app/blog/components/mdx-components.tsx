@@ -28,15 +28,12 @@ const components = {
     <blockquote className={cn("mt-6 border-l-2 pl-6 italic", className)} {...props} />
   ),
   img: ({ className, alt, ...props }: React.ImgHTMLAttributes<HTMLImageElement>) => (
-    // eslint-disable-next-line @next/next/no-img-element
     <img className={cn("rounded-md border", className)} alt={alt} {...props} />
   ),
   code: ({ className, ...props }: React.HTMLAttributes<HTMLElement>) => (
     <code
       className={cn(
-        "relative rounded px-[0.3rem] py-[0.2rem] font-mono text-sm",
-        "bg-muted dark:bg-gray-900",
-        "text-primary dark:text-primary-foreground",
+        "relative rounded bg-muted px-[0.3rem] py-[0.2rem] font-mono text-sm",
         className
       )}
       {...props}
@@ -61,7 +58,7 @@ export function MDXContent({ source }: { source: any }) {
       <div className="p-4 rounded-md bg-destructive/10 text-destructive">
         <p>Failed to load content</p>
       </div>
-    );
+    )
   }
 
   try {
@@ -73,7 +70,7 @@ export function MDXContent({ source }: { source: any }) {
       <div className="p-4 rounded-md bg-destructive/10 text-destructive">
         <p>Error rendering content</p>
       </div>
-    );
+    )
   }
 }
 import { cn } from "@/lib/utils"
