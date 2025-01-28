@@ -1,50 +1,52 @@
-"use client"
+"use client";
 
-import { useEffect, useState } from 'react'
-import { PostLayout } from '../components/post-layout'
-import { LoadingSpinner } from '@/components/loading-spinner'
-import { Alert } from '@/components/ui/alert'
-import { BlogPost } from '@/types/blog'
-import { useRouter } from 'next/navigation'
-import { Header } from '@/components/header'
+import { useEffect, useState } from "react";
+import { PostLayout } from "../components/post-layout";
+import { LoadingSpinner } from "@/components/loading-spinner";
+import { Alert } from "@/components/ui/alert";
+import type { BlogPost } from "@/types/blog";
+import { useRouter } from "next/navigation";
+import { Header } from "@/components/header";
 
 export default function BlogPost({ params }: { params: { slug: string } }) {
-  const [post, setPost] = useState<BlogPost | null>(null)
-  const [isLoading, setIsLoading] = useState(true)
-  const [error, setError] = useState<string | null>(null)
-  const router = useRouter()
+  const [post, setPost] = useState<BlogPost | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+  const router = useRouter();
 
   useEffect(() => {
     async function fetchPost() {
       try {
-        setIsLoading(true)
-        setError(null)
-        const response = await fetch(`/api/posts/${params.slug}`)
-        
+        setIsLoading(true);
+        setError(null);
+        const response = await fetch(`/api/posts/${params.slug}`);
+
         if (!response.ok) {
           if (response.status === 404) {
-            router.push('/blog')
-            return
+            router.push("/blog");
+            return;
           }
-          throw new Error(`Failed to load post (${response.status})`)
+          throw new Error(`Failed to load post (${response.status})`);
         }
 
-        const data = await response.json()
+        const data = await response.json();
         if (!data || data.error) {
-          throw new Error(data?.error || 'Failed to load post content')
+          throw new Error(data?.error || "Failed to load post content");
         }
 
-        setPost(data)
+        setPost(data);
       } catch (error) {
-        console.error('Failed to fetch post:', error)
-        setError(error instanceof Error ? error.message : 'Failed to load post')
+        console.error("Failed to fetch post:", error);
+        setError(
+          error instanceof Error ? error.message : "Failed to load post"
+        );
       } finally {
-        setIsLoading(false)
+        setIsLoading(false);
       }
     }
 
-    fetchPost()
-  }, [params.slug, router])
+    fetchPost();
+  }, [params.slug, router]);
 
   if (isLoading) {
     return (
@@ -54,7 +56,7 @@ export default function BlogPost({ params }: { params: { slug: string } }) {
           <LoadingSpinner />
         </main>
       </div>
-    )
+    );
   }
 
   if (error) {
@@ -70,111 +72,10 @@ export default function BlogPost({ params }: { params: { slug: string } }) {
           </div>
         </main>
       </div>
-    )
+    );
   }
 
-  if (!post) return null
+  if (!post) return null;
 
-  return <PostLayout post={post} />
-}
-"use client"
-
-import { useEffect, useState } from 'react'
-import { useParams } from 'next/navigation'
-import { serialize } from 'next-mdx-remote/serialize'
-import { PostLayout } from '../components/post-layout'
-import { LoadingSpinner } from '@/components/loading-spinner'
-import { BlogPost } from '@/types/blog'
-import matter from 'gray-matter'
-
-export default function BlogPostPage() {
-  const params = useParams()
-  const [post, setPost] = useState<BlogPost | null>(null)
-  const [isLoading, setIsLoading] = useState(true)
-
-  useEffect(() => {
-    async function loadPost() {
-      try {
-        const response = await fetch(`/api/posts/${params.slug}`)
-        if (!response.ok) {
-          throw new Error('Post not found')
-        }
-        const data = await response.json()
-        
-        // Parse the MDX content
-        const { content, data: frontMatter } = matter(data.content)
-        const mdxSource = await serialize(content)
-
-        setPost({
-          ...data,
-          content: mdxSource
-        })
-      } catch (error) {
-        console.error('Error loading post:', error)
-      } finally {
-        setIsLoading(false)
-      }
-    }
-
-    if (params.slug) {
-      loadPost()
-    }
-  }, [params.slug])
-
-  if (isLoading) {
-    return <LoadingSpinner />
-  }
-
-  if (!post) {
-    return <div>Post not found</div>
-  }
-
-  return <PostLayout post={post} />
-}
-"use client"
-
-import { useEffect, useState } from 'react'
-import { useParams } from 'next/navigation'
-import { PostLayout } from '../components/post-layout'
-import { LoadingSpinner } from '@/components/loading-spinner'
-import { BlogPost } from '@/types/blog'
-
-export default function BlogPostPage() {
-  const params = useParams()
-  const [post, setPost] = useState<BlogPost | null>(null)
-  const [isLoading, setIsLoading] = useState(true)
-  const [error, setError] = useState<string | null>(null)
-
-  useEffect(() => {
-    async function loadPost() {
-      try {
-        setIsLoading(true)
-        const response = await fetch(`/api/posts/${params.slug}`)
-        if (!response.ok) {
-          throw new Error('Failed to load post')
-        }
-        const data = await response.json()
-        setPost(data)
-      } catch (error) {
-        console.error('Error loading post:', error)
-        setError('Failed to load post')
-      } finally {
-        setIsLoading(false)
-      }
-    }
-
-    if (params.slug) {
-      loadPost()
-    }
-  }, [params.slug])
-
-  if (isLoading) {
-    return <LoadingSpinner />
-  }
-
-  if (error || !post) {
-    return <div className="p-4 text-destructive">Error: {error || 'Post not found'}</div>
-  }
-
-  return <PostLayout post={post} />
+  return <PostLayout post={post} />;
 }
