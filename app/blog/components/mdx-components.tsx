@@ -32,14 +32,47 @@ const components = {
     <img className={cn("rounded-md border", className)} alt={alt} {...props} />
   ),
   code: ({ className, ...props }: React.HTMLAttributes<HTMLElement>) => (
-    <code className={cn("relative rounded bg-muted px-[0.3rem] py-[0.2rem] font-mono text-sm", className)} {...props} />
+    <code
+      className={cn(
+        "relative rounded px-[0.3rem] py-[0.2rem] font-mono text-sm",
+        "bg-muted dark:bg-gray-900",
+        "text-primary dark:text-primary-foreground",
+        className
+      )}
+      {...props}
+    />
   ),
   pre: ({ className, ...props }: React.HTMLAttributes<HTMLPreElement>) => (
-    <pre className={cn("mb-4 mt-6 overflow-x-auto rounded-lg border bg-black py-4", className)} {...props} />
+    <pre
+      className={cn(
+        "mb-4 mt-6 overflow-x-auto rounded-lg border p-4",
+        "bg-muted dark:bg-gray-950",
+        "scrollbar-thin scrollbar-thumb-gray-400 dark:scrollbar-thumb-gray-700",
+        className
+      )}
+      {...props}
+    />
   ),
 }
 
 export function MDXContent({ source }: { source: any }) {
-  const MDXComponent = useMDXComponent(source)
-  return <MDXComponent components={components} />
+  if (!source) {
+    return (
+      <div className="p-4 rounded-md bg-destructive/10 text-destructive">
+        <p>Failed to load content</p>
+      </div>
+    );
+  }
+
+  try {
+    const MDXComponent = useMDXComponent(source)
+    return <MDXComponent components={components} />
+  } catch (error) {
+    console.error('Error rendering MDX:', error)
+    return (
+      <div className="p-4 rounded-md bg-destructive/10 text-destructive">
+        <p>Error rendering content</p>
+      </div>
+    );
+  }
 }
