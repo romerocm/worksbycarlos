@@ -33,13 +33,21 @@ const config: Config = {
               padding: '0.2rem 0.4rem',
               backgroundColor: 'hsl(var(--muted))',
               color: 'hsl(var(--primary))',
-              fontWeight: '500'
+              fontWeight: '600',
+              '&.dark': {
+                backgroundColor: 'hsl(var(--secondary))',
+                color: 'hsl(var(--secondary-foreground))'
+              }
             },
             pre: {
               backgroundColor: 'hsl(var(--muted))',
               color: 'hsl(var(--primary))',
               borderRadius: '0.5rem',
-              padding: '1rem'
+              padding: '1rem',
+              '&.dark': {
+                backgroundColor: 'hsl(var(--secondary))',
+                color: 'hsl(var(--secondary-foreground))'
+              }
             },
             maxWidth: 'none'
           }

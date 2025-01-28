@@ -88,7 +88,9 @@ const components = {
   code: ({ className, ...props }: React.HTMLAttributes<HTMLElement>) => (
     <code
       className={cn(
-        "relative rounded bg-muted px-[0.3rem] py-[0.2rem] font-mono text-sm font-medium text-primary",
+        "relative rounded bg-muted px-[0.3rem] py-[0.2rem] font-mono text-sm font-semibold",
+        "text-primary dark:text-primary-foreground",
+        "dark:bg-secondary",
         className
       )}
       {...props}
@@ -98,8 +100,8 @@ const components = {
     <pre
       className={cn(
         "mb-4 mt-6 overflow-x-auto rounded-lg border p-4",
-        "bg-muted dark:bg-gray-950",
-        "text-primary dark:text-primary-foreground",
+        "bg-muted dark:bg-secondary",
+        "text-primary dark:text-secondary-foreground",
         "scrollbar-thin scrollbar-thumb-gray-400 dark:scrollbar-thumb-gray-700",
         className
       )}
