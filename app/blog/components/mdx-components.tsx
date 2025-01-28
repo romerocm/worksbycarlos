@@ -1,6 +1,7 @@
 import { cn } from "@/lib/utils"
 import Image from "next/image"
 import { MDXRemote } from 'next-mdx-remote'
+import 'prismjs/themes/prism-tomorrow.css'
 
 const components = {
   h1: ({ className, ...props }: React.HTMLAttributes<HTMLHeadingElement>) => (
@@ -90,8 +91,8 @@ const components = {
       className={cn(
         "relative rounded font-mono text-sm font-semibold",
         "px-[0.3rem] py-[0.2rem]",
-        "bg-muted dark:bg-[#282A36]",
-        "text-primary dark:text-[#F8F8F2]",
+        "bg-[#282A36] text-[#F8F8F2]",
+        "dark:bg-[#282A36] dark:text-[#F8F8F2]",
         className
       )}
       {...props}
@@ -100,11 +101,11 @@ const components = {
   pre: ({ className, ...props }: React.HTMLAttributes<HTMLPreElement>) => (
     <pre
       className={cn(
-        "mb-4 mt-6 overflow-x-auto rounded-lg border p-4",
-        "bg-muted dark:bg-[#282A36]",
-        "text-primary dark:text-[#F8F8F2]",
-        "border-border dark:border-[#44475A]",
-        "scrollbar-thin scrollbar-thumb-gray-400 dark:scrollbar-thumb-[#44475A]",
+        "mb-4 mt-6 overflow-x-auto rounded-lg p-4",
+        "bg-[#282A36] text-[#F8F8F2]",
+        "dark:bg-[#282A36] dark:text-[#F8F8F2]",
+        "border border-[#44475A]",
+        "scrollbar-thin scrollbar-thumb-[#44475A]",
         className
       )}
       {...props}
@@ -124,7 +125,12 @@ export function MDXContent({ source }: { source: any }) {
 
   try {
     return (
-      <div className="prose prose-lg dark:prose-invert max-w-none">
+      <div className={cn(
+        "prose prose-lg dark:prose-invert max-w-none",
+        "prose-code:text-[#F8F8F2] prose-code:bg-[#282A36]",
+        "prose-pre:bg-[#282A36] prose-pre:text-[#F8F8F2]",
+        "prose-pre:border prose-pre:border-[#44475A]"
+      )}>
         <MDXRemote {...source} components={components} />
       </div>
     )
