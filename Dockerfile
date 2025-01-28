@@ -4,7 +4,9 @@ WORKDIR /app
 
 COPY package*.json ./
 
-RUN npm install --legacy-peer-deps
+# Install both the main dependencies and the typography plugin
+RUN npm install --legacy-peer-deps && \
+    npm install -D @tailwindcss/typography
 
 COPY . .
 
