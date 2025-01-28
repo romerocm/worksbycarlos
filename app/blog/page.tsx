@@ -1,7 +1,6 @@
 "use client"
 
 import { useState } from 'react'
-import { MDXRemote } from 'next-mdx-remote/rsc'
 import { motion } from 'framer-motion'
 import path from 'path'
 import fs from 'fs'
