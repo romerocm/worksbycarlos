@@ -1,8 +1,6 @@
-import withMDX from '@next/mdx';
-import rehypePrismPlus from 'rehype-prism-plus';
-
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  pageExtensions: ['js', 'jsx', 'mdx', 'ts', 'tsx'],
   eslint: {
     ignoreDuringBuilds: true,
   },
@@ -10,12 +8,11 @@ const nextConfig = {
     ignoreBuildErrors: true,
   },
   images: {
+    domains: ['github.com', 'cdn.jsdelivr.net', 'sjc.microlink.io'],
     unoptimized: true,
   },
   experimental: {
-    webpackBuildWorker: true,
-    parallelServerBuildTraces: true,
-    parallelServerCompiles: true,
+    mdxRs: true,
   },
   webpack: (config) => {
     config.watchOptions = {
@@ -26,9 +23,4 @@ const nextConfig = {
   },
 }
 
-export default withMDX({
-  extension: /\.mdx?$/,
-  options: {
-    rehypePlugins: [rehypePrismPlus],
-  },
-})(nextConfig);
+export default nextConfig
