@@ -1,4 +1,5 @@
 import withMDX from '@next/mdx';
+import rehypePrismPlus from 'rehype-prism-plus';
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
@@ -25,10 +26,9 @@ const nextConfig = {
   },
 }
 
-
 export default withMDX({
   extension: /\.mdx?$/,
   options: {
-    rehypePlugins: [require('rehype-prism-plus')],
+    rehypePlugins: [rehypePrismPlus],
   },
 })(nextConfig);
