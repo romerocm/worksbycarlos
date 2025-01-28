@@ -24,24 +24,23 @@ export async function GET() {
 
     const posts = await Promise.all(filenames.map(async (filename) => {
       try {
-      const filePath = path.join(postsDirectory, filename)
-      const fileContents = fs.readFileSync(filePath, 'utf8')
-      const { data, content } = matter(fileContents)
-      
-      return {
-        ...data,
-        slug: filename.replace('.mdx', ''),
-        excerpt: content.slice(0, 150) + '...',
-        readingTime: calculateReadingTime(content)
-      }
-    })
+        const filePath = path.join(postsDirectory, filename)
+        const fileContents = fs.readFileSync(filePath, 'utf8')
+        const { data, content } = matter(fileContents)
+        
+        // Ensure all required fields are present
+        if (!data.title || !data.excerpt || !data.date || !data.tags || 
+            !data.author || !data.authorImage || !data.coverImage) {
+          console.error(`Missing required fields in ${filename}`)
+          return null
+        }
 
         return {
           ...data,
           slug: filename.replace('.mdx', ''),
           excerpt: content.slice(0, 150) + '...',
           readingTime: calculateReadingTime(content)
-        }
+        } as BlogPost
       } catch (error) {
         console.error(`Error processing ${filename}:`, error)
         return null
@@ -50,6 +49,10 @@ export async function GET() {
 
     const validPosts = posts.filter((post): post is BlogPost => post !== null)
     
+    if (validPosts.length === 0) {
+      throw new BlogError('No valid posts found', 'NO_POSTS_FOUND', 404)
+    }
+
     const sortedPosts = validPosts.sort((a, b) => 
       new Date(b.date).getTime() - new Date(a.date).getTime()
     )
