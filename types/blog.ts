@@ -1,3 +1,5 @@
+import { MDXRemoteSerializeResult } from 'next-mdx-remote'
+
 export interface BlogPost {
   title: string
   excerpt: string
@@ -9,5 +11,5 @@ export interface BlogPost {
   readingTime: string
   slug: string
   featured?: boolean
-  content?: any // MDX content
+  content?: MDXRemoteSerializeResult
 }
