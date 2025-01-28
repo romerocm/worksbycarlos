@@ -42,8 +42,14 @@ export function PostLayout({ post }: PostLayoutProps) {
   return (
     <div className="min-h-screen flex flex-col bg-background/50 relative">
       <motion.div
-        className="fixed bottom-0 left-0 right-0 h-1 bg-primary z-50"
-        style={{ scaleX, transformOrigin: '0%' }}
+        className="fixed bottom-0 left-0 right-0 h-1 z-50 bg-gradient-to-r from-[#FF79C6] via-[#BD93F9] to-[#8BE9FD]"
+        style={{ 
+          scaleX, 
+          transformOrigin: '0%',
+          backgroundSize: '200% 100%',
+          backgroundPosition: 'left',
+          animation: 'gradient-x 3s linear infinite'
+        }}
       />
       <div className="animated-gradient-background" />
       <Header />
