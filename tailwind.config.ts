@@ -34,9 +34,9 @@ const config: Config = {
               backgroundColor: 'hsl(var(--muted))',
               color: 'hsl(var(--primary))',
               fontWeight: '600',
-              '&.dark': {
-                backgroundColor: 'hsl(var(--secondary))',
-                color: 'hsl(var(--secondary-foreground))'
+              '.dark &': {
+                backgroundColor: 'rgb(31, 41, 55)',
+                color: 'white'
               }
             },
             pre: {
@@ -44,9 +44,9 @@ const config: Config = {
               color: 'hsl(var(--primary))',
               borderRadius: '0.5rem',
               padding: '1rem',
-              '&.dark': {
-                backgroundColor: 'hsl(var(--secondary))',
-                color: 'hsl(var(--secondary-foreground))'
+              '.dark &': {
+                backgroundColor: 'rgb(31, 41, 55)',
+                color: 'white'
               }
             },
             maxWidth: 'none'
