@@ -1,6 +1,12 @@
 "use client"
 
+import { Metadata } from 'next'
 import { useState, useEffect } from 'react'
+
+export const metadata: Metadata = {
+  title: 'Blog | WorksbyCarlos',
+  description: 'Engineering insights, DevOps best practices, and cloud architecture articles',
+}
 import { motion, AnimatePresence } from 'framer-motion'
 import Link from 'next/link'
 import Image from 'next/image'
@@ -67,7 +73,7 @@ export default function Blog() {
       <main className="flex-grow container mx-auto px-4 sm:px-6 lg:px-8 py-12 pt-24">
         {/* Featured Posts Section */}
         {featuredPosts.length > 0 && (
-          <section className="mb-16">
+          <section className="mb-16 bg-gradient-to-br from-background/50 to-muted/50 p-6 rounded-lg border border-muted">
             <h2 className="text-2xl font-bold mb-8">Featured Posts</h2>
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
               {featuredPosts.map((post) => (
@@ -135,7 +141,12 @@ export default function Blog() {
               variant={selectedTag === tag ? "default" : "outline"}
               size="sm"
               onClick={() => setSelectedTag(tag)}
-              className="rounded-full"
+              className={cn(
+                "rounded-full transition-colors",
+                selectedTag === tag 
+                  ? "bg-primary text-primary-foreground hover:bg-primary/90"
+                  : "hover:bg-muted"
+              )}
             >
               {tag === 'All' && <TagIcon className="mr-2 h-4 w-4" />}
               {tag}

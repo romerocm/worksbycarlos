@@ -1,5 +1,4 @@
-"use client"
-
+import { Metadata } from 'next'
 import { useEffect, useState } from 'react'
 import { PostLayout } from '../components/post-layout'
 import { LoadingSpinner } from '@/components/loading-spinner'
@@ -16,6 +15,37 @@ interface BlogPost {
 interface BlogError {
   message: string
   code?: string
+}
+
+export async function generateMetadata({ params }: { params: { slug: string } }): Promise<Metadata> {
+  try {
+    const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/posts/${params.slug}`)
+    const post = await response.json()
+
+    return {
+      title: `${post.title} | WorksbyCarlos Blog`,
+      description: post.excerpt,
+      openGraph: {
+        title: post.title,
+        description: post.excerpt,
+        images: [post.coverImage],
+        type: 'article',
+        authors: [post.author],
+        publishedTime: post.date,
+      },
+      twitter: {
+        card: 'summary_large_image',
+        title: post.title,
+        description: post.excerpt,
+        images: [post.coverImage],
+      }
+    }
+  } catch (error) {
+    return {
+      title: 'Blog Post | WorksbyCarlos',
+      description: 'Engineering insights and technical articles'
+    }
+  }
 }
 
 export default function BlogPost({ params }: { params: { slug: string } }) {

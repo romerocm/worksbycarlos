@@ -2,6 +2,7 @@
 
 import { motion } from 'framer-motion'
 import { MDXRemote } from 'next-mdx-remote'
+import { ReadingProgress } from './reading-progress'
 import Image from 'next/image'
 import { Header } from '@/components/header'
 import { Badge } from '@/components/ui/badge'
@@ -16,6 +17,7 @@ interface PostLayoutProps {
 export function PostLayout({ post }: PostLayoutProps) {
   return (
     <div className="min-h-screen flex flex-col bg-background/50 relative">
+      <ReadingProgress />
       <div className="animated-gradient-background" />
       <Header />
       <main className="flex-grow container mx-auto px-4 sm:px-6 lg:px-8 py-12 pt-24">
@@ -75,7 +77,9 @@ export function PostLayout({ post }: PostLayoutProps) {
             </div>
 
             <article className="prose prose-lg dark:prose-invert max-w-none">
-              <MDXRemote {...post.content} />
+              <div className="prose-headings:scroll-mt-20 prose-headings:font-bold prose-h1:text-4xl prose-h2:text-3xl prose-h3:text-2xl prose-h4:text-xl prose-img:rounded-lg prose-img:shadow-lg dark:prose-invert prose-a:text-primary hover:prose-a:text-primary/80 prose-code:text-primary prose-pre:bg-muted">
+                <MDXRemote {...post.content} />
+              </div>
             </article>
           </motion.div>
         </div>

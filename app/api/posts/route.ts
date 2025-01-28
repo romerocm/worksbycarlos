@@ -3,6 +3,13 @@ import fs from 'fs'
 import path from 'path'
 import matter from 'gray-matter'
 
+function calculateReadingTime(content: string): string {
+  const wordsPerMinute = 200;
+  const words = content.trim().split(/\s+/).length;
+  const minutes = Math.ceil(words / wordsPerMinute);
+  return `${minutes} min read`;
+}
+
 export async function GET() {
   try {
     const postsDirectory = path.join(process.cwd(), 'app/blog/posts')
@@ -16,7 +23,8 @@ export async function GET() {
       return {
         ...data,
         slug: filename.replace('.mdx', ''),
-        excerpt: content.slice(0, 150) + '...'
+        excerpt: content.slice(0, 150) + '...',
+        readingTime: calculateReadingTime(content)
       }
     })
 
