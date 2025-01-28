@@ -1,7 +1,7 @@
 import { cn } from "@/lib/utils"
 import Image from "next/image"
 import { MDXRemote } from 'next-mdx-remote'
-import 'prismjs/themes/prism-tomorrow.css'
+import 'highlight.js/styles/github-dark.css'
 
 const components = {
   h1: ({ className, ...props }: React.HTMLAttributes<HTMLHeadingElement>) => (
@@ -93,6 +93,7 @@ const components = {
         "px-[0.3rem] py-[0.2rem]",
         "bg-[#282A36] text-[#F8F8F2]",
         "dark:bg-[#282A36] dark:text-[#F8F8F2]",
+        className?.includes("hljs") ? className : "",
         className
       )}
       {...props}
@@ -106,6 +107,7 @@ const components = {
         "dark:bg-[#282A36] dark:text-[#F8F8F2]",
         "border border-[#44475A]",
         "scrollbar-thin scrollbar-thumb-[#44475A]",
+        className?.includes("hljs") ? className : "",
         className
       )}
       {...props}

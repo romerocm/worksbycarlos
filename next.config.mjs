@@ -1,6 +1,8 @@
 import createMDX from '@next/mdx'
-import rehypePrismPlus from 'rehype-prism-plus'
- 
+import remarkGfm from 'remark-gfm'
+import rehypeSlug from 'rehype-slug'
+import rehypeHighlight from 'rehype-highlight'
+
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   pageExtensions: ['js', 'jsx', 'mdx', 'ts', 'tsx'],
@@ -33,10 +35,10 @@ const nextConfig = {
 }
 
 const withMDX = createMDX({
-  // Add markdown plugins here, if needed
   options: {
-    remarkPlugins: [],
-    rehypePlugins: [rehypePrismPlus],
+    remarkPlugins: [remarkGfm],
+    rehypePlugins: [rehypeSlug, rehypeHighlight],
+    providerImportSource: "@mdx-js/react",
   },
 })
 
