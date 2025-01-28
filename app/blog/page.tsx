@@ -7,18 +7,32 @@ import path from 'path'
 import matter from 'gray-matter'
 import { serialize } from 'next-mdx-remote/serialize'
 import { MDXRemote } from 'next-mdx-remote'
-import { GetStaticProps } from 'next'
 import { Header } from '@/components/header'
 import { Card } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
-import { ChevronLeft, ChevronRight } from 'lucide-react'
 
 const components = {
   // Add any custom components for MDX here
 }
 
-export default function Blog({ posts }) {
+export default function Blog() {
   const [selectedCategory, setSelectedCategory] = useState('All')
+
+  // Fetch posts on the server side
+  const postsDirectory = path.join(process.cwd(), 'app/blog/posts')
+  const filenames = fs.readdirSync(postsDirectory)
+
+  const posts = filenames.map((filename) => {
+    const filePath = path.join(postsDirectory, filename)
+    const fileContents = fs.readFileSync(filePath, 'utf8')
+    const { data, content } = matter(fileContents)
+    const mdxSource = serialize(content)
+
+    return {
+      ...data,
+      content: mdxSource,
+    }
+  })
 
   const filteredPosts = selectedCategory === 'All'
     ? posts
@@ -37,29 +51,6 @@ export default function Blog({ posts }) {
         >
           Blog
         </motion.h1>
-        <div className="mb-8 relative">
-          <div 
-            ref={filtersRef}
-            className="flex space-x-2 overflow-x-auto pb-2 max-w-full scrollbar-hide"
-          >
-            <motion.div 
-              className="flex whitespace-nowrap"
-              animate={controls}
-            >
-              {categories.map(category => (
-                <Button
-                  key={category}
-                  variant={selectedCategory === category ? "default" : "outline"}
-                  onClick={() => setSelectedCategory(category)}
-                  className="mx-1"
-                >
-                  {category}
-                </Button>
-              ))}
-            </motion.div>
-          </div>
-          <div className="absolute right-0 top-0 bottom-0 bg-gradient-to-l from-background to-transparent w-8" />
-        </div>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {filteredPosts.map((post, index) => (
             <motion.div
@@ -80,29 +71,4 @@ export default function Blog({ posts }) {
       </footer>
     </div>
   )
-}
-
-export const getStaticProps: GetStaticProps = async () => {
-  const postsDirectory = path.join(process.cwd(), 'app/blog/posts')
-  const filenames = fs.readdirSync(postsDirectory)
-
-  const posts = await Promise.all(
-    filenames.map(async (filename) => {
-      const filePath = path.join(postsDirectory, filename)
-      const fileContents = fs.readFileSync(filePath, 'utf8')
-      const { data, content } = matter(fileContents)
-      const mdxSource = await serialize(content)
-
-      return {
-        ...data,
-        content: mdxSource,
-      }
-    })
-  )
-
-  return {
-    props: {
-      posts,
-    },
-  }
 }
