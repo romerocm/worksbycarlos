@@ -42,7 +42,7 @@ export function PostLayout({ post }: PostLayoutProps) {
   return (
     <div className="min-h-screen flex flex-col bg-background/50 relative">
       <motion.div
-        className="fixed top-0 left-0 right-0 h-1 bg-primary z-50"
+        className="fixed bottom-0 left-0 right-0 h-1 bg-primary z-50"
         style={{ scaleX, transformOrigin: '0%' }}
       />
       <div className="animated-gradient-background" />
