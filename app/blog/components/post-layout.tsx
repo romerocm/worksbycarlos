@@ -1,7 +1,7 @@
 "use client"
 
 import { motion } from 'framer-motion'
-import { MDXRemote } from 'next-mdx-remote'
+import { MDXContent } from './mdx-components'
 import { ReadingProgress } from './reading-progress'
 import Image from 'next/image'
 import { Header } from '@/components/header'
@@ -78,7 +78,7 @@ export function PostLayout({ post }: PostLayoutProps) {
 
             <article className="prose prose-lg dark:prose-invert max-w-none">
               <div className="prose-headings:scroll-mt-20 prose-headings:font-bold prose-h1:text-4xl prose-h2:text-3xl prose-h3:text-2xl prose-h4:text-xl prose-img:rounded-lg prose-img:shadow-lg dark:prose-invert prose-a:text-primary hover:prose-a:text-primary/80 prose-code:text-primary prose-pre:bg-muted">
-                <MDXRemote {...post.content} />
+                <MDXContent source={post.content} />
               </div>
             </article>
           </motion.div>
