@@ -1,14 +1,50 @@
-import { useState } from 'react'
+"use client"
+
+import { useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
 import { MDXRemote } from 'next-mdx-remote'
 import { Header } from '@/components/header'
 import { Card } from '@/components/ui/card'
-import { Header } from '@/components/header'
-import { Card } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 
-export default function Blog({ posts }) {
+interface Post {
+  title: string
+  category?: string
+  content: any
+}
+
+interface BlogProps {
+  posts: Post[]
+}
+
+export default function Blog() {
+  const [posts, setPosts] = useState<Post[]>([])
   const [selectedCategory, setSelectedCategory] = useState('All')
+  const [isLoading, setIsLoading] = useState(true)
+
+  useEffect(() => {
+    async function fetchPosts() {
+      try {
+        const response = await fetch('/api/posts')
+        const data = await response.json()
+        setPosts(data)
+      } catch (error) {
+        console.error('Failed to fetch posts:', error)
+      } finally {
+        setIsLoading(false)
+      }
+    }
+
+    fetchPosts()
+  }, [])
+
+  if (isLoading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-primary"></div>
+      </div>
+    )
+  }
 
   const filteredPosts = selectedCategory === 'All'
     ? posts
@@ -36,7 +72,7 @@ export default function Blog({ posts }) {
               transition={{ duration: 0.5, delay: index * 0.1 }}
             >
               <Card className="h-full flex flex-col">
-                <MDXRemote {...post.content} components={components} />
+                <MDXRemote {...post.content} />
               </Card>
             </motion.div>
           ))}
@@ -49,27 +85,3 @@ export default function Blog({ posts }) {
   )
 }
 
-export async function getStaticProps() {
-  const postsDirectory = path.join(process.cwd(), 'app/blog/posts')
-  const filenames = fs.readdirSync(postsDirectory)
-
-  const posts = await Promise.all(
-    filenames.map(async (filename) => {
-      const filePath = path.join(postsDirectory, filename)
-      const fileContents = fs.readFileSync(filePath, 'utf8')
-      const { data, content } = matter(fileContents)
-      const mdxSource = await serialize(content)
-
-      return {
-        ...data,
-        content: mdxSource,
-      }
-    })
-  )
-
-  return {
-    props: {
-      posts,
-    },
-  }
-}
