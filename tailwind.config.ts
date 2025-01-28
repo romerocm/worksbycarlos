@@ -32,12 +32,12 @@ const config: Config = {
               borderRadius: '0.25rem',
               padding: '0.2rem 0.4rem',
               backgroundColor: 'hsl(var(--muted))',
-              color: 'hsl(var(--muted-foreground))',
-              fontWeight: '400'
+              color: 'hsl(var(--primary))',
+              fontWeight: '500'
             },
             pre: {
               backgroundColor: 'hsl(var(--muted))',
-              color: 'hsl(var(--muted-foreground))',
+              color: 'hsl(var(--primary))',
               borderRadius: '0.5rem',
               padding: '1rem'
             },
