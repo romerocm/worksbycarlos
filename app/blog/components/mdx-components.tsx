@@ -1,6 +1,6 @@
 import { cn } from "@/lib/utils"
 import Image from "next/image"
-import { useMDXComponent } from "next-mdx-remote/rsc"
+import { MDXRemote } from 'next-mdx-remote'
 
 const components = {
   h1: ({ className, ...props }: React.HTMLAttributes<HTMLHeadingElement>) => (
@@ -118,10 +118,9 @@ export function MDXContent({ source }: { source: any }) {
   }
 
   try {
-    const MDXComponent = useMDXComponent(source)
     return (
       <div className="prose prose-lg dark:prose-invert max-w-none">
-        <MDXComponent components={components} />
+        <MDXRemote {...source} components={components} />
       </div>
     )
   } catch (error) {
