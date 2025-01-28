@@ -1,9 +1,10 @@
 "use client"
 
 import { useState } from 'react'
+import { MDXRemote } from 'next-mdx-remote/rsc'
 import { motion } from 'framer-motion'
-import fs from 'fs'
 import path from 'path'
+import fs from 'fs'
 import matter from 'gray-matter'
 import { serialize } from 'next-mdx-remote/serialize'
 import { MDXRemote } from 'next-mdx-remote'
@@ -15,24 +16,26 @@ const components = {
   // Add any custom components for MDX here
 }
 
-export default function Blog() {
+export default async function Blog() {
   const [selectedCategory, setSelectedCategory] = useState('All')
 
   // Fetch posts on the server side
   const postsDirectory = path.join(process.cwd(), 'app/blog/posts')
   const filenames = fs.readdirSync(postsDirectory)
 
-  const posts = filenames.map((filename) => {
-    const filePath = path.join(postsDirectory, filename)
-    const fileContents = fs.readFileSync(filePath, 'utf8')
-    const { data, content } = matter(fileContents)
-    const mdxSource = serialize(content)
+  const posts = await Promise.all(
+    filenames.map(async (filename) => {
+      const filePath = path.join(postsDirectory, filename)
+      const fileContents = fs.readFileSync(filePath, 'utf8')
+      const { data, content } = matter(fileContents)
+      const mdxSource = await serialize(content)
 
-    return {
-      ...data,
-      content: mdxSource,
-    }
-  })
+      return {
+        ...data,
+        content: mdxSource,
+      }
+    })
+  )
 
   const filteredPosts = selectedCategory === 'All'
     ? posts
