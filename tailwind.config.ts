@@ -35,8 +35,14 @@ const config: Config = {
               color: 'hsl(var(--primary))',
               fontWeight: '600',
               '.dark &': {
-                backgroundColor: 'rgb(31, 41, 55)',
-                color: 'white'
+                backgroundColor: '#282A36',
+                color: '#F8F8F2',
+                '&::before': {
+                  content: '""'
+                },
+                '&::after': {
+                  content: '""'
+                }
               }
             },
             pre: {
@@ -45,9 +51,37 @@ const config: Config = {
               borderRadius: '0.5rem',
               padding: '1rem',
               '.dark &': {
-                backgroundColor: 'rgb(31, 41, 55)',
-                color: 'white'
+                backgroundColor: '#282A36',
+                color: '#F8F8F2',
+                border: '1px solid #44475A'
               }
+            },
+            '.token.comment': {
+              color: '#6272A4'
+            },
+            '.token.string': {
+              color: '#F1FA8C'
+            },
+            '.token.number': {
+              color: '#BD93F9'
+            },
+            '.token.function': {
+              color: '#50FA7B'
+            },
+            '.token.keyword': {
+              color: '#FF79C6'
+            },
+            '.token.operator': {
+              color: '#FF79C6'
+            },
+            '.token.punctuation': {
+              color: '#F8F8F2'
+            },
+            '.token.property': {
+              color: '#8BE9FD'
+            },
+            '.token.class-name': {
+              color: '#8BE9FD'
             },
             maxWidth: 'none'
           }
