@@ -25,13 +25,30 @@ export async function GET() {
     const posts = await Promise.all(filenames.map(async (filename) => {
       try {
         const filePath = path.join(postsDirectory, filename)
+        
+        // Check if file exists
+        if (!fs.existsSync(filePath)) {
+          console.error(`File ${filename} does not exist`)
+          return null
+        }
+
+        // Check if file is readable
+        try {
+          fs.accessSync(filePath, fs.constants.R_OK)
+        } catch (error) {
+          console.error(`File ${filename} is not readable:`, error)
+          return null
+        }
+
         const fileContents = fs.readFileSync(filePath, 'utf8')
         const { data, content } = matter(fileContents)
         
-        // Ensure all required fields are present
-        if (!data.title || !data.excerpt || !data.date || !data.tags || 
-            !data.author || !data.authorImage || !data.coverImage) {
-          console.error(`Missing required fields in ${filename}`)
+        // Validate required fields
+        const requiredFields = ['title', 'excerpt', 'date', 'tags', 'author', 'authorImage', 'coverImage']
+        const missingFields = requiredFields.filter(field => !data[field])
+        
+        if (missingFields.length > 0) {
+          console.error(`Missing required fields in ${filename}: ${missingFields.join(', ')}`)
           return null
         }
 

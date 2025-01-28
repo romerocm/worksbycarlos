@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import Link from 'next/link'
+import { cn } from "@/lib/utils"
 import Image from 'next/image'
 import { Header } from '@/components/header'
 import { Card } from '@/components/ui/card'

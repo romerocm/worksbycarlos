@@ -6,10 +6,16 @@ import { Alert } from '@/components/ui/alert'
 
 interface BlogPost {
   title: string
-  content: string
+  excerpt: string
   date: string
+  tags: string[]
   author: string
-  // Add other expected post properties
+  authorImage: string
+  coverImage: string
+  readingTime: string
+  slug: string
+  featured?: boolean
+  content?: any
 }
 
 interface BlogError {
