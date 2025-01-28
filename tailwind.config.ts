@@ -1,15 +1,92 @@
 import type { Config } from "tailwindcss";
 
 const config: Config = {
-    darkMode: ["class"],
-    content: [
+  darkMode: ["class"],
+  content: [
     "./pages/**/*.{js,ts,jsx,tsx,mdx}",
     "./components/**/*.{js,ts,jsx,tsx,mdx}",
     "./app/**/*.{js,ts,jsx,tsx,mdx}",
     "*.{js,ts,jsx,tsx,mdx}"
   ],
   theme: {
-  	extend: {
+    extend: {
+      typography: {
+        DEFAULT: {
+          css: {
+            'code::before': {
+              content: '""'
+            },
+            'code::after': {
+              content: '""'
+            },
+            'blockquote p:first-of-type::before': {
+              content: '""'
+            },
+            'blockquote p:last-of-type::after': {
+              content: '""'
+            },
+            img: {
+              borderRadius: '0.5rem'
+            },
+            code: {
+              borderRadius: '0.25rem',
+              padding: '0.2rem 0.4rem',
+              backgroundColor: 'hsl(var(--muted))',
+              color: 'hsl(var(--primary))',
+              fontWeight: '600',
+              '.dark &': {
+                backgroundColor: '#282A36',
+                color: '#F8F8F2',
+                '&::before': {
+                  content: '""'
+                },
+                '&::after': {
+                  content: '""'
+                }
+              }
+            },
+            pre: {
+              backgroundColor: 'hsl(var(--muted))',
+              color: 'hsl(var(--primary))',
+              borderRadius: '0.5rem',
+              padding: '1rem',
+              '.dark &': {
+                backgroundColor: '#282A36',
+                color: '#F8F8F2',
+                border: '1px solid #44475A'
+              }
+            },
+            '.token.comment': {
+              color: '#6272A4'
+            },
+            '.token.string': {
+              color: '#F1FA8C'
+            },
+            '.token.number': {
+              color: '#BD93F9'
+            },
+            '.token.function': {
+              color: '#50FA7B'
+            },
+            '.token.keyword': {
+              color: '#FF79C6'
+            },
+            '.token.operator': {
+              color: '#FF79C6'
+            },
+            '.token.punctuation': {
+              color: '#F8F8F2'
+            },
+            '.token.property': {
+              color: '#8BE9FD'
+            },
+            '.token.class-name': {
+              color: '#8BE9FD'
+            },
+            maxWidth: 'none'
+          }
+        }
+      },
   		colors: {
   			background: 'hsl(var(--background))',
   			foreground: 'hsl(var(--foreground))',
@@ -91,6 +168,9 @@ const config: Config = {
   		}
   	}
   },
-  plugins: [require("tailwindcss-animate")],
+  plugins: [
+    require("tailwindcss-animate"),
+    require("@tailwindcss/typography")
+  ],
 };
 export default config;

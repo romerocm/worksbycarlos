@@ -150,9 +150,40 @@
 
 /* Add these styles at the end of the file */
 
+.prose pre {
+  background-color: #282A36 !important;
+  color: #F8F8F2 !important;
+  border: 1px solid #44475A !important;
+}
+
+.prose code {
+  background-color: #282A36 !important;
+  color: #F8F8F2 !important;
+}
+
+/* Dracula syntax highlighting */
+.token.comment { color: #6272A4 !important; }
+.token.string { color: #F1FA8C !important; }
+.token.number { color: #BD93F9 !important; }
+.token.function { color: #50FA7B !important; }
+.token.keyword { color: #FF79C6 !important; }
+.token.operator { color: #FF79C6 !important; }
+.token.punctuation { color: #F8F8F2 !important; }
+.token.property { color: #8BE9FD !important; }
+.token.class-name { color: #8BE9FD !important; }
+
 /* Project card specific button styling */
 .project-card-button {
   border-color: rgba(255, 255, 255, 0.2);
+}
+
+@keyframes gradient-x {
+  0% {
+    background-position: 0% 0%;
+  }
+  100% {
+    background-position: 200% 0%;
+  }
 }
 
 .terminal-shadow {
