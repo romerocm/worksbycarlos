@@ -1,12 +1,6 @@
 "use client"
 
-import { Metadata } from 'next'
 import { useState, useEffect } from 'react'
-
-export const metadata: Metadata = {
-  title: 'Blog | WorksbyCarlos',
-  description: 'Engineering insights, DevOps best practices, and cloud architecture articles',
-}
 import { motion, AnimatePresence } from 'framer-motion'
 import Link from 'next/link'
 import Image from 'next/image'
