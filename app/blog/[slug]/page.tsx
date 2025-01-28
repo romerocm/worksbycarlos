@@ -5,20 +5,30 @@ import { PostLayout } from '../components/post-layout'
 import { LoadingSpinner } from '@/components/loading-spinner'
 import { Alert } from '@/components/ui/alert'
 import { BlogPost } from '@/types/blog'
+import { useRouter } from 'next/navigation'
 
 export default function BlogPost({ params }: { params: { slug: string } }) {
   const [post, setPost] = useState<BlogPost | null>(null)
   const [isLoading, setIsLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
+  const router = useRouter()
 
   useEffect(() => {
     async function fetchPost() {
       try {
+        setIsLoading(true)
         const response = await fetch(`/api/posts/${params.slug}`)
         if (!response.ok) {
+          if (response.status === 404) {
+            router.push('/blog')
+            return
+          }
           throw new Error(`HTTP error! status: ${response.status}`)
         }
         const data = await response.json()
+        if (!data || data.error) {
+          throw new Error(data?.error || 'Failed to load post')
+        }
         setPost(data)
       } catch (error) {
         console.error('Failed to fetch post:', error)
@@ -29,11 +39,20 @@ export default function BlogPost({ params }: { params: { slug: string } }) {
     }
 
     fetchPost()
-  }, [params.slug])
+  }, [params.slug, router])
 
   if (isLoading) return <LoadingSpinner />
-  if (error) return <Alert variant="destructive">{error}</Alert>
-  if (!post) return <Alert>Post not found</Alert>
+  if (error) {
+    return (
+      <div className="min-h-screen flex items-center justify-center p-4">
+        <Alert variant="destructive" className="max-w-md">
+          <h2 className="font-semibold mb-2">Error Loading Post</h2>
+          <p>{error}</p>
+        </Alert>
+      </div>
+    )
+  }
+  if (!post) return null
 
   return <PostLayout post={post} />
 }
