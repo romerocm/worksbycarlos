@@ -10,6 +10,14 @@ export async function GET(
 ) {
   try {
     const filePath = path.join(process.cwd(), 'app/blog/posts', `${params.slug}.mdx`)
+    
+    if (!fs.existsSync(filePath)) {
+      return NextResponse.json(
+        { error: 'Post not found' },
+        { status: 404 }
+      )
+    }
+
     const fileContents = fs.readFileSync(filePath, 'utf8')
     const { data, content } = matter(fileContents)
     const mdxSource = await serialize(content, {
@@ -22,9 +30,10 @@ export async function GET(
       slug: params.slug,
     })
   } catch (error) {
+    console.error('Error fetching post:', error)
     return NextResponse.json(
-      { error: 'Failed to fetch post' },
-      { status: 404 }
+      { error: 'Failed to fetch post', details: process.env.NODE_ENV === 'development' ? error.message : undefined },
+      { status: 500 }
     )
   }
 }
