@@ -1,9 +1,4 @@
-let userConfig = undefined
-try {
-  userConfig = await import('./v0-user-next.config')
-} catch (e) {
-  // ignore error
-}
+import withMDX from '@next/mdx';
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
@@ -52,4 +47,9 @@ function mergeConfig(nextConfig, userConfig) {
   }
 }
 
-export default nextConfig
+export default withMDX({
+  extension: /\.mdx?$/,
+  options: {
+    rehypePlugins: [require('rehype-prism-plus')],
+  },
+})(nextConfig);
