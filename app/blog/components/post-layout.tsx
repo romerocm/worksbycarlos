@@ -12,9 +12,7 @@ import { BlogPost } from '@/types/blog'
 import { cn } from '@/lib/utils'
 
 interface PostLayoutProps {
-  post: BlogPost & {
-    content: any // MDX content
-  }
+  post: BlogPost
 }
 
 export function PostLayout({ post }: PostLayoutProps) {

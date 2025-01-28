@@ -77,3 +77,57 @@ export default function BlogPost({ params }: { params: { slug: string } }) {
 
   return <PostLayout post={post} />
 }
+"use client"
+
+import { useEffect, useState } from 'react'
+import { useParams } from 'next/navigation'
+import { serialize } from 'next-mdx-remote/serialize'
+import { PostLayout } from '../components/post-layout'
+import { LoadingSpinner } from '@/components/loading-spinner'
+import { BlogPost } from '@/types/blog'
+import matter from 'gray-matter'
+
+export default function BlogPostPage() {
+  const params = useParams()
+  const [post, setPost] = useState<BlogPost | null>(null)
+  const [isLoading, setIsLoading] = useState(true)
+
+  useEffect(() => {
+    async function loadPost() {
+      try {
+        const response = await fetch(`/api/posts/${params.slug}`)
+        if (!response.ok) {
+          throw new Error('Post not found')
+        }
+        const data = await response.json()
+        
+        // Parse the MDX content
+        const { content, data: frontMatter } = matter(data.content)
+        const mdxSource = await serialize(content)
+
+        setPost({
+          ...data,
+          content: mdxSource
+        })
+      } catch (error) {
+        console.error('Error loading post:', error)
+      } finally {
+        setIsLoading(false)
+      }
+    }
+
+    if (params.slug) {
+      loadPost()
+    }
+  }, [params.slug])
+
+  if (isLoading) {
+    return <LoadingSpinner />
+  }
+
+  if (!post) {
+    return <div>Post not found</div>
+  }
+
+  return <PostLayout post={post} />
+}

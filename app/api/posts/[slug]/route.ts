@@ -49,3 +49,31 @@ export async function GET(
     )
   }
 }
+import { NextResponse } from 'next/server'
+import fs from 'fs'
+import path from 'path'
+import { BlogError, handleApiError } from '@/lib/error-handling'
+
+export async function GET(
+  request: Request,
+  { params }: { params: { slug: string } }
+) {
+  try {
+    const slug = params.slug
+    const postsDirectory = path.join(process.cwd(), 'app/blog/posts')
+    const fullPath = path.join(postsDirectory, `${slug}.mdx`)
+
+    if (!fs.existsSync(fullPath)) {
+      throw new BlogError('Post not found', 'POST_NOT_FOUND', 404)
+    }
+
+    const fileContents = fs.readFileSync(fullPath, 'utf8')
+    
+    return NextResponse.json({
+      content: fileContents
+    })
+  } catch (error) {
+    const { error: errorMessage, code, statusCode } = handleApiError(error)
+    return NextResponse.json({ error: errorMessage, code }, { status: statusCode })
+  }
+}
