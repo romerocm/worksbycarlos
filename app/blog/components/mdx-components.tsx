@@ -76,3 +76,68 @@ export function MDXContent({ source }: { source: any }) {
     );
   }
 }
+import { cn } from "@/lib/utils"
+import { useMDXComponent } from "next-mdx-remote/rsc"
+
+const components = {
+  h1: ({ className, ...props }: React.HTMLAttributes<HTMLHeadingElement>) => (
+    <h1 
+      className={cn(
+        "mt-2 scroll-m-20 text-4xl font-bold tracking-tight",
+        className
+      )} 
+      {...props} 
+    />
+  ),
+  h2: ({ className, ...props }: React.HTMLAttributes<HTMLHeadingElement>) => (
+    <h2 
+      className={cn(
+        "mt-10 scroll-m-20 border-b pb-2 text-3xl font-semibold tracking-tight first:mt-0",
+        className
+      )} 
+      {...props} 
+    />
+  ),
+  code: ({ className, ...props }: React.HTMLAttributes<HTMLElement>) => (
+    <code
+      className={cn(
+        "relative rounded bg-muted px-[0.3rem] py-[0.2rem] font-mono text-sm",
+        className
+      )}
+      {...props}
+    />
+  ),
+  pre: ({ className, ...props }: React.HTMLAttributes<HTMLPreElement>) => (
+    <pre
+      className={cn(
+        "mb-4 mt-6 overflow-x-auto rounded-lg border p-4",
+        "bg-muted dark:bg-gray-950",
+        "scrollbar-thin scrollbar-thumb-gray-400 dark:scrollbar-thumb-gray-700",
+        className
+      )}
+      {...props}
+    />
+  ),
+}
+
+export function MDXContent({ source }: { source: any }) {
+  if (!source) {
+    return (
+      <div className="p-4 rounded-md bg-destructive/10 text-destructive">
+        <p>Failed to load content</p>
+      </div>
+    );
+  }
+
+  try {
+    const MDXComponent = useMDXComponent(source)
+    return <MDXComponent components={components} />
+  } catch (error) {
+    console.error('Error rendering MDX:', error)
+    return (
+      <div className="p-4 rounded-md bg-destructive/10 text-destructive">
+        <p>Error rendering content</p>
+      </div>
+    );
+  }
+}
