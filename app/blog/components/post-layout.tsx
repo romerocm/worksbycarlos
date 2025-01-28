@@ -1,6 +1,6 @@
 "use client"
 
-import { motion } from 'framer-motion'
+import { motion, useScroll, useSpring } from 'framer-motion'
 import { MDXContent } from './mdx-components'
 import Image from 'next/image'
 import { Header } from '@/components/header'
@@ -16,6 +16,13 @@ interface PostLayoutProps {
 }
 
 export function PostLayout({ post }: PostLayoutProps) {
+  const { scrollYProgress } = useScroll()
+  const scaleX = useSpring(scrollYProgress, {
+    stiffness: 100,
+    damping: 30,
+    restDelta: 0.001
+  })
+
   if (!post) {
     return (
       <div className="p-4 rounded-md bg-destructive/10 text-destructive">
@@ -34,6 +41,10 @@ export function PostLayout({ post }: PostLayoutProps) {
   }
   return (
     <div className="min-h-screen flex flex-col bg-background/50 relative">
+      <motion.div
+        className="fixed top-0 left-0 right-0 h-1 bg-primary z-50"
+        style={{ scaleX, transformOrigin: '0%' }}
+      />
       <div className="animated-gradient-background" />
       <Header />
       <main className="flex-grow container mx-auto px-4 sm:px-6 lg:px-8 py-12 pt-24">
