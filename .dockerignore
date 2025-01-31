@@ -1,0 +1,46 @@
+# Dependencies
+node_modules/
+.pnpm-store/
+yarn.lock
+package-lock.json
+
+# Next.js
+.next/
+out/
+
+# Testing
+coverage/
+cypress/
+playwright-report/
+
+# Environment
+.env*
+*.env
+
+# Editors and OS
+.idea/
+.vscode/
+.vs/
+.DS_Store
+Thumbs.db
+
+# Debug and logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+*.log
+
+# Git
+.git
+.gitignore
+
+# Cache
+.cache/
+.parcel-cache/
+.svelte-kit/
+
+# Misc
+*.md
+*.pem
+.serverless/
+.vercel/
