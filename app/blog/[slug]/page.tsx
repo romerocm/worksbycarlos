@@ -1,24 +1,29 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, Suspense } from "react";
 import { useParams } from "next/navigation";
 import { PostLayout } from "../components/post-layout";
-import { LoadingSpinner } from "@/components/loading-spinner";
+import { LoadingSkeleton } from "@/components/loading-skeleton";
 import { BlogPost } from "@/types/blog";
 
-export default function BlogPostPage() {
-  const params = useParams();
+// Separate component for post content to enable better loading states
+function PostContent({ slug }: { slug: string }) {
   const [post, setPost] = useState<BlogPost | null>(null);
-  const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    async function loadPost() {
-      if (!params.slug) return;
+    const controller = new AbortController();
 
+    async function loadPost() {
       try {
-        setIsLoading(true);
-        const response = await fetch(`/api/posts/${params.slug}`);
+        const response = await fetch(`/api/posts/${slug}`, {
+          signal: controller.signal,
+          // Add cache headers
+          headers: {
+            'Cache-Control': 'no-cache',
+            'Pragma': 'no-cache'
+          }
+        });
 
         if (!response.ok) {
           throw new Error("Failed to load post");
@@ -27,27 +32,46 @@ export default function BlogPostPage() {
         const data = await response.json();
         setPost(data);
       } catch (error) {
+        if (error instanceof Error && error.name === 'AbortError') {
+          return; // Ignore abort errors
+        }
         console.error("Error loading post:", error);
         setError("Failed to load post");
-      } finally {
-        setIsLoading(false);
       }
     }
 
     loadPost();
-  }, [params.slug]);
 
-  if (isLoading) {
-    return <LoadingSpinner />;
-  }
+    // Cleanup function to abort fetch on unmount
+    return () => controller.abort();
+  }, [slug]);
 
-  if (error || !post) {
+  if (error) {
     return (
       <div className="p-4 text-destructive">
-        Error: {error || "Post not found"}
+        Error: {error}
       </div>
     );
   }
 
+  if (!post) {
+    return <LoadingSkeleton />;
+  }
+
   return <PostLayout post={post} />;
+}
+
+export default function BlogPostPage() {
+  const params = useParams();
+  const slug = params?.slug as string;
+
+  if (!slug) {
+    return <div>Invalid post</div>;
+  }
+
+  return (
+    <Suspense fallback={<LoadingSkeleton />}>
+      <PostContent slug={slug} />
+    </Suspense>
+  );
 }

@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { motion } from "framer-motion";
+import { motion, useScroll, useTransform, useSpring } from "framer-motion";
 import Link from "next/link";
 import { Header } from "@/components/header";
 import { Card } from "@/components/ui/card";
@@ -16,9 +16,12 @@ import {
   Code,
   Coffee,
   Pizza,
+  Sparkles,
+  Terminal,
+  Zap,
 } from "lucide-react";
-
-import { FC } from "react";
+import { FC, useRef, useEffect, useState } from "react";
+import { Button } from "@/components/ui/button";
 
 interface ServiceCardProps {
   icon: FC<{ className?: string }>;
@@ -33,12 +36,16 @@ const ServiceCard: FC<ServiceCardProps> = ({
   description,
   delay,
 }) => {
+  const [isHovered, setIsHovered] = useState(false);
+
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.6, delay }}
       className="relative group h-full"
+      onHoverStart={() => setIsHovered(true)}
+      onHoverEnd={() => setIsHovered(false)}
     >
       <div className="absolute inset-0 bg-gradient-to-r from-primary/20 to-primary/10 rounded-2xl blur-xl group-hover:blur-2xl transition-all duration-300 opacity-0 group-hover:opacity-100"></div>
       <motion.div
@@ -48,7 +55,7 @@ const ServiceCard: FC<ServiceCardProps> = ({
       >
         <motion.div
           className="w-16 h-16 mx-auto mb-6 rounded-2xl bg-primary/10 flex items-center justify-center"
-          whileHover={{ rotate: 360 }}
+          animate={isHovered ? { rotate: 360 } : {}}
           transition={{ duration: 0.6 }}
         >
           <Icon className="w-8 h-8 text-primary" />
@@ -70,9 +77,139 @@ const ServiceCard: FC<ServiceCardProps> = ({
   );
 };
 
-export default function Home() {
+const ParticleEffect = () => {
+  const canvasRef = useRef<HTMLCanvasElement>(null);
+
+  useEffect(() => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+
+    const ctx = canvas.getContext('2d');
+    if (!ctx) return;
+
+    let particles: { x: number; y: number; dx: number; dy: number; size: number }[] = [];
+    let animationFrameId: number;
+
+    const resizeCanvas = () => {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+    };
+
+    const createParticles = () => {
+      particles = [];
+      const particleCount = Math.floor(window.innerWidth / 20);
+      
+      for (let i = 0; i < particleCount; i++) {
+        particles.push({
+          x: Math.random() * canvas.width,
+          y: Math.random() * canvas.height,
+          dx: (Math.random() - 0.5) * 0.5,
+          dy: (Math.random() - 0.5) * 0.5,
+          size: Math.random() * 2,
+        });
+      }
+    };
+
+    const drawParticles = () => {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      
+      particles.forEach((particle, i) => {
+        particle.x += particle.dx;
+        particle.y += particle.dy;
+
+        if (particle.x < 0 || particle.x > canvas.width) particle.dx *= -1;
+        if (particle.y < 0 || particle.y > canvas.height) particle.dy *= -1;
+
+        ctx.beginPath();
+        ctx.arc(particle.x, particle.y, particle.size, 0, Math.PI * 2);
+        ctx.fillStyle = 'rgba(123, 104, 238, 0.2)';
+        ctx.fill();
+
+        // Draw connections
+        particles.forEach((particle2, j) => {
+          if (i === j) return;
+          const dx = particle.x - particle2.x;
+          const dy = particle.y - particle2.y;
+          const distance = Math.sqrt(dx * dx + dy * dy);
+
+          if (distance < 100) {
+            ctx.beginPath();
+            ctx.strokeStyle = `rgba(123, 104, 238, ${0.2 * (1 - distance / 100)})`;
+            ctx.lineWidth = 0.5;
+            ctx.moveTo(particle.x, particle.y);
+            ctx.lineTo(particle2.x, particle2.y);
+            ctx.stroke();
+          }
+        });
+      });
+
+      animationFrameId = requestAnimationFrame(drawParticles);
+    };
+
+    resizeCanvas();
+    createParticles();
+    drawParticles();
+
+    window.addEventListener('resize', () => {
+      resizeCanvas();
+      createParticles();
+    });
+
+    return () => {
+      cancelAnimationFrame(animationFrameId);
+      window.removeEventListener('resize', resizeCanvas);
+    };
+  }, []);
+
   return (
-    <div className="min-h-screen bg-background/50 relative">
+    <canvas
+      ref={canvasRef}
+      className="fixed inset-0 pointer-events-none z-0"
+      style={{ opacity: 0.5 }}
+    />
+  );
+};
+
+const TypewriterEffect = ({ text }: { text: string }) => {
+  const [displayText, setDisplayText] = useState('');
+  const [currentIndex, setCurrentIndex] = useState(0);
+
+  useEffect(() => {
+    if (currentIndex < text.length) {
+      const timeout = setTimeout(() => {
+        setDisplayText(prev => prev + text[currentIndex]);
+        setCurrentIndex(prev => prev + 1);
+      }, 100);
+
+      return () => clearTimeout(timeout);
+    }
+  }, [currentIndex, text]);
+
+  return (
+    <span className="font-mono">
+      {displayText}
+      <span className="animate-pulse">|</span>
+    </span>
+  );
+};
+
+export default function Home() {
+  const ref = useRef(null);
+  const { scrollYProgress } = useScroll({
+    target: ref,
+    offset: ["start start", "end start"],
+  });
+
+  const y = useTransform(scrollYProgress, [0, 1], ["0%", "50%"]);
+  const opacity = useTransform(scrollYProgress, [0, 1], [1, 0]);
+
+  const springConfig = { stiffness: 100, damping: 30, restDelta: 0.001 };
+  const ySpring = useSpring(y, springConfig);
+  const opacitySpring = useSpring(opacity, springConfig);
+
+  return (
+    <div className="min-h-screen bg-background/50 relative" ref={ref}>
+      <ParticleEffect />
       <div className="animated-gradient-background" />
       <Header />
       <main className="container mx-auto px-4 py-12 pt-24">
@@ -83,26 +220,33 @@ export default function Home() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
             className="col-span-1 md:col-span-2 lg:col-span-2 row-span-2"
+            style={{ y: ySpring, opacity: opacitySpring }}
           >
-            <Card className="p-8 bg-[#7B68EE] dark:bg-[#5B4BC5] text-white h-full relative overflow-hidden">
+            <Card className="p-8 bg-[#7B68EE] dark:bg-[#5B4BC5] text-white h-full relative overflow-hidden group">
               <div className="relative z-10">
                 <div className="mb-6 relative">
                   <div className="w-48 h-48 mx-auto relative animate-float-slow">
                     <div className="absolute inset-0 rounded-full bg-gradient-to-tr from-pink-300 to-purple-400 opacity-50 blur-lg animate-float-reverse" />
                     <div className="relative w-full h-full rounded-full border-4 border-white/30 overflow-hidden">
                       <Image
-                        src="https://sjc.microlink.io/bM3FRxsyHGWzAW8evAK8l3uo_Cqndn7NmtYBpBp5mUH76sJm2ocrk7FEONauSUm3t3R3ns1mEupfM9yyZQ6BbQ.jpeg"
+                        src="/assets/images/profile.jpeg"
                         alt="Carlos"
                         fill
-                        className="object-cover object-left"
+                        className="object-cover"
                         priority
+                        sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                       />
                     </div>
                   </div>
                 </div>
-                <h1 className="text-5xl font-bold mb-4 text-center">
-                  Carlos Romero
-                </h1>
+                <motion.h1 
+                  className="text-5xl font-bold mb-4 text-center"
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.6, delay: 0.2 }}
+                >
+                  <TypewriterEffect text="Carlos Romero" />
+                </motion.h1>
                 <p className="text-lg mb-4 opacity-90 text-center">
                   Technology Leader in DevOps & UX/UI Design | Integrating
                   User-Centric Design & Seamless Deployment Processes
@@ -112,6 +256,26 @@ export default function Home() {
                 </div>
               </div>
               <div className="absolute inset-0 bg-gradient-to-br from-transparent to-black/20" />
+              
+              {/* Interactive elements */}
+              <motion.div 
+                className="absolute top-4 right-4 text-white/60"
+                whileHover={{ scale: 1.1 }}
+              >
+                <Sparkles className="w-6 h-6" />
+              </motion.div>
+              <motion.div 
+                className="absolute bottom-4 left-4 text-white/60"
+                whileHover={{ scale: 1.1 }}
+              >
+                <Terminal className="w-6 h-6" />
+              </motion.div>
+              <motion.div 
+                className="absolute bottom-4 right-4 text-white/60"
+                whileHover={{ scale: 1.1 }}
+              >
+                <Zap className="w-6 h-6" />
+              </motion.div>
             </Card>
           </motion.div>
 

@@ -13,6 +13,9 @@
     "isolatedModules": true,
     "jsx": "preserve",
     "incremental": true,
+    // Add performance optimizations
+    "removeComments": true,
+    "importHelpers": true,
     "plugins": [
       {
         "name": "next"

@@ -11,5 +11,6 @@ export interface BlogPost {
   readingTime: string
   slug: string
   featured?: boolean
+  disabled?: boolean
   content?: MDXRemoteSerializeResult
 }

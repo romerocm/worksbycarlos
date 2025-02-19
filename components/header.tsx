@@ -5,7 +5,7 @@ import { usePathname } from 'next/navigation'
 import Link from 'next/link'
 import { useTheme } from "next-themes"
 import { Button } from "@/components/ui/button"
-import { Moon, Sun, Menu, X } from 'lucide-react'
+import { Moon, Sun, Ellipsis, X } from 'lucide-react'
 import { motion, AnimatePresence } from 'framer-motion'
 
 export function Header() {
@@ -55,7 +55,7 @@ export function Header() {
           <div className="flex items-center justify-between w-full md:w-auto">
             {/* Mobile Menu Toggle */}
             <Button variant="ghost" size="icon" className="md:hidden" onClick={() => setIsOpen(!isOpen)}>
-              {isOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
+              {isOpen ? <X className="h-6 w-6" /> : <Ellipsis className="h-6 w-6" />}
               <span className="sr-only">Toggle menu</span>
             </Button>
 
