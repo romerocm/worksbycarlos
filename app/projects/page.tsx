@@ -1,19 +1,19 @@
-"use client"
+"use client";
 
-import React, { useRef } from 'react'
-import Link from 'next/link'
-import Image from 'next/image'
-import { motion, AnimatePresence } from 'framer-motion'
-import { Canvas } from '@react-three/fiber'
-import { OrbitControls, useGLTF, Environment, Html } from '@react-three/drei'
-import { Header } from '@/components/header'
-import { Badge } from '@/components/ui/badge'
-import { Button } from '@/components/ui/button'
-import { Card } from '@/components/ui/card'
-import { ArrowRight } from 'lucide-react'
-import { LoadingSkeleton } from '@/components/loading-skeleton'
-import { caseStudies } from '@/types/case-study'
-import { Suspense } from 'react'
+import React, { useRef } from "react";
+import Link from "next/link";
+import Image from "next/image";
+import { motion, AnimatePresence } from "framer-motion";
+import { Canvas } from "@react-three/fiber";
+import { OrbitControls, useGLTF, Environment, Html } from "@react-three/drei";
+import { Header } from "@/components/header";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import { Card } from "@/components/ui/card";
+import { ArrowRight } from "lucide-react";
+import { LoadingSkeleton } from "@/components/loading-skeleton";
+import { caseStudies } from "@/types/case-study";
+import { Suspense } from "react";
 
 const rubberDuckQuestions = [
   "What does 'rm -rf /' do? Asking for a friend...",
@@ -24,18 +24,18 @@ const rubberDuckQuestions = [
   "Is it okay to hardcode API keys?",
   "Can you explain Terraform to me like I'm 5?",
   "Why do we need CI/CD when we have interns?",
-]
+];
 
 function Model() {
-  const [currentQuestion, setCurrentQuestion] = React.useState(0)
-  const gltf = useGLTF("/assets/3d/duck.glb")
+  const [currentQuestion, setCurrentQuestion] = React.useState(0);
+  const gltf = useGLTF("/assets/3d/duck.glb");
 
   React.useEffect(() => {
     const interval = setInterval(() => {
-      setCurrentQuestion((prev) => (prev + 1) % rubberDuckQuestions.length)
-    }, 5000)
-    return () => clearInterval(interval)
-  }, [])
+      setCurrentQuestion((prev) => (prev + 1) % rubberDuckQuestions.length);
+    }, 5000);
+    return () => clearInterval(interval);
+  }, []);
 
   return (
     <group>
@@ -60,13 +60,19 @@ function Model() {
         </AnimatePresence>
       </Html>
     </group>
-  )
+  );
 }
 
 function Scene() {
   return (
     <Canvas camera={{ position: [0, 0, 5] }}>
-      <Suspense fallback={<Html center><LoadingSkeleton /></Html>}>
+      <Suspense
+        fallback={
+          <Html center>
+            <LoadingSkeleton />
+          </Html>
+        }
+      >
         <Environment preset="studio" />
         <ambientLight intensity={0.5} />
         <spotLight position={[10, 10, 10]} angle={0.15} penumbra={1} />
@@ -74,11 +80,11 @@ function Scene() {
         <OrbitControls />
       </Suspense>
     </Canvas>
-  )
+  );
 }
 
 export default function Projects() {
-  const [activeProject, setActiveProject] = React.useState(0)
+  const [activeProject, setActiveProject] = React.useState(0);
 
   return (
     <div className="min-h-screen flex flex-col bg-background/50 relative">
@@ -127,12 +133,14 @@ export default function Projects() {
                     <div className="absolute inset-0 p-6 flex flex-col justify-between transform transition-all duration-300 group-hover:translate-y-[-5px]">
                       <div className="flex items-start justify-between">
                         <div>
-                          <h3 className="font-medium text-white mb-2">{study.client}</h3>
+                          <h3 className="font-medium text-white mb-2">
+                            {study.client}
+                          </h3>
                           <div className="flex flex-wrap gap-2">
                             {study.tags.map((tag) => (
-                              <Badge 
-                                key={tag} 
-                                variant="outline" 
+                              <Badge
+                                key={tag}
+                                variant="outline"
                                 className="text-white border-white/20 bg-white/5 hover:bg-white/10 transition-colors duration-300"
                               >
                                 {tag}
@@ -142,13 +150,19 @@ export default function Projects() {
                         </div>
                         {study.funding && (
                           <div className="text-right">
-                            <div className="text-2xl font-bold text-white">{study.funding}</div>
-                            <div className="text-sm text-white/60">in funding</div>
+                            <div className="text-2xl font-bold text-white">
+                              {study.funding}
+                            </div>
+                            <div className="text-sm text-white/60">
+                              in funding
+                            </div>
                           </div>
                         )}
                       </div>
                       <div>
-                        <h2 className="text-xl md:text-2xl font-bold text-white mb-2">{study.title}</h2>
+                        <h2 className="text-xl md:text-2xl font-bold text-white mb-2">
+                          {study.title}
+                        </h2>
                         <p className="text-white/80">{study.description}</p>
                       </div>
                     </div>
@@ -156,19 +170,26 @@ export default function Projects() {
                   <div className="p-6 flex items-center justify-between text-white backdrop-blur-sm bg-black/20 transition-all duration-300 group-hover:bg-black/30">
                     <div className="flex items-center gap-6">
                       <div className="text-sm">
-                        <div className="text-white/60 font-medium uppercase tracking-wider text-xs mb-1">Year</div>
+                        <div className="text-white/60 font-medium uppercase tracking-wider text-xs mb-1">
+                          Year
+                        </div>
                         <div className="font-semibold">{study.year}</div>
                       </div>
                       <div className="text-sm">
-                        <div className="text-white/60 font-medium uppercase tracking-wider text-xs mb-1">Stack</div>
-                        <div className="font-semibold">{study.stack.join(" · ")}</div>
+                        <div className="text-white/60 font-medium uppercase tracking-wider text-xs mb-1">
+                          Stack
+                        </div>
+                        <div className="font-semibold">
+                          {study.stack.join(" · ")}
+                        </div>
                       </div>
                     </div>
-                    <Button 
-                      variant="outline" 
+                    <Button
+                      variant="outline"
                       className="project-card-button text-white bg-black/20 hover:bg-white/10 hover:text-white transition-all duration-300"
                     >
-                      View Case Study <ArrowRight className="ml-2 h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
+                      View Case Study{" "}
+                      <ArrowRight className="ml-2 h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
                     </Button>
                   </div>
                 </Card>
@@ -178,7 +199,11 @@ export default function Projects() {
         </div>
 
         <div className="h-[500px] bg-muted rounded-lg overflow-hidden">
-          <ErrorBoundary fallback={<div className="text-red-500">Error loading 3D scene</div>}>
+          <ErrorBoundary
+            fallback={
+              <div className="text-red-500">Error loading 3D scene</div>
+            }
+          >
             <Scene />
           </ErrorBoundary>
         </div>
@@ -187,33 +212,36 @@ export default function Projects() {
         © {new Date().getFullYear()} WorksbyCarlos. All rights reserved.
       </footer>
     </div>
-  )
+  );
 }
 
 interface ErrorBoundaryProps {
-  children: React.ReactNode
-  fallback: React.ReactNode
+  children: React.ReactNode;
+  fallback: React.ReactNode;
 }
 
 interface ErrorBoundaryState {
-  hasError: boolean
+  hasError: boolean;
 }
 
-class ErrorBoundary extends React.Component<ErrorBoundaryProps, ErrorBoundaryState> {
+class ErrorBoundary extends React.Component<
+  ErrorBoundaryProps,
+  ErrorBoundaryState
+> {
   constructor(props: ErrorBoundaryProps) {
-    super(props)
-    this.state = { hasError: false }
+    super(props);
+    this.state = { hasError: false };
   }
 
   static getDerivedStateFromError(): ErrorBoundaryState {
-    return { hasError: true }
+    return { hasError: true };
   }
 
   render() {
     if (this.state.hasError) {
-      return this.props.fallback
+      return this.props.fallback;
     }
 
-    return this.props.children
+    return this.props.children;
   }
 }
