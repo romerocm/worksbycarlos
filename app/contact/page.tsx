@@ -17,6 +17,7 @@ import {
 } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import Cal, { getCalApi } from "@calcom/embed-react";
+import { cn } from "@/lib/utils";
 
 type ContactMethod = "form" | "chat" | "call" | null;
 
@@ -35,6 +36,7 @@ export default function Contact() {
   const [copied, setCopied] = useState(false);
   const { toast } = useToast();
   const messagesEndRef = useRef<HTMLDivElement>(null);
+  const activeComponentRef = useRef<HTMLDivElement>(null);
 
   const initialQuestion: ChatMessage = {
     id: "1",
@@ -112,12 +114,39 @@ export default function Contact() {
     `msg-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
 
   const scrollToBottom = () => {
-    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+    if (messagesEndRef.current) {
+      messagesEndRef.current.scrollIntoView({ 
+        behavior: "smooth",
+        block: "end"
+      });
+    }
+  };
+
+  const scrollToActiveComponent = () => {
+    if (activeComponentRef.current) {
+      const header = document.querySelector('header');
+      const headerHeight = header?.offsetHeight || 0;
+      const yOffset = -headerHeight - 20; // Additional 20px padding
+      
+      const element = activeComponentRef.current;
+      const y = element.getBoundingClientRect().top + window.pageYOffset + yOffset;
+      
+      window.scrollTo({
+        top: y,
+        behavior: "smooth"
+      });
+    }
   };
 
   useEffect(() => {
     scrollToBottom();
   }, [messages]);
+
+  useEffect(() => {
+    if (activeMethod) {
+      setTimeout(scrollToActiveComponent, 100);
+    }
+  }, [activeMethod]);
 
   useEffect(() => {
     const hour = new Date().getHours();
@@ -159,6 +188,15 @@ export default function Contact() {
     };
 
     setMessages((prev) => [...prev, userMessage, botResponse]);
+  };
+
+  const handleMethodSelect = (method: ContactMethod) => {
+    setActiveMethod(method);
+    
+    toast({
+      title: `Opening ${method === 'form' ? 'message form' : method === 'call' ? 'calendar' : 'chat'}`,
+      duration: 1000
+    });
   };
 
   const copyEmail = async () => {
@@ -221,7 +259,7 @@ export default function Contact() {
             </motion.p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
             <AnimatePresence mode="wait">
               {contactMethods.map((method, index) => (
                 <motion.div
@@ -231,10 +269,13 @@ export default function Contact() {
                   transition={{ delay: index * 0.1 + 0.6 }}
                 >
                   <Card
-                    className={`p-6 cursor-pointer transition-all duration-300 hover:shadow-lg ${
-                      activeMethod === method.id ? "border-primary" : ""
-                    }`}
-                    onClick={() => setActiveMethod(method.id as ContactMethod)}
+                    className={cn(
+                      "p-6 cursor-pointer transition-all duration-300 hover:shadow-lg min-h-[120px]",
+                      "active:scale-95 touch-manipulation",
+                      activeMethod === method.id && "border-primary shadow-lg",
+                      "flex flex-col justify-between"
+                    )}
+                    onClick={() => handleMethodSelect(method.id as ContactMethod)}
                   >
                     <div className="flex items-center gap-4 mb-4">
                       <div className="p-2 rounded-lg bg-primary/10">
@@ -252,144 +293,148 @@ export default function Contact() {
           </div>
 
           <AnimatePresence mode="wait">
-            {activeMethod === "form" && (
+            {activeMethod && (
               <motion.div
-                initial={{ opacity: 0, height: 0 }}
-                animate={{ opacity: 1, height: "auto" }}
-                exit={{ opacity: 0, height: 0 }}
-                className="space-y-6"
+                ref={activeComponentRef}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -20 }}
+                transition={{ duration: 0.3 }}
+                className="scroll-mt-24"
               >
-                <Card className="p-6">
-                  <div className="flex flex-col items-center text-center">
-                    <Mail className="w-12 h-12 mb-4 text-primary" />
-                    <h3 className="text-xl font-semibold mb-2">
-                      Email Me Directly
-                    </h3>
-                    <p className="text-muted-foreground mb-6">
-                      I typically respond within 24 hours
-                    </p>
-                    <div className="flex items-center gap-2 bg-muted p-3 rounded-lg mb-4">
-                      <span className="text-lg">cmromero.dev@gmail.com</span>
-                      <Button
-                        variant="ghost"
-                        size="icon"
-                        onClick={copyEmail}
-                        className="ml-2"
-                      >
-                        {copied ? (
-                          <Check className="h-4 w-4 text-green-500" />
-                        ) : (
-                          <Copy className="h-4 w-4" />
-                        )}
-                      </Button>
-                    </div>
-                  </div>
-                </Card>
-              </motion.div>
-            )}
-
-            {activeMethod === "call" && (
-              <motion.div
-                initial={{ opacity: 0, height: 0 }}
-                animate={{ opacity: 1, height: "auto" }}
-                exit={{ opacity: 0, height: 0 }}
-                className="space-y-6"
-              >
-                <div className="text-center mb-8">
-                  <div className="flex items-center justify-center mb-2">
-                    <div className="w-3 h-3 rounded-full bg-green-500 mr-2 animate-pulse"></div>
-                    <p className="text-lg">Available for calls</p>
-                  </div>
-                  <p className="text-lg">New spots open for {currentMonth}</p>
-                </div>
-                <div className="w-full">
-                  <Cal
-                    calLink="worksbycarlos"
-                    style={{
-                      width: "100%",
-                      height: "100%",
-                      minHeight: "600px",
-                    }}
-                    config={{
-                      name: "WorksbyCarlos",
-                    }}
-                  />
-                </div>
-              </motion.div>
-            )}
-
-            {activeMethod === "chat" && (
-              <motion.div
-                initial={{ opacity: 0, height: 0 }}
-                animate={{ opacity: 1, height: "auto" }}
-                exit={{ opacity: 0, height: 0 }}
-                className="space-y-4 max-w-2xl mx-auto"
-              >
-                <Card className="p-4">
-                  <ScrollArea className="h-[500px] pr-4">
-                    <div className="space-y-4">
-                      {messages.map((message) => (
-                        <motion.div
-                          key={message.id}
-                          initial={{ opacity: 0, y: 10 }}
-                          animate={{ opacity: 1, y: 0 }}
-                          className={`flex ${
-                            message.type === "user"
-                              ? "justify-end"
-                              : "justify-start"
-                          }`}
+                {activeMethod === "form" && (
+                  <Card className="p-6">
+                    <div className="flex flex-col items-center text-center">
+                      <Mail className="w-12 h-12 mb-4 text-primary" />
+                      <h3 className="text-xl font-semibold mb-2">
+                        Email Me Directly
+                      </h3>
+                      <p className="text-muted-foreground mb-6">
+                        I typically respond within 24 hours
+                      </p>
+                      <div className="flex items-center gap-2 bg-muted p-3 rounded-lg mb-4">
+                        <span className="text-lg">cmromero.dev@gmail.com</span>
+                        <Button
+                          variant="ghost"
+                          size="icon"
+                          onClick={copyEmail}
+                          className="ml-2"
                         >
-                          {message.type === "bot" && (
-                            <div className="flex gap-2 max-w-[80%]">
-                              <div className="w-8 h-8 rounded-full overflow-hidden flex-shrink-0">
-                                <Image
-                                  src="https://media.licdn.com/dms/image/v2/D4E03AQFOEltQwyEO3A/profile-displayphoto-shrink_200_200/profile-displayphoto-shrink_200_200/0/1724316058019?e=1743638400&v=beta&t=5XmN3Nryg_VxEIvI9oP_8lddYAU4Zt8JqKS2y-acmRE"
-                                  alt="Carlos"
-                                  width={32}
-                                  height={32}
-                                  className="w-full h-full object-cover"
-                                />
-                              </div>
-                              <div className="bg-muted p-4 rounded-lg">
-                                {typeof message.content === "string" ? (
-                                  <p>{message.content}</p>
-                                ) : (
-                                  <div className="space-y-4">
-                                    <p>{message.content.question}</p>
-                                    <div className="grid gap-2">
-                                      {message.content.options.map((option) => (
-                                        <Button
-                                          key={option}
-                                          variant="outline"
-                                          className="justify-start"
-                                          onClick={() =>
-                                            handleOptionClick(option)
-                                          }
-                                        >
-                                          {option}
-                                        </Button>
-                                      ))}
-                                    </div>
-                                  </div>
-                                )}
-                              </div>
-                            </div>
+                          {copied ? (
+                            <Check className="h-4 w-4 text-green-500" />
+                          ) : (
+                            <Copy className="h-4 w-4" />
                           )}
-                          {message.type === "user" && (
-                            <div className="bg-primary text-primary-foreground p-4 rounded-lg max-w-[80%]">
-                              <p>
-                                {typeof message.content === "string"
-                                  ? message.content
-                                  : message.content.question}
-                              </p>
-                            </div>
-                          )}
-                        </motion.div>
-                      ))}
-                      <div ref={messagesEndRef} />
+                        </Button>
+                      </div>
                     </div>
-                  </ScrollArea>
-                </Card>
+                  </Card>
+                )}
+
+                {activeMethod === "call" && (
+                  <motion.div
+                    initial={{ opacity: 0, height: 0 }}
+                    animate={{ opacity: 1, height: "auto" }}
+                    exit={{ opacity: 0, height: 0 }}
+                    className="space-y-6"
+                  >
+                    <div className="text-center mb-8">
+                      <div className="flex items-center justify-center mb-2">
+                        <div className="w-3 h-3 rounded-full bg-green-500 mr-2 animate-pulse"></div>
+                        <p className="text-lg">Available for calls</p>
+                      </div>
+                      <p className="text-lg">New spots open for {currentMonth}</p>
+                    </div>
+                    <div className="w-full">
+                      <Cal
+                        calLink="worksbycarlos"
+                        style={{
+                          width: "100%",
+                          height: "100%",
+                          minHeight: "600px",
+                        }}
+                        config={{
+                          name: "WorksbyCarlos",
+                        }}
+                      />
+                    </div>
+                  </motion.div>
+                )}
+
+                {activeMethod === "chat" && (
+                  <motion.div
+                    initial={{ opacity: 0, height: 0 }}
+                    animate={{ opacity: 1, height: "auto" }}
+                    exit={{ opacity: 0, height: 0 }}
+                    className="space-y-4 max-w-2xl mx-auto"
+                  >
+                    <Card className="p-4">
+                      <ScrollArea className="h-[500px] pr-4">
+                        <div className="space-y-4">
+                          {messages.map((message) => (
+                            <motion.div
+                              key={message.id}
+                              initial={{ opacity: 0, y: 10 }}
+                              animate={{ opacity: 1, y: 0 }}
+                              className={`flex ${
+                                message.type === "user"
+                                  ? "justify-end"
+                                  : "justify-start"
+                              }`}
+                            >
+                              {message.type === "bot" && (
+                                <div className="flex gap-2 max-w-[80%]">
+                                  <div className="w-8 h-8 rounded-full overflow-hidden flex-shrink-0">
+                                    <Image
+                                      src="https://media.licdn.com/dms/image/v2/D4E03AQFOEltQwyEO3A/profile-displayphoto-shrink_200_200/profile-displayphoto-shrink_200_200/0/1724316058019?e=1743638400&v=beta&t=5XmN3Nryg_VxEIvI9oP_8lddYAU4Zt8JqKS2y-acmRE"
+                                      alt="Carlos"
+                                      width={32}
+                                      height={32}
+                                      className="w-full h-full object-cover"
+                                    />
+                                  </div>
+                                  <div className="bg-muted p-4 rounded-lg">
+                                    {typeof message.content === "string" ? (
+                                      <p>{message.content}</p>
+                                    ) : (
+                                      <div className="space-y-4">
+                                        <p>{message.content.question}</p>
+                                        <div className="grid gap-2">
+                                          {message.content.options.map((option) => (
+                                            <Button
+                                              key={option}
+                                              variant="outline"
+                                              className="justify-start"
+                                              onClick={() =>
+                                                handleOptionClick(option)
+                                              }
+                                            >
+                                              {option}
+                                            </Button>
+                                          ))}
+                                        </div>
+                                      </div>
+                                    )}
+                                  </div>
+                                </div>
+                              )}
+                              {message.type === "user" && (
+                                <div className="bg-primary text-primary-foreground p-4 rounded-lg max-w-[80%]">
+                                  <p>
+                                    {typeof message.content === "string"
+                                      ? message.content
+                                      : message.content.question}
+                                  </p>
+                                </div>
+                              )}
+                            </motion.div>
+                          ))}
+                          <div ref={messagesEndRef} />
+                        </div>
+                      </ScrollArea>
+                    </Card>
+                  </motion.div>
+                )}
               </motion.div>
             )}
           </AnimatePresence>
@@ -403,61 +448,67 @@ export default function Contact() {
             <p className="text-center text-muted-foreground mb-6">
               Connect with me on social media or check out my design studio
             </p>
-            <div className="flex justify-center space-x-4">
-              <Button variant="outline" asChild>
-                <a
-                  href="https://github.com/romerocm"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="transition-transform hover:scale-105"
+            <div className="flex flex-col sm:flex-row justify-center gap-4">
+              {[
+                {
+                  href: "https://github.com/romerocm",
+                  icon: (props: any) => (
+                    <svg
+                      viewBox="0 0 24 24"
+                      {...props}
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth="2"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    >
+                      <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22" />
+                    </svg>
+                  ),
+                  label: "GitHub"
+                },
+                {
+                  href: "https://linkedin.com/in/romerocm",
+                  icon: (props: any) => (
+                    <svg
+                      viewBox="0 0 24 24"
+                      {...props}
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth="2"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    >
+                      <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z" />
+                      <rect x="2" y="9" width="4" height="12" />
+                      <circle cx="4" cy="4" r="2" />
+                    </svg>
+                  ),
+                  label: "LinkedIn"
+                },
+                {
+                  href: "https://vimistudio.com",
+                  icon: ExternalLink,
+                  label: "Vimi Studio"
+                }
+              ].map((link) => (
+                <Button
+                  key={link.href}
+                  variant="outline"
+                  asChild
+                  className="min-h-[44px] w-full sm:w-auto justify-center"
                 >
-                  <svg
-                    viewBox="0 0 24 24"
-                    className="h-4 w-4 mr-2"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth="2"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
+                  <a
+                    href={link.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="transition-transform hover:scale-105 active:scale-95"
                   >
-                    <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22" />
-                  </svg>
-                  GitHub
-                </a>
-              </Button>
-              <Button variant="outline" asChild>
-                <a
-                  href="https://linkedin.com/in/romerocm"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="transition-transform hover:scale-105"
-                >
-                  <svg
-                    viewBox="0 0 24 24"
-                    className="h-4 w-4 mr-2"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth="2"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  >
-                    <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z" />
-                    <rect x="2" y="9" width="4" height="12" />
-                    <circle cx="4" cy="4" r="2" />
-                  </svg>
-                  LinkedIn
-                </a>
-              </Button>
-              <Button variant="outline" asChild>
-                <a
-                  href="https://vimistudio.com"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="transition-transform hover:scale-105"
-                >
-                  <ExternalLink className="mr-2 h-4 w-4" /> Vimi Studio
-                </a>
-              </Button>
+                    <link.icon className="h-4 w-4 mr-2" />
+                    {link.label}
+                  </a>
+                </Button>
+              ))}
             </div>
           </motion.div>
         </motion.div>
