@@ -1,10 +1,23 @@
-"use client"
+"use client";
 
-import { useRef, useEffect } from 'react'
-import { motion, useScroll, useTransform, useAnimation } from 'framer-motion'
-import { Header } from '@/components/header'
-import { Card } from '@/components/ui/card'
-import { Cloud, Server, Database, Code, Github, DockIcon as Docker, Terminal, Award, Building2, MapPin, Mail, Linkedin } from 'lucide-react'
+import { useRef, useEffect } from "react";
+import { motion, useScroll, useTransform, useAnimation } from "framer-motion";
+import { Header } from "@/components/header";
+import { Card } from "@/components/ui/card";
+import {
+  Cloud,
+  Server,
+  Database,
+  Code,
+  Github,
+  DockIcon as Docker,
+  Terminal,
+  Award,
+  Building2,
+  MapPin,
+  Mail,
+  Linkedin,
+} from "lucide-react";
 
 const experiences = [
   {
@@ -14,9 +27,9 @@ const experiences = [
     description: [
       "Architected and implemented a cloud-native infrastructure on AWS, optimized for healthcare data processing and storage",
       "Designed and deployed a HIPAA-compliant environment, ensuring data security and privacy at all levels",
-      "Implemented auto-scaling solutions that improved system responsiveness by 40% during peak usage periods"
+      "Implemented auto-scaling solutions that improved system responsiveness by 40% during peak usage periods",
     ],
-    icon: Cloud
+    icon: Cloud,
   },
   {
     company: "VIMIHOST",
@@ -25,9 +38,9 @@ const experiences = [
     description: [
       "Build and deploy Docker images for all projects, ensuring that applications are packaged with their dependencies for consistency across environments",
       "Design and implement Terraform configurations for provisioning and managing infrastructure across multiple environments",
-      "Develop and maintain CI/CD pipelines to automate the build, test, and deployment"
+      "Develop and maintain CI/CD pipelines to automate the build, test, and deployment",
     ],
-    icon: Server
+    icon: Server,
   },
   {
     company: "RESULTIER",
@@ -36,18 +49,18 @@ const experiences = [
     description: [
       "Implement and manage continuous delivery pipelines for cloud-based applications, using tools such as Terraform and Ansible",
       "Administer Linux-based systems, including installing, configuring, and maintaining packages and services",
-      "Mentor and train other engineers in cloud engineering best practices, including infrastructure as code and continuous integration/continuous delivery"
+      "Mentor and train other engineers in cloud engineering best practices, including infrastructure as code and continuous integration/continuous delivery",
     ],
-    icon: Code
+    icon: Code,
   },
   {
     company: "RESULTIER",
     role: "Program Manager",
     period: "Jan 2022 - June 2023 · 1yr 5 mos",
     description: [
-      "I was responsible for project kick-offs, retrospective sessions, and task prioritization in six different projects"
+      "I was responsible for project kick-offs, retrospective sessions, and task prioritization in six different projects",
     ],
-    icon: Award
+    icon: Award,
   },
   {
     company: "ELANIIN TECH COMPANY",
@@ -58,9 +71,9 @@ const experiences = [
       "Managed engineers across multiple teams and locations for US based clients",
       "Managed large product budgets and oversee medium to large-scale deployments",
       "Followed 1:1 meetings with team members to ensure satisfaction within the organization",
-      "Led DevOps team and served as a mentor to help empower team members for their own professional and personal growth"
+      "Led DevOps team and served as a mentor to help empower team members for their own professional and personal growth",
     ],
-    icon: Building2
+    icon: Building2,
   },
   {
     company: "ELANIIN TECH COMPANY",
@@ -71,71 +84,72 @@ const experiences = [
       "Setting up development, testing and production environment",
       "Designing, implementing, and administrating high-availability, auto-scalable, and secure AWS infrastructure",
       "Building and deploying Docker images for all of our projects",
-      "Developing products with CI / CD on Gitlab"
+      "Developing products with CI / CD on Gitlab",
     ],
-    icon: Docker
-  }
-]
+    icon: Docker,
+  },
+];
 
 const skills = [
   {
     category: "CLOUD PROVIDERS",
     items: ["AWS", "GCP", "Microsoft Azure", "DigitalOcean"],
-    icon: Cloud
+    icon: Cloud,
   },
   {
     category: "LINUX DISTRIBUTIONS",
     items: ["RHEL/CentOS", "UbuntuServer", "Debian", "FreeBSD"],
-    icon: Terminal
+    icon: Terminal,
   },
   {
     category: "HTTP SERVERS",
     items: ["Nginx", "Apache"],
-    icon: Server
+    icon: Server,
   },
   {
     category: "INFRASTRUCTURE",
     items: ["Docker", "Kubernetes", "Terraform", "Ansible"],
-    icon: Database
+    icon: Database,
   },
   {
     category: "CI/CD TOOLING",
     items: ["GitLabCI", "Github Actions", "CloudBuild / CloudRun", "Jenkins"],
-    icon: Code
+    icon: Code,
   },
   {
     category: "DATABASES",
     items: ["PostgreSQL", "MySQL", "MongoDB"],
-    icon: Database
-  }
-]
+    icon: Database,
+  },
+];
 
 export default function About() {
-  const ref = useRef(null)
-  const { scrollYProgress } = useScroll({ target: ref })
-  const y = useTransform(scrollYProgress, [0, 1], ["0%", "100%"])
-  const contactsRef = useRef<HTMLDivElement>(null)
-  const controls = useAnimation()
+  const ref = useRef(null);
+  const { scrollYProgress } = useScroll({ target: ref });
+  const y = useTransform(scrollYProgress, [0, 1], ["0%", "100%"]);
+  const contactsRef = useRef<HTMLDivElement>(null);
+  const controls = useAnimation();
 
   useEffect(() => {
     const checkScroll = () => {
       if (contactsRef.current) {
-        const isScrollable = contactsRef.current.scrollWidth > contactsRef.current.clientWidth
+        const isScrollable =
+          contactsRef.current.scrollWidth > contactsRef.current.clientWidth;
         if (isScrollable) {
           controls.start({
             x: [0, -10, 0],
-            transition: { repeat: Infinity, duration: 1.5, ease: "easeInOut" }
-          })
+            transition: { repeat: Infinity, duration: 1.5, ease: "easeInOut" },
+          });
         } else {
-          controls.stop()
+          controls.stop();
         }
       }
-    }
+    };
 
-    checkScroll()
-    window.addEventListener('resize', checkScroll)
-    return () => window.removeEventListener('resize', checkScroll)
-  }, [controls])
+    checkScroll();
+    window.addEventListener("resize", checkScroll);
+    return () => window.removeEventListener("resize", checkScroll);
+  }, [controls]);
 
   return (
     <div className="min-h-screen bg-background/50 relative">
@@ -143,27 +157,30 @@ export default function About() {
       <Header />
       <main className="container mx-auto px-4 py-12 pt-24">
         {/* Contact Info */}
-        <motion.div 
+        <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
           className="mb-12 flex flex-col items-center text-center"
         >
           <h1 className="text-4xl font-bold mb-6">Cloud Engineer</h1>
-          <div 
+          <div
             ref={contactsRef}
             className="flex gap-4 text-muted-foreground overflow-x-auto pb-2 max-w-full"
-            style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
+            style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
           >
-            <motion.div 
-              className="flex whitespace-nowrap"
-              animate={controls}
-            >
-              <a href="https://linkedin.com/in/romerocm" className="flex items-center gap-2 hover:text-foreground transition-colors px-2">
+            <motion.div className="flex whitespace-nowrap" animate={controls}>
+              <a
+                href="https://linkedin.com/in/romerocm"
+                className="flex items-center gap-2 hover:text-foreground transition-colors px-2"
+              >
                 <Linkedin className="w-4 h-4 flex-shrink-0" />
                 <span>romerocm</span>
               </a>
-              <a href="mailto:cmromero.dev@gmail.com" className="flex items-center gap-2 hover:text-foreground transition-colors px-2">
+              <a
+                href="mailto:cmromero.dev@gmail.com"
+                className="flex items-center gap-2 hover:text-foreground transition-colors px-2"
+              >
                 <Mail className="w-4 h-4 flex-shrink-0" />
                 <span>cmromero.dev@gmail.com</span>
               </a>
@@ -177,7 +194,7 @@ export default function About() {
 
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
           {/* Skills Section */}
-          <motion.div 
+          <motion.div
             initial={{ opacity: 0, x: -20 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.5, delay: 0.2 }}
@@ -200,7 +217,7 @@ export default function About() {
           </motion.div>
 
           {/* Experience Timeline */}
-          <motion.div 
+          <motion.div
             initial={{ opacity: 0, x: 20 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.5, delay: 0.4 }}
@@ -209,7 +226,10 @@ export default function About() {
           >
             <h2 className="text-2xl font-bold mb-8">Work Experience</h2>
             <div className="relative">
-              <div className="absolute left-8 top-0 bottom-0 w-px bg-border" style={{ scaleY: scrollYProgress }} />
+              <div
+                className="absolute left-8 top-0 bottom-0 w-px bg-border"
+                style={{ transform: `scaleY(${scrollYProgress})` }}
+              />
               {experiences.map((experience, index) => (
                 <motion.div
                   key={index}
@@ -223,7 +243,9 @@ export default function About() {
                       <experience.icon className="w-8 h-8" />
                     </div>
                     <div className="flex-1">
-                      <h3 className="text-xl font-bold">{experience.company}</h3>
+                      <h3 className="text-xl font-bold">
+                        {experience.company}
+                      </h3>
                       <div className="flex flex-col sm:flex-row sm:items-center gap-2 text-muted-foreground mb-4">
                         <span className="font-medium">{experience.role}</span>
                         <span className="hidden sm:inline">•</span>
@@ -243,6 +265,5 @@ export default function About() {
         </div>
       </main>
     </div>
-  )
+  );
 }
-
