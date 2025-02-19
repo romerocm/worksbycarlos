@@ -36,8 +36,8 @@ export async function GET(
       mdxOptions: {
         development: process.env.NODE_ENV === "development",
         rehypePlugins: [
-          rehypeSlug,
-          rehypeHighlight,
+          [rehypeSlug as any],
+          [rehypeHighlight as any],
         ],
       },
     });
