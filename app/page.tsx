@@ -1,10 +1,10 @@
 "use client";
 
-import Image from "next/image";
-import { motion, useScroll, useTransform, useSpring } from "framer-motion";
-import Link from "next/link";
+import { useRef, useEffect, useState } from "react";
+import { motion, useScroll, useTransform, AnimatePresence } from "framer-motion";
 import { Header } from "@/components/header";
 import { Card } from "@/components/ui/card";
+import { cn } from "@/lib/utils";
 import {
   Play,
   Award,
@@ -20,8 +20,27 @@ import {
   Terminal,
   Zap,
 } from "lucide-react";
-import { FC, useRef, useEffect, useState } from "react";
+import { FC } from "react";
 import { Button } from "@/components/ui/button";
+import Image from "next/image";
+import Link from "next/link";
+import { TerminalPopup } from "@/components/terminal-popup";
+
+const PinkTerminalIcon = () => (
+  <svg
+    viewBox="0 0 24 24"
+    width="24"
+    height="24"
+    stroke="#FF79C6"
+    strokeWidth="2"
+    fill="none"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+  >
+    <polyline points="4 17 10 11 4 5"></polyline>
+    <line x1="12" y1="19" x2="20" y2="19"></line>
+  </svg>
+);
 
 interface ServiceCardProps {
   icon: FC<{ className?: string }>;
@@ -77,7 +96,7 @@ const ServiceCard: FC<ServiceCardProps> = ({
   );
 };
 
-const ParticleEffect = () => {
+function ParticleEffect() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
   useEffect(() => {
@@ -125,7 +144,6 @@ const ParticleEffect = () => {
         ctx.fillStyle = 'rgba(123, 104, 238, 0.2)';
         ctx.fill();
 
-        // Draw connections
         particles.forEach((particle2, j) => {
           if (i === j) return;
           const dx = particle.x - particle2.x;
@@ -168,7 +186,7 @@ const ParticleEffect = () => {
       style={{ opacity: 0.5 }}
     />
   );
-};
+}
 
 const TypewriterEffect = ({ text }: { text: string }) => {
   const [displayText, setDisplayText] = useState('');
@@ -199,13 +217,18 @@ export default function Home() {
     target: ref,
     offset: ["start start", "end start"],
   });
-
   const y = useTransform(scrollYProgress, [0, 1], ["0%", "50%"]);
   const opacity = useTransform(scrollYProgress, [0, 1], [1, 0]);
+  const [isTerminalOpen, setIsTerminalOpen] = useState(false);
+  const [showTooltip, setShowTooltip] = useState(false);
 
-  const springConfig = { stiffness: 100, damping: 30, restDelta: 0.001 };
-  const ySpring = useSpring(y, springConfig);
-  const opacitySpring = useSpring(opacity, springConfig);
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setShowTooltip(true);
+    }, 2000);
+
+    return () => clearTimeout(timer);
+  }, []);
 
   return (
     <div className="min-h-screen bg-background/50 relative" ref={ref}>
@@ -213,14 +236,14 @@ export default function Home() {
       <div className="animated-gradient-background" />
       <Header />
       <main className="container mx-auto px-4 py-12 pt-24">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-24">
+        <div className="grid grid-cols-1 lg:grid-cols-4 gap-6 mb-24">
           {/* Profile Section */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
             className="col-span-1 md:col-span-2 lg:col-span-2 row-span-2"
-            style={{ y: ySpring, opacity: opacitySpring }}
+            style={{ y, opacity }}
           >
             <Card className="p-8 bg-[#7B68EE] dark:bg-[#5B4BC5] text-white h-full relative overflow-hidden group">
               <div className="relative z-10">
@@ -361,79 +384,71 @@ export default function Home() {
             transition={{ duration: 0.6, delay: 0.5 }}
             className="col-span-1 md:col-span-2 lg:col-span-4"
           >
-            <Card className="p-8 bg-gray-900 dark:bg-gray-800 text-white overflow-hidden">
+            <Card className="p-8 bg-gray-900 dark:bg-gray-800 text-white overflow-visible">
               <div className="flex flex-col">
-                <div className="mb-6 relative group">
-                  <h3 className="text-3xl font-bold mb-2">
-                    curl | bash My Favorites
-                  </h3>
+                <div className="mb-6 relative">
+                  <div className="flex items-center justify-between">
+                    <h3 className="text-3xl font-bold mb-2">
+                      curl | bash My Favorites
+                    </h3>
+                    <div className="relative">
+                      <AnimatePresence>
+                        {showTooltip && (
+                          <motion.div
+                            initial={{ opacity: 0, y: 10 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            exit={{ opacity: 0, y: 10 }}
+                            className="absolute bottom-full right-0 mb-2 w-48 p-2 bg-white dark:bg-gray-800 text-black dark:text-white text-sm rounded-lg shadow-lg border border-border"
+                            style={{
+                              filter: "drop-shadow(0 0 8px rgba(0,0,0,0.1))",
+                            }}
+                          >
+                            <div className="relative">
+                              Click to see my favorite tools! 🚀
+                              <div className="absolute w-3 h-3 bg-white dark:bg-gray-800 border-t border-r border-border rotate-45 -bottom-[7px] right-6 transform" />
+                            </div>
+                          </motion.div>
+                        )}
+                      </AnimatePresence>
+                      <motion.div
+                        whileHover={{ scale: 1.1 }}
+                        whileTap={{ scale: 0.95 }}
+                      >
+                        <Button
+                          variant="ghost"
+                          size="icon"
+                          className="text-white/70 hover:text-white hover:bg-white/10 relative touch-manipulation"
+                          onClick={() => {
+                            setIsTerminalOpen(true);
+                            setShowTooltip(false);
+                          }}
+                        >
+                          <motion.div
+                            animate={{
+                              scale: [1, 1.2, 1],
+                            }}
+                            transition={{
+                              duration: 2,
+                              repeat: Infinity,
+                              repeatType: "reverse",
+                            }}
+                          >
+                            <PinkTerminalIcon />
+                          </motion.div>
+                        </Button>
+                      </motion.div>
+                    </div>
+                  </div>
                   <p className="text-lg opacity-80">
                     Don't try this in production (or do, I'm not your dad)
                   </p>
 
-                  {/* Terminal Popup */}
-                  <div className="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[500px] scale-0 group-hover:scale-100 transition-transform duration-200 z-[9999] overflow-visible">
-                    <div className="bg-gray-900 rounded-lg shadow-xl border border-gray-700 terminal-shadow">
-                      {/* Terminal Header */}
-                      <div className="flex items-center p-2 border-b border-gray-700">
-                        <div className="flex gap-1.5">
-                          <div className="w-3 h-3 rounded-full bg-red-500"></div>
-                          <div className="w-3 h-3 rounded-full bg-yellow-500"></div>
-                          <div className="w-3 h-3 rounded-full bg-green-500"></div>
-                        </div>
-                        <div className="flex-1 text-center text-sm text-gray-400">
-                          bash
-                        </div>
-                      </div>
-
-                      {/* Terminal Content */}
-                      <div className="p-4 font-mono text-sm">
-                        <motion.div
-                          initial={{ opacity: 0 }}
-                          animate={{ opacity: 1 }}
-                          transition={{ duration: 0.3, delay: 0.2 }}
-                        >
-                          <span className="text-green-400">➜</span>{" "}
-                          <span className="text-blue-400">~</span> $ curl
-                          https://api.worksbycarlos.dev/favorites.sh | bash
-                        </motion.div>
-                        <motion.pre
-                          initial={{ opacity: 0 }}
-                          animate={{ opacity: 1 }}
-                          transition={{ duration: 0.3, delay: 0.5 }}
-                          className="mt-2 text-green-200"
-                        >
-                          {`# My DevOps Favorites
-tools:
-  - name: Kubernetes
-    type: Container Orchestration
-    love_level: Over 9000
-  - name: Terraform
-    type: Infrastructure as Code
-    love_level: Maximum
-  - name: Docker
-    type: Containerization
-    love_level: Infinite
-  - name: GitHub Actions
-    type: CI/CD
-    love_level: Legendary
-  - name: Python
-    type: Automation
-    love_level: Snake Charmer
-  - name: Ansible
-    type: Configuration Management
-    love_level: Playbook Master
-  - name: Nginx
-    type: Web Server
-    love_level: Proxy King
-  - name: AWS
-    type: Cloud Provider
-    love_level: Cloud Native`}
-                        </motion.pre>
-                      </div>
-                    </div>
-                  </div>
+                  <TerminalPopup 
+                    isOpen={isTerminalOpen}
+                    onClose={() => setIsTerminalOpen(false)}
+                  />
                 </div>
+
                 <div className="overflow-x-scroll scrollbar-hide">
                   <div className="flex gap-8 items-center py-4 min-w-max w-full justify-end">
                     <img
