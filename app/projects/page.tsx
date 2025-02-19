@@ -1,6 +1,6 @@
 "use client"
 
-import React, { useState, useRef, useEffect } from 'react'
+import React, { useRef } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
 import { motion, AnimatePresence } from 'framer-motion'
@@ -11,7 +11,7 @@ import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { Card } from '@/components/ui/card'
 import { ArrowRight } from 'lucide-react'
-import { LoadingSpinner } from '@/components/loading-spinner'
+import { LoadingSkeleton } from '@/components/loading-skeleton'
 import { caseStudies } from '@/types/case-study'
 import { Suspense } from 'react'
 
@@ -27,10 +27,10 @@ const rubberDuckQuestions = [
 ]
 
 function Model() {
-  const [currentQuestion, setCurrentQuestion] = useState(0)
+  const [currentQuestion, setCurrentQuestion] = React.useState(0)
   const gltf = useGLTF("/assets/3d/duck.glb")
 
-  useEffect(() => {
+  React.useEffect(() => {
     const interval = setInterval(() => {
       setCurrentQuestion((prev) => (prev + 1) % rubberDuckQuestions.length)
     }, 5000)
@@ -66,7 +66,7 @@ function Model() {
 function Scene() {
   return (
     <Canvas camera={{ position: [0, 0, 5] }}>
-      <Suspense fallback={<Html center><LoadingSpinner /></Html>}>
+      <Suspense fallback={<Html center><LoadingSkeleton /></Html>}>
         <Environment preset="studio" />
         <ambientLight intensity={0.5} />
         <spotLight position={[10, 10, 10]} angle={0.15} penumbra={1} />
@@ -78,28 +78,7 @@ function Scene() {
 }
 
 export default function Projects() {
-  const [isLoading, setIsLoading] = useState(true)
-  const [activeProject, setActiveProject] = useState(0)
-
-  useEffect(() => {
-    // Simulate loading state for smoother transitions
-    const timer = setTimeout(() => {
-      setIsLoading(false)
-    }, 500)
-
-    return () => clearTimeout(timer)
-  }, [])
-
-  if (isLoading) {
-    return (
-      <div className="min-h-screen flex flex-col bg-background">
-        <Header />
-        <main className="flex-grow container mx-auto px-4 sm:px-6 lg:px-8 py-12 pt-24">
-          <LoadingSpinner />
-        </main>
-      </div>
-    )
-  }
+  const [activeProject, setActiveProject] = React.useState(0)
 
   return (
     <div className="min-h-screen flex flex-col bg-background/50 relative">
@@ -144,7 +123,7 @@ export default function Projects() {
                       fill
                       className="object-cover transition-all duration-500 group-hover:scale-110"
                     />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/50 to-transparent transition-all duration-300 group-hover:from-black/95" />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent opacity-60 transition-opacity duration-300 group-hover:opacity-40" />
                     <div className="absolute inset-0 p-6 flex flex-col justify-between transform transition-all duration-300 group-hover:translate-y-[-5px]">
                       <div className="flex items-start justify-between">
                         <div>
@@ -238,4 +217,3 @@ class ErrorBoundary extends React.Component<ErrorBoundaryProps, ErrorBoundarySta
     return this.props.children
   }
 }
-

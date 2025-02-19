@@ -21,18 +21,18 @@ export async function GET() {
     }
 
     const filenames = fs.readdirSync(postsDirectory)
+    const mdxFiles = filenames.filter(filename => filename.endsWith('.mdx'))
 
-    const posts = await Promise.all(filenames.map(async (filename) => {
+    const posts = await Promise.all(mdxFiles.map(async (filename) => {
       try {
         const filePath = path.join(postsDirectory, filename)
         
-        // Check if file exists
+        // Check if file exists and is readable
         if (!fs.existsSync(filePath)) {
           console.error(`File ${filename} does not exist`)
           return null
         }
 
-        // Check if file is readable
         try {
           fs.accessSync(filePath, fs.constants.R_OK)
         } catch (error) {
@@ -52,10 +52,18 @@ export async function GET() {
           return null
         }
 
+        // Ensure tags is an array
+        const tags = Array.isArray(data.tags) ? data.tags : [data.tags]
+
+        // Skip disabled posts
+        if (data.disabled) {
+          return null
+        }
+
         return {
           ...data,
+          tags,
           slug: filename.replace('.mdx', ''),
-          excerpt: content.slice(0, 150) + '...',
           readingTime: calculateReadingTime(content)
         } as BlogPost
       } catch (error) {
