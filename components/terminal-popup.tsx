@@ -10,59 +10,86 @@ interface TerminalPopupProps {
 export function TerminalPopup({ isOpen, onClose }: TerminalPopupProps) {
   const [content] = useState({
     command: "curl https://api.worksbycarlos.dev/favorites.sh | bash",
-    output: `# My DevOps Favorites
-tools:
-  - name: Kubernetes
-    type: Container Orchestration
-    love_level: Over 9000
-  - name: Terraform
-    type: Infrastructure as Code
-    love_level: Maximum
-  - name: Docker
-    type: Containerization
-    love_level: Infinite
-  - name: GitHub Actions
-    type: CI/CD
-    love_level: Legendary
-  - name: Python
-    type: Automation
-    love_level: Snake Charmer
-  - name: Ansible
-    type: Configuration Management
-    love_level: Playbook Master
-  - name: Nginx
-    type: Web Server
-    love_level: Proxy King
-  - name: AWS
-    type: Cloud Provider
-    love_level: Cloud Native
-
-# Additional configurations...
-settings:
-  coffee_level: Critical
-  debug_mode: Always
-  tabs_vs_spaces: Spaces (fight me)
-  vim_exit_attempts: ∞
-  docker_containers_running: Yes
-  kubernetes_pods: Many
-  terraform_state: Remote
-  git_branches: Too Many
-
-# System Status
-status:
-  production: 🟢 Running
-  coffee_maker: ☕ Brewing
-  keyboard: ⌨️ Clacking
-  music: 🎵 Lofi Beats
-  focus: 🎯 Maximum
-  bugs: 🐛 Squashing
-  deployment: 🚀 Continuous
-  monitoring: 👀 24/7
-
-# Remember:
-# - Always backup your backups
-# - Git push --force with caution
-# - Keep calm and kubectl apply`
+    output: `# 🚀 My DevOps Favorites
+    tools:
+      - name: Kubernetes
+        type: Container Orchestration
+        love_level: "Over 9000 (Scaling clusters and my ambitions)"
+      - name: Terraform
+        type: Infrastructure as Code
+        love_level: "Maximum (State files: neat. Cloud infra: a work of art.)"
+      - name: Docker
+        type: Containerization
+        love_level: "Infinite (My containers work, your environment doesn't.)"
+      - name: GitHub Actions
+        type: CI/CD
+        love_level: "Legendary (PR merged = 🚀 Auto-deploy)"
+      - name: Python
+        type: Automation
+        love_level: "Snake Charmer (One-liners that do way too much)"
+      - name: Ansible
+        type: Configuration Management
+        love_level: "Playbook Master (Automation > repetitive tasks)"
+      - name: Nginx
+        type: Web Server
+        love_level: "Proxy King (Handling more requests than I do emails)"
+      - name: AWS
+        type: Cloud Provider
+        love_level: "Cloud Native (Still trying to make sense of the bill...)"
+    
+    # 🛠️ Dev Setup & Preferences
+    settings:
+      tabs_vs_spaces: "Tabs (Indenting like a pro)"
+      git_strategy: "Trunk-based (Merged? Deleted. No zombie branches.)"
+      coding_time: "🌙 Night Owl Mode (Best ideas happen after midnight)"
+      editor_of_choice: "Vim (Because real DevOps engineers use terminal)"
+      vim_exit_attempts: "0 (I know what I'm doing)"
+      docker_containers_running: "Yes (There’s always a test environment somewhere)"
+      kubernetes_pods: "Balanced (or at least I tell myself that)"
+      terraform_state: "Remote (Where it belongs)"
+      git_branches: "Clean (A PR should have an expiration date)"
+    
+    # 🛠️ My VS Code & Vim Setup
+    extensions:
+      - name: Indent Rainbow
+        type: Indentation Highlighting
+        love_level: "Because tabs should shine in color"
+      - name: Material Icon Theme
+        type: UI Icons
+        love_level: "Easier file recognition = less clicking"
+      - name: Poimandres Theme
+        type: Dark Mode
+        love_level: "Dark themes = 10% more productivity"
+      - name: GitLens
+        type: Git Enhancements
+        love_level: "Git history that actually makes sense"
+      - name: Live Share
+        type: Pair Programming
+        love_level: "Real-time collab when things go south"
+      - name: Vim
+        type: Editor Inside VS Code
+        love_level: "Because muscle memory never dies"
+    
+    # 📊 System Status
+    status:
+      production: "🟢 Running (for now)"
+      coding_environment: "🔥 Vim inside VS Code (the best of both worlds)"
+      keyboard: "⌨️ Clacking (commands flying at terminal speed)"
+      music: "🎵 Synthwave / Lofi (mood-dependent debugging)"
+      focus: "🎯 Locked in (until someone asks for a meeting)"
+      bugs: "🐛 Squashing (but new ones keep evolving)"
+      deployment: "🚀 Continuous (as long as tests agree)"
+      monitoring: "👀 24/7 (and yet something always breaks)"
+    
+    # 📝 DevOps Survival Notes:
+    # - Tabs > Spaces. Forever.
+    # - Trunk-based dev = no messy branches.
+    # - Real DevOps happens in Vim.
+    # - Kubernetes will break at the worst possible moment.
+    # - Deploying at night is an extreme sport.
+    
+    # Done! Now go build something awesome. 🚀
+    `,
   });
 
   const [typedCommand, setTypedCommand] = useState("");
@@ -102,12 +129,12 @@ status:
   // Lock body scroll when terminal is open
   useEffect(() => {
     if (isOpen) {
-      document.body.style.overflow = 'hidden';
+      document.body.style.overflow = "hidden";
     } else {
-      document.body.style.overflow = 'unset';
+      document.body.style.overflow = "unset";
     }
     return () => {
-      document.body.style.overflow = 'unset';
+      document.body.style.overflow = "unset";
     };
   }, [isOpen]);
 
@@ -118,7 +145,7 @@ status:
   };
 
   return (
-    <div 
+    <div
       className={cn(
         "fixed inset-0 z-[100]",
         "flex items-center justify-center",
@@ -137,16 +164,16 @@ status:
       />
 
       {/* Terminal Window */}
-      <motion.div 
+      <motion.div
         initial={{ opacity: 0, scale: 0.95, y: 20 }}
-        animate={{ 
+        animate={{
           opacity: isOpen ? 1 : 0,
           scale: isOpen ? 1 : 0.95,
-          y: isOpen ? 0 : 20
+          y: isOpen ? 0 : 20,
         }}
-        transition={{ 
+        transition={{
           duration: 0.2,
-          ease: "easeOut"
+          ease: "easeOut",
         }}
         className={cn(
           "relative w-[95vw] h-[90vh]", // Increased size for mobile
@@ -161,7 +188,7 @@ status:
         {/* Terminal Header */}
         <div className="flex items-center p-3 border-b border-gray-700 bg-gray-900 rounded-t-lg">
           <div className="flex gap-1.5">
-            <button 
+            <button
               onClick={(e) => {
                 e.stopPropagation();
                 onClose();
@@ -171,9 +198,7 @@ status:
             <div className="w-3 h-3 rounded-full bg-yellow-500" />
             <div className="w-3 h-3 rounded-full bg-green-500" />
           </div>
-          <div className="flex-1 text-center text-sm text-gray-400">
-            bash
-          </div>
+          <div className="flex-1 text-center text-sm text-gray-400">bash</div>
           <div className="w-16" /> {/* Spacer for alignment */}
         </div>
 
