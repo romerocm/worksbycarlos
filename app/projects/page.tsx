@@ -129,11 +129,11 @@ export default function Projects() {
                       fill
                       className="object-cover transition-all duration-500 group-hover:scale-110"
                     />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent opacity-60 transition-opacity duration-300 group-hover:opacity-40" />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/95 via-black/60 to-black/20 opacity-85 transition-opacity duration-300 group-hover:opacity-75" />
                     <div className="absolute inset-0 p-6 flex flex-col justify-between transform transition-all duration-300 group-hover:translate-y-[-5px]">
                       <div className="flex items-start justify-between">
-                        <div>
-                          <h3 className="font-medium text-white mb-2">
+                        <div className="backdrop-blur-sm bg-black/20 rounded-lg p-3">
+                          <h3 className="font-medium text-white mb-2 drop-shadow-lg">
                             {study.client}
                           </h3>
                           <div className="flex flex-wrap gap-2">
@@ -141,7 +141,7 @@ export default function Projects() {
                               <Badge
                                 key={tag}
                                 variant="outline"
-                                className="text-white border-white/20 bg-white/5 hover:bg-white/10 transition-colors duration-300"
+                                className="text-white border-white/20 bg-black/40 hover:bg-black/60 transition-colors duration-300"
                               >
                                 {tag}
                               </Badge>
@@ -149,37 +149,37 @@ export default function Projects() {
                           </div>
                         </div>
                         {study.funding && (
-                          <div className="text-right">
-                            <div className="text-2xl font-bold text-white">
+                          <div className="text-right backdrop-blur-sm bg-black/20 rounded-lg p-3">
+                            <div className="text-2xl font-bold text-white drop-shadow-lg">
                               {study.funding}
                             </div>
-                            <div className="text-sm text-white/60">
+                            <div className="text-sm text-white/60 drop-shadow-lg">
                               in funding
                             </div>
                           </div>
                         )}
                       </div>
-                      <div>
-                        <h2 className="text-xl md:text-2xl font-bold text-white mb-2">
+                      <div className="backdrop-blur-sm bg-black/25 rounded-lg p-4">
+                        <h2 className="text-xl md:text-2xl font-bold text-white mb-2 drop-shadow-lg">
                           {study.title}
                         </h2>
-                        <p className="text-white/80">{study.description}</p>
+                        <p className="text-white/90 drop-shadow-md">{study.description}</p>
                       </div>
                     </div>
                   </div>
                   <div className="p-6 flex items-center justify-between text-white backdrop-blur-sm bg-black/20 transition-all duration-300 group-hover:bg-black/30">
                     <div className="flex items-center gap-6">
                       <div className="text-sm">
-                        <div className="text-white/60 font-medium uppercase tracking-wider text-xs mb-1">
+                        <div className="text-white/60 font-medium uppercase tracking-wider text-xs mb-1 drop-shadow-sm">
                           Year
                         </div>
-                        <div className="font-semibold">{study.year}</div>
+                        <div className="font-semibold drop-shadow-sm">{study.year}</div>
                       </div>
                       <div className="text-sm">
-                        <div className="text-white/60 font-medium uppercase tracking-wider text-xs mb-1">
+                        <div className="text-white/60 font-medium uppercase tracking-wider text-xs mb-1 drop-shadow-sm">
                           Stack
                         </div>
-                        <div className="font-semibold">
+                        <div className="font-semibold drop-shadow-sm">
                           {study.stack.join(" · ")}
                         </div>
                       </div>

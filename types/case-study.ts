@@ -36,7 +36,7 @@ export const caseStudies: CaseStudy[] = [
     scope: ["Infrastructure as Code", "CI/CD Automation", "Security Hardening"],
     stack: ["AWS ECS", "Terraform", "GitHub Actions", "Docker"],
     industry: ["Healthcare", "EdTech", "Professional Services"],
-    thumbnail: "/assets/images/cezoom-cover.png",
+    thumbnail: "/assets/images/ce-zoom-cover.png",
     results: [
       {
         title: "Infrastructure as Code Migration",
