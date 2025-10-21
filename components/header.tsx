@@ -115,8 +115,8 @@ export function Header() {
     <header className="fixed top-0 left-0 right-0 z-50 transition-all duration-300 ease-in-out backdrop-blur-xl backdrop-saturate-150 border-b border-gray-200/10 overflow-hidden">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <nav className="flex items-center h-16">
-          {/* Logo */}
-          <Link href="/" className="flex items-center mr-8">
+          {/* Desktop Logo */}
+          <Link href="/" className="hidden md:flex items-center mr-8">
             <img 
               src="/assets/images/logo-wbc.svg" 
               alt="WorksByCarlos" 
@@ -143,22 +143,38 @@ export function Header() {
             ))}
           </div>
 
-          <div className="flex items-center justify-between w-full md:w-auto">
-            {/* Mobile Logo */}
-            <Link href="/" className="flex items-center md:hidden">
-              <img 
-                src="/assets/images/logo-wbc.svg" 
-                alt="WorksByCarlos" 
-                className="w-8 h-8 hover:scale-110 transition-transform duration-200"
-              />
-            </Link>
-
-            {/* Mobile Menu Toggle */}
-            <Button variant="ghost" size="icon" className={`md:hidden ${isDarkSection ? 'text-white hover:text-white' : ''}`} onClick={() => setIsOpen(!isOpen)}>
+          {/* Mobile Layout: Menu - Logo - Theme */}
+          <div className="flex items-center justify-between w-full md:hidden">
+            {/* Mobile Menu Toggle - Left */}
+            <Button variant="ghost" size="icon" className={`${isDarkSection ? 'text-white hover:text-white' : ''}`} onClick={() => setIsOpen(!isOpen)}>
               {isOpen ? <X className="h-6 w-6" /> : <Ellipsis className="h-6 w-6" />}
               <span className="sr-only">Toggle menu</span>
             </Button>
 
+            {/* Mobile Logo - Center */}
+            <Link href="/" className="flex items-center">
+              <img 
+                src="/assets/images/logo-wbc-rect.svg" 
+                alt="WorksByCarlos" 
+                className="h-8 w-auto hover:scale-110 transition-transform duration-200"
+              />
+            </Link>
+
+            {/* Theme Toggle - Right */}
+            <Button
+              variant="ghost"
+              size="icon"
+              onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
+              className={`rounded-full ${isDarkSection ? 'text-white hover:text-white' : ''}`}
+            >
+              <Sun className="h-[1.2rem] w-[1.2rem] rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />
+              <Moon className="absolute h-[1.2rem] w-[1.2rem] rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" />
+              <span className="sr-only">Toggle theme</span>
+            </Button>
+          </div>
+
+          {/* Desktop Theme Toggle */}
+          <div className="hidden md:block">
             <Button
               variant="ghost"
               size="icon"
