@@ -217,8 +217,9 @@ export default function Home() {
     target: ref,
     offset: ["start start", "end start"],
   });
-  const y = useTransform(scrollYProgress, [0, 1], ["0%", "50%"]);
-  const opacity = useTransform(scrollYProgress, [0, 1], [1, 0]);
+  // Removed scroll transforms to fix overlay issue when scrolling
+  // const y = useTransform(scrollYProgress, [0, 1], ["0%", "50%"]);
+  // const opacity = useTransform(scrollYProgress, [0, 1], [1, 0]);
   const [isTerminalOpen, setIsTerminalOpen] = useState(false);
   const [showTooltip, setShowTooltip] = useState(false);
 
@@ -243,7 +244,6 @@ export default function Home() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
             className="col-span-1 md:col-span-2 lg:col-span-2 row-span-2"
-            style={{ y, opacity }}
           >
             <Card className="p-8 bg-[#7B68EE] dark:bg-[#5B4BC5] text-white h-full relative overflow-hidden group">
               <div className="relative z-10">
