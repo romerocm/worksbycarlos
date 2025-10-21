@@ -173,6 +173,19 @@ export default function Home() {
   const [showTooltip, setShowTooltip] = useState(false);
   const profileCardRef = useRef<HTMLDivElement>(null);
 
+  // Footer state
+  const [showFooter, setShowFooter] = useState(false);
+  const [currentMessageIndex, setCurrentMessageIndex] = useState(0);
+
+  // Footer messages
+  const footerMessages = [
+    "Running on coffee, curiosity, and continuous learning",
+    "Terraforming ideas into real impact",
+    "High availability. Low ego.",
+    "Version: always improving",
+    "Monitoring uptime and meaningful work",
+  ];
+
   useEffect(() => {
     const timer = setTimeout(() => {
       setShowTooltip(true);
@@ -180,6 +193,38 @@ export default function Home() {
 
     return () => clearTimeout(timer);
   }, []);
+
+  // Footer scroll detection - only show at bottom of page
+  useEffect(() => {
+    const handleScroll = () => {
+      const scrollTop = window.scrollY;
+      const windowHeight = window.innerHeight;
+      const docHeight = document.documentElement.scrollHeight;
+      
+      // Show footer when user is within 100px of the bottom
+      const isNearBottom = scrollTop + windowHeight >= docHeight - 100;
+      setShowFooter(isNearBottom);
+    };
+
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    
+    // Initial check
+    handleScroll();
+    
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  // Footer message cycling
+  useEffect(() => {
+    if (showFooter) {
+      const interval = setInterval(() => {
+        setCurrentMessageIndex((prev) => (prev + 1) % footerMessages.length);
+      }, 3500);
+
+      return () => clearInterval(interval);
+    }
+  }, [showFooter, footerMessages.length]);
+
 
   return (
     <div className="min-h-screen bg-background/50 relative" ref={ref}>
@@ -790,6 +835,34 @@ export default function Home() {
           </motion.div>
         </div>
       </main>
+
+      {/* Dynamic Footer */}
+      <motion.footer
+        initial={{ y: "100%" }}
+        animate={{ y: showFooter ? "0%" : "100%" }}
+        transition={{
+          type: "spring",
+          stiffness: 100,
+          damping: 20,
+          duration: 0.7,
+        }}
+        className="fixed bottom-0 left-0 right-0 z-40 bg-gray-900/95 backdrop-blur-sm border-t border-gray-800/50"
+      >
+        <div className="container mx-auto px-4 py-4">
+          <div className="text-center">
+            <motion.p
+              key={currentMessageIndex}
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -10 }}
+              transition={{ duration: 0.5 }}
+              className="text-sm text-gray-300 font-mono"
+            >
+              {footerMessages[currentMessageIndex]}
+            </motion.p>
+          </div>
+        </div>
+      </motion.footer>
     </div>
   );
 }
