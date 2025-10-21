@@ -447,7 +447,7 @@ export default function Home() {
               <div className="flex flex-col h-full">
                 <div>
                   <span className="text-5xl font-bold mb-2 group-hover:scale-110 transition-transform duration-300">
-                    8+
+                    6+
                   </span>
                   <span className="text-lg block">Years XP</span>
                 </div>
