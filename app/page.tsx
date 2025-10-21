@@ -1,7 +1,7 @@
 "use client";
 
 import { useRef, useEffect, useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion } from "framer-motion";
 import { Header } from "@/components/header";
 import { Card } from "@/components/ui/card";
 import {
@@ -15,26 +15,10 @@ import {
   Zap,
   MapPin,
 } from "lucide-react";
-import { Button } from "@/components/ui/button";
 import Image from "next/image";
 import Link from "next/link";
-import { TerminalPopup } from "@/components/terminal-popup";
+import { InteractiveTerminal } from "@/components/interactive-terminal";
 
-const PinkTerminalIcon = () => (
-  <svg
-    viewBox="0 0 24 24"
-    width="24"
-    height="24"
-    stroke="#FF79C6"
-    strokeWidth="2"
-    fill="none"
-    strokeLinecap="round"
-    strokeLinejoin="round"
-  >
-    <polyline points="4 17 10 11 4 5"></polyline>
-    <line x1="12" y1="19" x2="20" y2="19"></line>
-  </svg>
-);
 
 function ParticleEffect() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -169,41 +153,22 @@ const TypewriterEffect = ({ text }: { text: string }) => {
 
 export default function Home() {
   const ref = useRef(null);
-  const [isTerminalOpen, setIsTerminalOpen] = useState(false);
-  const [showTooltip, setShowTooltip] = useState(false);
   const profileCardRef = useRef<HTMLDivElement>(null);
 
-  // Footer state
-  const [showFooter, setShowFooter] = useState(false);
-  const [currentMessageIndex, setCurrentMessageIndex] = useState(0);
+  // Interactive Terminal state
+  const [showTerminal, setShowTerminal] = useState(false);
 
-  // Footer messages
-  const footerMessages = [
-    "Running on coffee, curiosity, and continuous learning",
-    "Terraforming ideas into real impact",
-    "High availability. Low ego.",
-    "Version: always improving",
-    "Monitoring uptime and meaningful work",
-  ];
 
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      setShowTooltip(true);
-    }, 2000);
-
-    return () => clearTimeout(timer);
-  }, []);
-
-  // Footer scroll detection - only show at bottom of page
+  // Terminal scroll detection - only show at bottom of page
   useEffect(() => {
     const handleScroll = () => {
       const scrollTop = window.scrollY;
       const windowHeight = window.innerHeight;
       const docHeight = document.documentElement.scrollHeight;
       
-      // Show footer when user is within 100px of the bottom
+      // Show terminal when user is within 100px of the bottom
       const isNearBottom = scrollTop + windowHeight >= docHeight - 100;
-      setShowFooter(isNearBottom);
+      setShowTerminal(isNearBottom);
     };
 
     window.addEventListener('scroll', handleScroll, { passive: true });
@@ -214,16 +179,6 @@ export default function Home() {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  // Footer message cycling
-  useEffect(() => {
-    if (showFooter) {
-      const interval = setInterval(() => {
-        setCurrentMessageIndex((prev) => (prev + 1) % footerMessages.length);
-      }, 3500);
-
-      return () => clearInterval(interval);
-    }
-  }, [showFooter, footerMessages.length]);
 
 
   return (
@@ -553,63 +508,11 @@ export default function Home() {
                     <h3 className="text-2xl md:text-3xl font-bold mb-1">
                       My Tech Stack
                     </h3>
-                    <div className="relative">
-                      <AnimatePresence>
-                        {showTooltip && (
-                          <motion.div
-                            initial={{ opacity: 0, y: -10 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            exit={{ opacity: 0, y: -20 }}
-                            className="absolute top-full right-0 mt-2 w-48 p-2 bg-white dark:bg-gray-800 text-black dark:text-white text-sm rounded-lg shadow-lg border border-border z-50 cursor-pointer"
-                            style={{
-                              filter: "drop-shadow(0 0 8px rgba(0,0,0,0.1))",
-                            }}
-                            onClick={() => setShowTooltip(false)}
-                          >
-                            <div className="relative">
-                              Click the pink terminal icon to see my favorite
-                              tools! 🚀
-                            </div>
-                          </motion.div>
-                        )}
-                      </AnimatePresence>
-                      <motion.div
-                        whileHover={{ scale: 1.1 }}
-                        whileTap={{ scale: 0.95 }}
-                      >
-                        <Button
-                          variant="ghost"
-                          size="icon"
-                          className="text-white/70 hover:text-white hover:bg-white/20 relative touch-manipulation cursor-pointer border border-white/20 hover:border-white/40 transition-all duration-300"
-                          onClick={() => {
-                            setIsTerminalOpen(true);
-                            setShowTooltip(false);
-                          }}
-                        >
-                          <motion.div
-                            animate={{
-                              scale: [1, 1.2, 1],
-                            }}
-                            transition={{
-                              duration: 2,
-                              repeat: Infinity,
-                              repeatType: "reverse",
-                            }}
-                          >
-                            <PinkTerminalIcon />
-                          </motion.div>
-                        </Button>
-                      </motion.div>
-                    </div>
                   </div>
                   <p className="text-sm md:text-base opacity-80">
                     Tools I use to build reliable, scalable solutions
                   </p>
 
-                  <TerminalPopup
-                    isOpen={isTerminalOpen}
-                    onClose={() => setIsTerminalOpen(false)}
-                  />
                 </div>
 
                 {/* Interactive Tech Cloud - Responsive design */}
@@ -836,33 +739,11 @@ export default function Home() {
         </div>
       </main>
 
-      {/* Dynamic Footer */}
-      <motion.footer
-        initial={{ y: "100%" }}
-        animate={{ y: showFooter ? "0%" : "100%" }}
-        transition={{
-          type: "spring",
-          stiffness: 100,
-          damping: 20,
-          duration: 0.7,
-        }}
-        className="fixed bottom-0 left-0 right-0 z-40 bg-gray-900/95 backdrop-blur-sm border-t border-gray-800/50"
-      >
-        <div className="container mx-auto px-4 py-4">
-          <div className="text-center">
-            <motion.p
-              key={currentMessageIndex}
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -10 }}
-              transition={{ duration: 0.5 }}
-              className="text-sm text-gray-300 font-mono"
-            >
-              {footerMessages[currentMessageIndex]}
-            </motion.p>
-          </div>
-        </div>
-      </motion.footer>
+      {/* Interactive Terminal */}
+      <InteractiveTerminal 
+        isVisible={showTerminal} 
+        onClose={() => setShowTerminal(false)} 
+      />
     </div>
   );
 }
