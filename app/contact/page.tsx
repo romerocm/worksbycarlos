@@ -89,10 +89,11 @@ export default function Contact() {
       id: "cloud",
       type: "bot",
       content: {
-        question: "I specialize in AWS, GCP, and Azure, focusing on scalable, secure, and cost-effective cloud solutions. Want to explore other services?",
+        question:
+          "I specialize in AWS, GCP, and Azure, focusing on scalable, secure, and cost-effective cloud solutions. Want to explore other services?",
         options: [
           "DevOps Automation",
-          "Platform Engineering", 
+          "Platform Engineering",
           "Security Implementation",
           "← Back to main questions",
         ],
@@ -102,7 +103,8 @@ export default function Contact() {
       id: "devops",
       type: "bot",
       content: {
-        question: "I can help automate your development workflow using tools like GitHub Actions, GitLab CI, and Jenkins. Interested in other services?",
+        question:
+          "I can help automate your development workflow using tools like GitHub Actions, GitLab CI, and Jenkins. Interested in other services?",
         options: [
           "Cloud Infrastructure",
           "Platform Engineering",
@@ -115,7 +117,8 @@ export default function Contact() {
       id: "platform",
       type: "bot",
       content: {
-        question: "I build robust platforms using Kubernetes, service mesh, and modern observability tools. Want to know about other services?",
+        question:
+          "I build robust platforms using Kubernetes, service mesh, and modern observability tools. Want to know about other services?",
         options: [
           "Cloud Infrastructure",
           "DevOps Automation",
@@ -128,7 +131,8 @@ export default function Contact() {
       id: "security",
       type: "bot",
       content: {
-        question: "Security is crucial. I implement zero-trust architectures, IAM policies, and compliance frameworks to keep your systems secure. Curious about other services?",
+        question:
+          "Security is crucial. I implement zero-trust architectures, IAM policies, and compliance frameworks to keep your systems secure. Curious about other services?",
         options: [
           "Cloud Infrastructure",
           "DevOps Automation",
@@ -157,26 +161,27 @@ export default function Contact() {
 
   const scrollToBottom = () => {
     if (messagesEndRef.current) {
-      messagesEndRef.current.scrollIntoView({ 
+      messagesEndRef.current.scrollIntoView({
         behavior: "smooth",
         block: "nearest", // Changed from "end" to "nearest" to prevent page scroll
-        inline: "nearest"
+        inline: "nearest",
       });
     }
   };
 
   const scrollToActiveComponent = () => {
     if (activeComponentRef.current) {
-      const header = document.querySelector('header');
+      const header = document.querySelector("header");
       const headerHeight = header?.offsetHeight || 0;
       const yOffset = -headerHeight - 20; // Additional 20px padding
-      
+
       const element = activeComponentRef.current;
-      const y = element.getBoundingClientRect().top + window.pageYOffset + yOffset;
-      
+      const y =
+        element.getBoundingClientRect().top + window.pageYOffset + yOffset;
+
       window.scrollTo({
         top: y,
-        behavior: "smooth"
+        behavior: "smooth",
       });
     }
   };
@@ -235,10 +240,16 @@ export default function Contact() {
 
   const handleMethodSelect = (method: ContactMethod) => {
     setActiveMethod(method);
-    
+
     toast({
-      title: `Opening ${method === 'form' ? 'message form' : method === 'call' ? 'calendar' : 'chat'}`,
-      duration: 1000
+      title: `Opening ${
+        method === "form"
+          ? "message form"
+          : method === "call"
+          ? "calendar"
+          : "chat"
+      }`,
+      duration: 1000,
     });
   };
 
@@ -318,7 +329,9 @@ export default function Contact() {
                       activeMethod === method.id && "border-primary shadow-lg",
                       "flex flex-col justify-between"
                     )}
-                    onClick={() => handleMethodSelect(method.id as ContactMethod)}
+                    onClick={() =>
+                      handleMethodSelect(method.id as ContactMethod)
+                    }
                   >
                     <div className="flex items-center gap-4 mb-4">
                       <div className="p-2 rounded-lg bg-primary/10">
@@ -386,7 +399,9 @@ export default function Contact() {
                         <div className="w-3 h-3 rounded-full bg-green-500 mr-2 animate-pulse"></div>
                         <p className="text-lg">Available for calls</p>
                       </div>
-                      <p className="text-lg">New spots open for {currentMonth}</p>
+                      <p className="text-lg">
+                        New spots open for {currentMonth}
+                      </p>
                     </div>
                     <div className="w-full">
                       <Cal
@@ -430,7 +445,7 @@ export default function Contact() {
                                 <div className="flex gap-2 max-w-[80%]">
                                   <div className="w-8 h-8 rounded-full overflow-hidden flex-shrink-0">
                                     <Image
-                                      src="/assets/images/profile.jpeg"
+                                      src="/assets/images/profile.png"
                                       alt="Carlos"
                                       width={32}
                                       height={32}
@@ -464,17 +479,25 @@ export default function Contact() {
 
                     {/* Question Options Sidebar - Right Side */}
                     <Card className="p-4 backdrop-blur-xl backdrop-saturate-150 bg-background/90 border-border/20">
-                      <h3 className="font-semibold mb-4 text-center">Quick Questions</h3>
+                      <h3 className="font-semibold mb-4 text-center">
+                        Quick Questions
+                      </h3>
                       <div className="space-y-3">
-                        {messages.length > 0 && 
-                         messages[messages.length - 1].type === "bot" && 
-                         typeof messages[messages.length - 1].content === "object" ? (
+                        {messages.length > 0 &&
+                        messages[messages.length - 1].type === "bot" &&
+                        typeof messages[messages.length - 1].content ===
+                          "object" ? (
                           // Show current question options
                           <>
                             <p className="text-sm text-muted-foreground mb-4">
-                              {(messages[messages.length - 1].content as any).question}
+                              {
+                                (messages[messages.length - 1].content as any)
+                                  .question
+                              }
                             </p>
-                            {(messages[messages.length - 1].content as any).options.map((option: string) => (
+                            {(
+                              messages[messages.length - 1].content as any
+                            ).options.map((option: string) => (
                               <Button
                                 key={option}
                                 variant="outline"
@@ -491,17 +514,20 @@ export default function Contact() {
                             <p className="text-sm text-muted-foreground mb-4">
                               What would you like to know?
                             </p>
-                            {initialQuestion.content && typeof initialQuestion.content === "object" &&
-                             (initialQuestion.content as any).options.map((option: string) => (
-                              <Button
-                                key={option}
-                                variant="outline"
-                                className="w-full justify-start text-left h-auto py-3 px-4"
-                                onClick={() => handleOptionClick(option)}
-                              >
-                                {option}
-                              </Button>
-                            ))}
+                            {initialQuestion.content &&
+                              typeof initialQuestion.content === "object" &&
+                              (initialQuestion.content as any).options.map(
+                                (option: string) => (
+                                  <Button
+                                    key={option}
+                                    variant="outline"
+                                    className="w-full justify-start text-left h-auto py-3 px-4"
+                                    onClick={() => handleOptionClick(option)}
+                                  >
+                                    {option}
+                                  </Button>
+                                )
+                              )}
                           </>
                         )}
                       </div>
@@ -538,7 +564,7 @@ export default function Contact() {
                       <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22" />
                     </svg>
                   ),
-                  label: "GitHub"
+                  label: "GitHub",
                 },
                 {
                   href: "https://linkedin.com/in/romerocm",
@@ -557,13 +583,13 @@ export default function Contact() {
                       <circle cx="4" cy="4" r="2" />
                     </svg>
                   ),
-                  label: "LinkedIn"
+                  label: "LinkedIn",
                 },
                 {
                   href: "https://vimistudio.com",
                   icon: ExternalLink,
-                  label: "Vimi Studio"
-                }
+                  label: "Vimi Studio",
+                },
               ].map((link) => (
                 <Button
                   key={link.href}
