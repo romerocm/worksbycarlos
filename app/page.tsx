@@ -1,7 +1,12 @@
 "use client";
 
 import { useRef, useEffect, useState } from "react";
-import { motion, useScroll, useTransform, AnimatePresence } from "framer-motion";
+import {
+  motion,
+  useScroll,
+  useTransform,
+  AnimatePresence,
+} from "framer-motion";
 import { Header } from "@/components/header";
 import { Card } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
@@ -103,10 +108,16 @@ function ParticleEffect() {
     const canvas = canvasRef.current;
     if (!canvas) return;
 
-    const ctx = canvas.getContext('2d');
+    const ctx = canvas.getContext("2d");
     if (!ctx) return;
 
-    let particles: { x: number; y: number; dx: number; dy: number; size: number }[] = [];
+    let particles: {
+      x: number;
+      y: number;
+      dx: number;
+      dy: number;
+      size: number;
+    }[] = [];
     let animationFrameId: number;
 
     const resizeCanvas = () => {
@@ -117,7 +128,7 @@ function ParticleEffect() {
     const createParticles = () => {
       particles = [];
       const particleCount = Math.floor(window.innerWidth / 20);
-      
+
       for (let i = 0; i < particleCount; i++) {
         particles.push({
           x: Math.random() * canvas.width,
@@ -131,7 +142,7 @@ function ParticleEffect() {
 
     const drawParticles = () => {
       ctx.clearRect(0, 0, canvas.width, canvas.height);
-      
+
       particles.forEach((particle, i) => {
         particle.x += particle.dx;
         particle.y += particle.dy;
@@ -141,7 +152,7 @@ function ParticleEffect() {
 
         ctx.beginPath();
         ctx.arc(particle.x, particle.y, particle.size, 0, Math.PI * 2);
-        ctx.fillStyle = 'rgba(123, 104, 238, 0.2)';
+        ctx.fillStyle = "rgba(123, 104, 238, 0.2)";
         ctx.fill();
 
         particles.forEach((particle2, j) => {
@@ -152,7 +163,9 @@ function ParticleEffect() {
 
           if (distance < 100) {
             ctx.beginPath();
-            ctx.strokeStyle = `rgba(123, 104, 238, ${0.2 * (1 - distance / 100)})`;
+            ctx.strokeStyle = `rgba(123, 104, 238, ${
+              0.2 * (1 - distance / 100)
+            })`;
             ctx.lineWidth = 0.5;
             ctx.moveTo(particle.x, particle.y);
             ctx.lineTo(particle2.x, particle2.y);
@@ -168,14 +181,14 @@ function ParticleEffect() {
     createParticles();
     drawParticles();
 
-    window.addEventListener('resize', () => {
+    window.addEventListener("resize", () => {
       resizeCanvas();
       createParticles();
     });
 
     return () => {
       cancelAnimationFrame(animationFrameId);
-      window.removeEventListener('resize', resizeCanvas);
+      window.removeEventListener("resize", resizeCanvas);
     };
   }, []);
 
@@ -189,14 +202,14 @@ function ParticleEffect() {
 }
 
 const TypewriterEffect = ({ text }: { text: string }) => {
-  const [displayText, setDisplayText] = useState('');
+  const [displayText, setDisplayText] = useState("");
   const [currentIndex, setCurrentIndex] = useState(0);
 
   useEffect(() => {
     if (currentIndex < text.length) {
       const timeout = setTimeout(() => {
-        setDisplayText(prev => prev + text[currentIndex]);
-        setCurrentIndex(prev => prev + 1);
+        setDisplayText((prev) => prev + text[currentIndex]);
+        setCurrentIndex((prev) => prev + 1);
       }, 100);
 
       return () => clearTimeout(timeout);
@@ -262,7 +275,7 @@ export default function Home() {
                     </div>
                   </div>
                 </div>
-                <motion.h1 
+                <motion.h1
                   className="text-5xl font-bold mb-4 text-center"
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
@@ -279,21 +292,21 @@ export default function Home() {
                 </div>
               </div>
               <div className="absolute inset-0 bg-gradient-to-br from-transparent to-black/20" />
-              
+
               {/* Interactive elements */}
-              <motion.div 
+              <motion.div
                 className="absolute top-4 right-4 text-white/60"
                 whileHover={{ scale: 1.1 }}
               >
                 <Sparkles className="w-6 h-6" />
               </motion.div>
-              <motion.div 
+              <motion.div
                 className="absolute bottom-4 left-4 text-white/60"
                 whileHover={{ scale: 1.1 }}
               >
                 <Terminal className="w-6 h-6" />
               </motion.div>
-              <motion.div 
+              <motion.div
                 className="absolute bottom-4 right-4 text-white/60"
                 whileHover={{ scale: 1.1 }}
               >
@@ -404,8 +417,8 @@ export default function Home() {
                             }}
                           >
                             <div className="relative">
-                              Click to see my favorite tools! 🚀
-                              <div className="absolute w-3 h-3 bg-white dark:bg-gray-800 border-t border-r border-border rotate-45 -bottom-[7px] right-6 transform" />
+                              Click the pink terminal icon to see my favorite
+                              tools! 🚀
                             </div>
                           </motion.div>
                         )}
@@ -417,7 +430,7 @@ export default function Home() {
                         <Button
                           variant="ghost"
                           size="icon"
-                          className="text-white/70 hover:text-white hover:bg-white/10 relative touch-manipulation"
+                          className="text-white/70 hover:text-white hover:bg-white/20 relative touch-manipulation cursor-pointer border border-white/20 hover:border-white/40 transition-all duration-300"
                           onClick={() => {
                             setIsTerminalOpen(true);
                             setShowTooltip(false);
@@ -443,7 +456,7 @@ export default function Home() {
                     Don't try this in production (or do, I'm not your dad)
                   </p>
 
-                  <TerminalPopup 
+                  <TerminalPopup
                     isOpen={isTerminalOpen}
                     onClose={() => setIsTerminalOpen(false)}
                   />
