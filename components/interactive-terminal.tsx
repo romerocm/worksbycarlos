@@ -755,8 +755,7 @@ ${matches.map((match) => `  ${match}`).join("\n")}`
               transition={{ duration: 0.5 }}
               className="text-sm text-gray-300 font-mono"
             >
-              <PinkTerminalIcon /> Click to open Interactive Terminal Try: curl,
-              help, vim...
+              <PinkTerminalIcon /> Click to Open Terminal
             </motion.p>
           </div>
         </div>
