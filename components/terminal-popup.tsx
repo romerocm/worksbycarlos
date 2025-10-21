@@ -9,9 +9,23 @@ interface TerminalPopupProps {
 }
 
 export function TerminalPopup({ isOpen, onClose }: TerminalPopupProps) {
+  const [isDesktop, setIsDesktop] = useState(false);
+
+  // Check if we're on desktop
+  useEffect(() => {
+    const checkIsDesktop = () => {
+      setIsDesktop(window.innerWidth >= 768); // md breakpoint
+    };
+    
+    checkIsDesktop();
+    window.addEventListener('resize', checkIsDesktop);
+    
+    return () => window.removeEventListener('resize', checkIsDesktop);
+  }, []);
+
   const [content] = useState({
     command: "curl https://worksbycarlos.com/api/stack | jq",
-    output: `# 🚀 My DevOps Favorites (scroll down for REAL curl commands!)
+    output: `# 🚀 My DevOps Favorites${isDesktop ? ' (scroll down for REAL curl commands!)' : ''}
     tools:
       - name: Kubernetes
         type: Container Orchestration
@@ -45,7 +59,7 @@ export function TerminalPopup({ isOpen, onClose }: TerminalPopupProps) {
       coding_time: "🌙 Night Owl Mode (Best ideas happen after midnight)"
       editor_of_choice: "Vim (Because real DevOps engineers use terminal)"
       vim_exit_attempts: "0 (I know what I'm doing)"
-      docker_containers_running: "Yes (There’s always a test environment somewhere)"
+      docker_containers_running: "Yes (There's always a test environment somewhere)"
       kubernetes_pods: "Balanced (or at least I tell myself that)"
       terraform_state: "Remote (Where it belongs)"
       git_branches: "Clean (A PR should have an expiration date)"
@@ -87,7 +101,7 @@ export function TerminalPopup({ isOpen, onClose }: TerminalPopupProps) {
     # - Trunk-based dev = no messy branches.
     # - Real DevOps happens in Vim.
     # - Kubernetes will break at the worst possible moment.
-    # - Deploying at night is an extreme sport.
+    # - Deploying at night is an extreme sport.${isDesktop ? `
     
     ################################################################################
     #                                                                              #
@@ -111,7 +125,7 @@ export function TerminalPopup({ isOpen, onClose }: TerminalPopupProps) {
     
     ################################################################################
     # 💡 Pro tip: The APIs detect curl and give you special messages! 😉           #
-    ################################################################################
+    ################################################################################` : ''}
     
     # Done! Now go build something awesome. 🚀
     `,
@@ -152,9 +166,10 @@ export function TerminalPopup({ isOpen, onClose }: TerminalPopupProps) {
         return (
           <div key={index} className="flex items-center group hover:bg-gray-800 rounded p-1 transition-colors">
             <span className="flex-1">{line}</span>
+            {/* Only show copy button on desktop */}
             <button
               onClick={() => copyCommand(curlCommand)}
-              className="ml-2 p-1 opacity-0 group-hover:opacity-100 transition-opacity hover:bg-gray-700 rounded flex items-center gap-1 text-xs"
+              className="ml-2 p-1 opacity-0 group-hover:opacity-100 transition-opacity hover:bg-gray-700 rounded items-center gap-1 text-xs hidden md:flex"
               title="Click to copy command"
             >
               {copiedCommands[curlCommand] ? (
