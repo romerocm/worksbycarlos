@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
 import { ThemeProvider } from "@/components/theme-provider"
+import { siteConfig } from '@/lib/config'
 import './globals.css'
 
 // Optimize font loading
@@ -12,8 +13,8 @@ const inter = Inter({
 })
 
 export const metadata: Metadata = {
-  title: 'WorksbyCarlos | Scalable Infrastructure. Reliable Systems.',
-  description: 'Personal portfolio of Carlos, a visionary technology leader specializing in DevOps, platform engineering, and infrastructure automation in the health sector.',
+  title: `${siteConfig.site.name} | ${siteConfig.site.tagline}`,
+  description: siteConfig.site.description,
 }
 
 export default function RootLayout({
