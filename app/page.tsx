@@ -1,31 +1,20 @@
 "use client";
 
 import { useRef, useEffect, useState } from "react";
-import {
-  motion,
-  useScroll,
-  useTransform,
-  AnimatePresence,
-} from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import { Header } from "@/components/header";
 import { Card } from "@/components/ui/card";
-import { cn } from "@/lib/utils";
 import {
   Play,
   Award,
   Briefcase,
-  ArrowUpRight,
-  Layout,
-  Cloud,
-  Palette,
-  Code,
   Coffee,
   Pizza,
   Sparkles,
   Terminal,
   Zap,
+  MapPin,
 } from "lucide-react";
-import { FC } from "react";
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
 import Link from "next/link";
@@ -47,60 +36,6 @@ const PinkTerminalIcon = () => (
   </svg>
 );
 
-interface ServiceCardProps {
-  icon: FC<{ className?: string }>;
-  title: string;
-  description: string;
-  delay: number;
-}
-
-const ServiceCard: FC<ServiceCardProps> = ({
-  icon: Icon,
-  title,
-  description,
-  delay,
-}) => {
-  const [isHovered, setIsHovered] = useState(false);
-
-  return (
-    <motion.div
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.6, delay }}
-      className="relative group h-full"
-      onHoverStart={() => setIsHovered(true)}
-      onHoverEnd={() => setIsHovered(false)}
-    >
-      <div className="absolute inset-0 bg-gradient-to-r from-primary/20 to-primary/10 rounded-2xl blur-xl group-hover:blur-2xl transition-all duration-300 opacity-0 group-hover:opacity-100"></div>
-      <motion.div
-        className="relative bg-background border border-primary/10 p-6 rounded-2xl transition-all duration-300 group-hover:shadow-lg group-hover:shadow-primary/20 group-hover:-translate-y-1 h-full flex flex-col"
-        whileHover={{ scale: 1.05 }}
-        transition={{ type: "spring", stiffness: 300, damping: 20 }}
-      >
-        <motion.div
-          className="w-16 h-16 mx-auto mb-6 rounded-2xl bg-primary/10 flex items-center justify-center"
-          animate={isHovered ? { rotate: 360 } : {}}
-          transition={{ duration: 0.6 }}
-        >
-          <Icon className="w-8 h-8 text-primary" />
-        </motion.div>
-        <div className="flex-grow">
-          <h3 className="text-xl font-bold mb-3">{title}</h3>
-          <p className="text-muted-foreground">{description}</p>
-        </div>
-        <motion.div
-          className="absolute bottom-4 right-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
-          initial={{ scale: 0 }}
-          animate={{ scale: 1 }}
-          transition={{ delay: 0.2 }}
-        >
-          <ArrowUpRight className="w-6 h-6 text-primary" />
-        </motion.div>
-      </motion.div>
-    </motion.div>
-  );
-};
-
 function ParticleEffect() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
@@ -109,7 +44,7 @@ function ParticleEffect() {
     if (!canvas) return;
 
     // Disable particles on mobile for performance
-    const isMobile = window.innerWidth < 768;
+    const isMobile = typeof window !== 'undefined' && window.innerWidth < 768;
     if (isMobile) return;
 
     const ctx = canvas.getContext("2d");
@@ -125,14 +60,16 @@ function ParticleEffect() {
     let animationFrameId: number;
 
     const resizeCanvas = () => {
-      canvas.width = window.innerWidth;
-      canvas.height = window.innerHeight;
+      if (typeof window !== 'undefined') {
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+      }
     };
 
     const createParticles = () => {
       particles = [];
       // Reduce particle count for better performance
-      const particleCount = Math.floor(window.innerWidth / 30);
+      const particleCount = typeof window !== 'undefined' ? Math.floor(window.innerWidth / 30) : 20;
 
       for (let i = 0; i < particleCount; i++) {
         particles.push({
@@ -231,36 +168,9 @@ const TypewriterEffect = ({ text }: { text: string }) => {
 
 export default function Home() {
   const ref = useRef(null);
-  const { scrollYProgress } = useScroll({
-    target: ref,
-    offset: ["start start", "end start"],
-  });
   const [isTerminalOpen, setIsTerminalOpen] = useState(false);
   const [showTooltip, setShowTooltip] = useState(false);
-  const [isVisible, setIsVisible] = useState(false);
   const profileCardRef = useRef<HTMLDivElement>(null);
-
-  // Intersection Observer for performance optimization
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          setIsVisible(true);
-        }
-      },
-      { threshold: 0.1 }
-    );
-
-    if (ref.current) {
-      observer.observe(ref.current);
-    }
-
-    return () => {
-      if (ref.current) {
-        observer.unobserve(ref.current);
-      }
-    };
-  }, []);
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -321,17 +231,7 @@ export default function Home() {
 
                 {/* Status indicator */}
                 <div className="flex items-center justify-center gap-2 mb-4 px-4">
-                  <motion.div
-                    animate={{
-                      scale: [1, 1.2, 1],
-                    }}
-                    transition={{
-                      duration: 2,
-                      repeat: Infinity,
-                      repeatType: "reverse",
-                    }}
-                    className="w-2 h-2 bg-green-400 rounded-full flex-shrink-0"
-                  />
+                  <div className="w-2 h-2 bg-green-400 rounded-full flex-shrink-0 shadow-sm shadow-green-400/50 ring-2 ring-green-400/20" />
                   <span className="text-xs sm:text-sm opacity-80 text-center">
                     Available for projects
                   </span>
@@ -419,17 +319,9 @@ export default function Home() {
                 <div className="absolute inset-0 bg-gradient-to-b from-transparent via-black/30 to-black/80" />
                 <div className="absolute bottom-4 left-4 right-4 text-white">
                   <div className="flex items-center gap-2 mb-1">
-                    <motion.div
-                      animate={{
-                        rotate: [0, 360],
-                      }}
-                      transition={{
-                        duration: 20,
-                        repeat: Infinity,
-                        ease: "linear",
-                      }}
-                      className="w-2 h-2 border border-white/70 rounded-full"
-                    />
+                    <div className="flex items-center justify-center">
+                      <MapPin className="w-3 h-3 text-green-400 fill-green-400" />
+                    </div>
                     <span className="text-xs opacity-90">Currently in</span>
                   </div>
                   <h3 className="text-lg font-bold mb-1">
@@ -482,7 +374,7 @@ export default function Home() {
                     </p>
                   </div>
                   <div className="absolute top-3 right-3 opacity-0 group-hover:opacity-100 transition-opacity">
-                    <ArrowUpRight className="w-5 h-5 text-white" />
+                    <Play className="w-5 h-5 text-white" />
                   </div>
                 </div>
               </Card>
@@ -494,7 +386,7 @@ export default function Home() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.4 }}
-            className="col-span-1 md:col-span-1 row-span-1"
+            className="col-span-1 md:col-span-1 row-span-1 order-4 md:order-4"
           >
             <Card className="p-6 bg-[#98FB98] dark:bg-[#2E8B57] h-full group hover:scale-[1.02] transition-all duration-300 relative">
               <div className="flex flex-col h-full">
@@ -521,7 +413,7 @@ export default function Home() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.5 }}
-            className="col-span-1 md:col-span-1 row-span-1"
+            className="col-span-1 md:col-span-1 row-span-1 order-5 md:order-5"
           >
             <Card className="p-6 bg-[#FFB6C1] dark:bg-[#CD5C5C] h-full text-white group hover:scale-[1.02] transition-all duration-300 relative">
               <div className="flex flex-col h-full">
@@ -548,7 +440,7 @@ export default function Home() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.6 }}
-            className="col-span-1 md:col-span-1 row-span-1"
+            className="col-span-1 md:col-span-1 row-span-1 order-6 md:order-6"
           >
             <Card className="p-6 bg-gradient-to-br from-purple-400 via-purple-500 to-purple-600 dark:from-purple-600 dark:via-purple-700 dark:to-purple-800 h-full text-white group hover:scale-[1.02] transition-all duration-300 relative">
               <div className="flex flex-col h-full">
@@ -575,7 +467,7 @@ export default function Home() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.7 }}
-            className="col-span-1 md:col-span-1 row-span-1"
+            className="col-span-1 md:col-span-1 row-span-1 order-7 md:order-7"
           >
             <Link href="/contact">
               <Card className="p-6 bg-gradient-to-br from-orange-300 via-orange-400 to-orange-500 dark:from-orange-400 dark:via-orange-500 dark:to-orange-600 h-full text-white group hover:scale-[1.02] transition-all duration-300 relative cursor-pointer">
@@ -606,26 +498,27 @@ export default function Home() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.8 }}
-            className="col-span-1 md:col-span-4 row-span-1"
+            className="col-span-1 md:col-span-4 row-span-1 order-3 md:order-8"
           >
             <Card className="p-6 bg-gray-900 dark:bg-gray-800 text-white h-full overflow-visible">
               <div className="flex flex-col h-full">
                 <div className="mb-3 relative">
                   <div className="flex items-center justify-between">
                     <h3 className="text-2xl md:text-3xl font-bold mb-1">
-                      curl | bash My Favorites
+                      My Tech Stack
                     </h3>
                     <div className="relative">
                       <AnimatePresence>
                         {showTooltip && (
                           <motion.div
-                            initial={{ opacity: 0, y: 10 }}
+                            initial={{ opacity: 0, y: -10 }}
                             animate={{ opacity: 1, y: 0 }}
-                            exit={{ opacity: 0, y: 10 }}
-                            className="absolute bottom-full right-0 mb-2 w-48 p-2 bg-white dark:bg-gray-800 text-black dark:text-white text-sm rounded-lg shadow-lg border border-border"
+                            exit={{ opacity: 0, y: -20 }}
+                            className="absolute top-full right-0 mt-2 w-48 p-2 bg-white dark:bg-gray-800 text-black dark:text-white text-sm rounded-lg shadow-lg border border-border z-50 cursor-pointer"
                             style={{
                               filter: "drop-shadow(0 0 8px rgba(0,0,0,0.1))",
                             }}
+                            onClick={() => setShowTooltip(false)}
                           >
                             <div className="relative">
                               Click the pink terminal icon to see my favorite
@@ -664,7 +557,7 @@ export default function Home() {
                     </div>
                   </div>
                   <p className="text-sm md:text-base opacity-80">
-                    Don't try this in production (or do, I'm not your dad)
+                    Tools I use to build reliable, scalable solutions
                   </p>
 
                   <TerminalPopup
@@ -674,55 +567,148 @@ export default function Home() {
                 </div>
 
                 {/* Interactive Tech Cloud - Responsive design */}
-                <div className="relative h-24 md:h-32 overflow-hidden">
-                  <div className="absolute inset-0 flex flex-wrap items-center justify-center gap-3 md:gap-6 p-2 md:p-4">
+                <div className="relative h-40 md:h-56 overflow-hidden">
+                  {/* Mobile: Horizontal scroll with auto-scroll and hints */}
+                  <div className="relative md:hidden h-full">
+                    {/* Gradient hints for scrollability */}
+                    <div className="absolute left-0 top-0 bottom-0 w-12 bg-gradient-to-r from-gray-900 to-transparent z-10 pointer-events-none" />
+                    <div className="absolute right-0 top-0 bottom-0 w-12 bg-gradient-to-l from-gray-900 to-transparent z-10 pointer-events-none" />
+
+                    <motion.div
+                      className="flex items-center gap-6 overflow-x-auto px-4 py-6 h-full scroll-smooth"
+                      style={{
+                        scrollbarWidth: "none",
+                        msOverflowStyle: "none",
+                        WebkitOverflowScrolling: "touch",
+                      }}
+                      animate={{
+                        x: [-5, 5, -5],
+                      }}
+                      transition={{
+                        duration: 3,
+                        repeat: Infinity,
+                        repeatType: "reverse",
+                        ease: "easeInOut",
+                      }}
+                    >
+                      {[
+                        {
+                          name: "Kubernetes",
+                          icon: "kubernetes/kubernetes-plain.svg",
+                          size: "w-16 h-16 flex-shrink-0",
+                        },
+                        {
+                          name: "Terraform",
+                          icon: "terraform/terraform-original.svg",
+                          size: "w-14 h-14 flex-shrink-0",
+                        },
+                        {
+                          name: "Docker",
+                          icon: "docker/docker-original.svg",
+                          size: "w-20 h-20 flex-shrink-0",
+                        },
+                        {
+                          name: "Python",
+                          icon: "python/python-original.svg",
+                          size: "w-16 h-16 flex-shrink-0",
+                        },
+                        {
+                          name: "AWS",
+                          icon: "amazonwebservices/amazonwebservices-plain-wordmark.svg",
+                          size: "w-16 h-16 flex-shrink-0",
+                        },
+                        {
+                          name: "Ansible",
+                          icon: "ansible/ansible-plain.svg",
+                          size: "w-14 h-14 flex-shrink-0",
+                        },
+                        {
+                          name: "GitHub",
+                          icon: "github/github-original.svg",
+                          size: "w-14 h-14 flex-shrink-0",
+                        },
+                        {
+                          name: "Nginx",
+                          icon: "nginx/nginx-original.svg",
+                          size: "w-16 h-16 flex-shrink-0",
+                        },
+                      ].map((tech, index) => (
+                        <motion.div
+                          key={`mobile-${tech.name}`}
+                          className="group relative cursor-pointer touch-manipulation"
+                          initial={{ opacity: 0, scale: 0 }}
+                          animate={{ opacity: 1, scale: 1 }}
+                          transition={{ duration: 0.5, delay: index * 0.1 }}
+                          whileHover={{ scale: 1.1 }}
+                          whileTap={{ scale: 1.05 }}
+                        >
+                          <img
+                            src={`https://cdn.jsdelivr.net/gh/devicons/devicon/icons/${tech.icon}`}
+                            className={`${
+                              tech.size
+                            } transition-all duration-300 ${
+                              tech.name === "GitHub" ||
+                              tech.name === "AWS" ||
+                              tech.name === "Ansible"
+                                ? "brightness-0 invert"
+                                : ""
+                            }`}
+                            alt={tech.name}
+                          />
+                        </motion.div>
+                      ))}
+                    </motion.div>
+                  </div>
+
+                  {/* Desktop: Floating animation */}
+                  <div className="absolute inset-0 hidden md:flex md:flex-wrap md:items-center md:justify-start md:gap-6 md:p-4">
                     {[
                       {
                         name: "Kubernetes",
                         icon: "kubernetes/kubernetes-plain.svg",
-                        size: "w-12 h-12 md:w-16 md:h-16",
+                        size: "w-12 h-12 md:w-14 md:h-14",
                         delay: 0,
                       },
                       {
                         name: "Terraform",
                         icon: "terraform/terraform-original.svg",
-                        size: "w-10 h-10 md:w-14 md:h-14",
+                        size: "w-10 h-10 md:w-12 md:h-12",
                         delay: 0.1,
                       },
                       {
                         name: "Docker",
                         icon: "docker/docker-original.svg",
-                        size: "w-14 h-14 md:w-20 md:h-20",
+                        size: "w-14 h-14 md:w-16 md:h-16",
                         delay: 0.2,
                       },
                       {
                         name: "Python",
                         icon: "python/python-original.svg",
-                        size: "w-12 h-12 md:w-16 md:h-16",
+                        size: "w-12 h-12 md:w-14 md:h-14",
                         delay: 0.3,
                       },
                       {
                         name: "AWS",
                         icon: "amazonwebservices/amazonwebservices-plain-wordmark.svg",
-                        size: "w-12 h-12 md:w-18 md:h-18",
+                        size: "w-12 h-12 md:w-16 md:h-16",
                         delay: 0.4,
                       },
                       {
                         name: "Ansible",
-                        icon: "ansible/ansible-original.svg",
-                        size: "w-10 h-10 md:w-14 md:h-14",
+                        icon: "ansible/ansible-plain.svg",
+                        size: "w-10 h-10 md:w-12 md:h-12",
                         delay: 0.5,
                       },
                       {
                         name: "GitHub",
                         icon: "github/github-original.svg",
-                        size: "w-10 h-10 md:w-14 md:h-14",
+                        size: "w-10 h-10 md:w-12 md:h-12",
                         delay: 0.6,
                       },
                       {
                         name: "Nginx",
                         icon: "nginx/nginx-original.svg",
-                        size: "w-12 h-12 md:w-16 md:h-16",
+                        size: "w-12 h-12 md:w-14 md:h-14",
                         delay: 0.7,
                       },
                     ].map((tech, index) => (
@@ -737,10 +723,10 @@ export default function Home() {
                         style={{
                           transform: `translate(${
                             Math.sin(index * 0.8) *
-                            (window.innerWidth > 768 ? 20 : 10)
+                            (typeof window !== 'undefined' && window.innerWidth > 768 ? 15 : 8)
                           }px, ${
                             Math.cos(index * 0.7) *
-                            (window.innerWidth > 768 ? 15 : 8)
+                            (typeof window !== 'undefined' && window.innerWidth > 768 ? 10 : 5)
                           }px)`,
                         }}
                       >
@@ -749,8 +735,10 @@ export default function Home() {
                           className={`${
                             tech.size
                           } transition-all duration-300 ${
-                            tech.name === "GitHub" || tech.name === "AWS"
-                              ? "dark:invert"
+                            tech.name === "GitHub"
+                              ? "brightness-0 invert"
+                              : tech.name === "AWS" || tech.name === "Ansible"
+                              ? "brightness-0 invert"
                               : ""
                           }`}
                           alt={tech.name}
@@ -763,96 +751,37 @@ export default function Home() {
                             repeatType: "reverse",
                           }}
                         />
-                        {/* Tooltip - hidden on touch devices */}
-                        <motion.div
-                          className="absolute -top-8 left-1/2 transform -translate-x-1/2 bg-white dark:bg-gray-800 px-2 py-1 rounded text-xs text-black dark:text-white opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap z-20 hidden md:block"
-                          initial={{ opacity: 0, y: 10 }}
-                          whileHover={{ opacity: 1, y: 0 }}
-                        >
-                          {tech.name}
-                        </motion.div>
                       </motion.div>
                     ))}
                   </div>
+                </div>
 
-                  {/* Add floating particles for the cloud effect - reduced on mobile */}
-                  <div className="absolute inset-0 pointer-events-none hidden md:block">
-                    {Array.from({ length: 10 }).map((_, i) => (
-                      <motion.div
-                        key={i}
-                        className="absolute w-1 h-1 bg-white/20 rounded-full"
-                        style={{
-                          left: `${Math.random() * 100}%`,
-                          top: `${Math.random() * 100}%`,
-                        }}
-                        animate={{
-                          y: [0, -20, 0],
-                          opacity: [0.2, 0.8, 0.2],
-                        }}
-                        transition={{
-                          duration: 3 + Math.random() * 2,
-                          repeat: Infinity,
-                          delay: Math.random() * 2,
-                        }}
-                      />
-                    ))}
-                  </div>
+                {/* Add floating particles for the cloud effect - reduced on mobile */}
+                <div className="absolute inset-0 pointer-events-none hidden md:block">
+                  {Array.from({ length: 10 }).map((_, i) => (
+                    <motion.div
+                      key={i}
+                      className="absolute w-1 h-1 bg-white/20 rounded-full"
+                      style={{
+                        left: `${Math.random() * 100}%`,
+                        top: `${Math.random() * 100}%`,
+                      }}
+                      animate={{
+                        y: [0, -20, 0],
+                        opacity: [0.2, 0.8, 0.2],
+                      }}
+                      transition={{
+                        duration: 3 + Math.random() * 2,
+                        repeat: Infinity,
+                        delay: Math.random() * 2,
+                      }}
+                    />
+                  ))}
                 </div>
               </div>
             </Card>
           </motion.div>
         </div>
-
-        {/* Services Section */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
-          className="text-center mb-16"
-        >
-          <motion.h2
-            className="text-4xl md:text-5xl font-bold mb-4"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.2 }}
-          >
-            How I Turn Chaos into Code
-          </motion.h2>
-          <motion.div
-            className="inline-block px-6 py-2 bg-gray-100 dark:bg-gray-800 rounded-full mb-16"
-            initial={{ opacity: 0, scale: 0.8 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.6, delay: 0.4 }}
-          >
-            Carlos's Toolkit of Tricks
-          </motion.div>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-            <ServiceCard
-              icon={Layout}
-              title="DevOps Sorcery"
-              description="Turning 'It works on my machine' into 'It works everywhere' faster than you can say 'git push'. CI/CD pipelines are my magic wands."
-              delay={0.2}
-            />
-            <ServiceCard
-              icon={Cloud}
-              title="Cloud Whispering"
-              description="Making clouds rain efficiency. Your servers will thank you, and so will your wallet. AWS, GCP, and Azure are my playgrounds."
-              delay={0.3}
-            />
-            <ServiceCard
-              icon={Palette}
-              title="Infrastructure Artistry"
-              description="Painting beautiful landscapes of servers and services. It's like Bob Ross, but with more Kubernetes clusters and Docker containers."
-              delay={0.4}
-            />
-            <ServiceCard
-              icon={Code}
-              title="Code Telepathy"
-              description="Reading between the lines of your infrastructure. I speak fluent Python, Terraform, and Sarcasm. Ansible playbooks are my bedtime stories."
-              delay={0.5}
-            />
-          </div>
-        </motion.div>
       </main>
     </div>
   );
