@@ -168,21 +168,11 @@ export default function Projects() {
                     </div>
                   </div>
                   <div className="p-6 flex items-center justify-between text-white backdrop-blur-sm bg-black/20 transition-all duration-300 group-hover:bg-black/30">
-                    <div className="flex items-center gap-6">
-                      <div className="text-sm">
-                        <div className="text-white/60 font-medium uppercase tracking-wider text-xs mb-1 drop-shadow-sm">
-                          Year
-                        </div>
-                        <div className="font-semibold drop-shadow-sm">{study.year}</div>
+                    <div className="text-sm">
+                      <div className="text-white/60 font-medium uppercase tracking-wider text-xs mb-1 drop-shadow-sm">
+                        Year
                       </div>
-                      <div className="text-sm">
-                        <div className="text-white/60 font-medium uppercase tracking-wider text-xs mb-1 drop-shadow-sm">
-                          Stack
-                        </div>
-                        <div className="font-semibold drop-shadow-sm">
-                          {study.stack.join(" · ")}
-                        </div>
-                      </div>
+                      <div className="font-semibold drop-shadow-sm">{study.year}</div>
                     </div>
                     <Button
                       variant="outline"
