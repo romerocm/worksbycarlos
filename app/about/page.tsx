@@ -264,6 +264,10 @@ export default function About() {
           </motion.div>
         </div>
       </main>
+      
+      <footer className="py-6 px-4 sm:px-6 lg:px-8 text-center text-muted-foreground">
+        © {new Date().getFullYear()} WorksbyCarlos. All rights reserved.
+      </footer>
     </div>
   );
 }
