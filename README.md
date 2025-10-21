@@ -1,6 +1,6 @@
 <div align="center">
   <h1>🚀 WorksbyCarlos</h1>
-  <p>Engineering Tomorrow's Systems – Today</p>
+  <p>Scalable Infrastructure. Reliable Systems.</p>
   
   <p>
     <a href="https://worksbycarlos.com">View Demo</a>

@@ -12,7 +12,7 @@ const inter = Inter({
 })
 
 export const metadata: Metadata = {
-  title: 'WorksbyCarlos | Engineering Tomorrow\'s Systems – Today',
+  title: 'WorksbyCarlos | Scalable Infrastructure. Reliable Systems.',
   description: 'Personal portfolio of Carlos, a visionary technology leader specializing in DevOps, platform engineering, and infrastructure automation in the health sector.',
 }
 
@@ -24,6 +24,13 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <head>
+        {/* Favicon */}
+        <link rel="icon" href="/assets/favicon/favicon.ico" />
+        <link rel="icon" type="image/png" sizes="16x16" href="/assets/favicon/favicon-16x16.png" />
+        <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon/favicon-32x32.png" />
+        <link rel="apple-touch-icon" href="/assets/favicon/apple-touch-icon.png" />
+        <link rel="manifest" href="/assets/favicon/site.webmanifest" />
+        
         {/* Preload critical assets */}
         <link 
           rel="preload" 
