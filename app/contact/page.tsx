@@ -386,7 +386,7 @@ export default function Contact() {
                                 <div className="flex gap-2 max-w-[80%]">
                                   <div className="w-8 h-8 rounded-full overflow-hidden flex-shrink-0">
                                     <Image
-                                      src="https://media.licdn.com/dms/image/v2/D4E03AQFOEltQwyEO3A/profile-displayphoto-shrink_200_200/profile-displayphoto-shrink_200_200/0/1724316058019?e=1743638400&v=beta&t=5XmN3Nryg_VxEIvI9oP_8lddYAU4Zt8JqKS2y-acmRE"
+                                      src="/assets/images/profile.jpeg"
                                       alt="Carlos"
                                       width={32}
                                       height={32}
