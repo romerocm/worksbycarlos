@@ -44,7 +44,7 @@ function ParticleEffect() {
     if (!canvas) return;
 
     // Disable particles on mobile for performance
-    const isMobile = typeof window !== 'undefined' && window.innerWidth < 768;
+    const isMobile = typeof window !== "undefined" && window.innerWidth < 768;
     if (isMobile) return;
 
     const ctx = canvas.getContext("2d");
@@ -60,7 +60,7 @@ function ParticleEffect() {
     let animationFrameId: number;
 
     const resizeCanvas = () => {
-      if (typeof window !== 'undefined') {
+      if (typeof window !== "undefined") {
         canvas.width = window.innerWidth;
         canvas.height = window.innerHeight;
       }
@@ -69,7 +69,8 @@ function ParticleEffect() {
     const createParticles = () => {
       particles = [];
       // Reduce particle count for better performance
-      const particleCount = typeof window !== 'undefined' ? Math.floor(window.innerWidth / 30) : 20;
+      const particleCount =
+        typeof window !== "undefined" ? Math.floor(window.innerWidth / 30) : 20;
 
       for (let i = 0; i < particleCount; i++) {
         particles.push({
@@ -723,10 +724,16 @@ export default function Home() {
                         style={{
                           transform: `translate(${
                             Math.sin(index * 0.8) *
-                            (typeof window !== 'undefined' && window.innerWidth > 768 ? 15 : 8)
+                            (typeof window !== "undefined" &&
+                            window.innerWidth > 768
+                              ? 15
+                              : 8)
                           }px, ${
                             Math.cos(index * 0.7) *
-                            (typeof window !== 'undefined' && window.innerWidth > 768 ? 10 : 5)
+                            (typeof window !== "undefined" &&
+                            window.innerWidth > 768
+                              ? 10
+                              : 5)
                           }px)`,
                         }}
                       >
