@@ -122,7 +122,7 @@ export default function Projects() {
             >
               <Link href={`/projects/${study.id}`} prefetch className="block">
                 <Card className="overflow-hidden border-0 bg-gradient-to-br from-gray-900 to-gray-800 transform transition-all duration-300 hover:scale-[1.02] hover:shadow-2xl">
-                  <div className="relative aspect-[16/9] bg-muted overflow-hidden">
+                  <div className="relative aspect-[16/10] sm:aspect-[16/9] bg-muted overflow-hidden">
                     <Image
                       src={study.thumbnail || "/placeholder.svg"}
                       alt={study.title}
@@ -130,40 +130,48 @@ export default function Projects() {
                       className="object-cover transition-all duration-500 group-hover:scale-110"
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-black/95 via-black/60 to-black/20 opacity-85 transition-opacity duration-300 group-hover:opacity-75" />
-                    <div className="absolute inset-0 p-6 flex flex-col justify-between transform transition-all duration-300 group-hover:translate-y-[-5px]">
-                      <div className="flex items-start justify-between">
-                        <div className="backdrop-blur-sm bg-black/20 rounded-lg p-3">
-                          <h3 className="font-medium text-white mb-2 drop-shadow-lg">
+                    <div className="absolute inset-0 p-3 sm:p-6 flex flex-col justify-between transform transition-all duration-300 group-hover:translate-y-[-5px]">
+                      <div className="flex items-start justify-between flex-wrap sm:flex-nowrap gap-3">
+                        <div className="backdrop-blur-sm bg-black/20 rounded-lg p-2 sm:p-3 min-w-0 flex-1">
+                          <h3 className="font-medium text-white mb-2 drop-shadow-lg text-sm sm:text-base">
                             {study.client}
                           </h3>
-                          <div className="flex flex-wrap gap-2">
-                            {study.tags.map((tag) => (
+                          <div className="flex flex-wrap gap-1 sm:gap-2">
+                            {study.tags.slice(0, 3).map((tag) => (
                               <Badge
                                 key={tag}
                                 variant="outline"
-                                className="text-white border-white/20 bg-black/40 hover:bg-black/60 transition-colors duration-300"
+                                className="text-white border-white/20 bg-black/40 hover:bg-black/60 transition-colors duration-300 text-xs px-2 py-1"
                               >
                                 {tag}
                               </Badge>
                             ))}
+                            {study.tags.length > 3 && (
+                              <Badge
+                                variant="outline"
+                                className="text-white border-white/20 bg-black/40 text-xs px-2 py-1"
+                              >
+                                +{study.tags.length - 3}
+                              </Badge>
+                            )}
                           </div>
                         </div>
                         {study.funding && (
-                          <div className="text-right backdrop-blur-sm bg-black/20 rounded-lg p-3">
-                            <div className="text-2xl font-bold text-white drop-shadow-lg">
+                          <div className="text-right backdrop-blur-sm bg-black/20 rounded-lg p-2 sm:p-3 flex-shrink-0">
+                            <div className="text-lg sm:text-2xl font-bold text-white drop-shadow-lg">
                               {study.funding}
                             </div>
-                            <div className="text-sm text-white/60 drop-shadow-lg">
+                            <div className="text-xs sm:text-sm text-white/60 drop-shadow-lg">
                               in funding
                             </div>
                           </div>
                         )}
                       </div>
-                      <div className="backdrop-blur-sm bg-black/25 rounded-lg p-4">
-                        <h2 className="text-xl md:text-2xl font-bold text-white mb-2 drop-shadow-lg">
+                      <div className="backdrop-blur-sm bg-black/25 rounded-lg p-3 sm:p-4">
+                        <h2 className="text-lg sm:text-xl md:text-2xl font-bold text-white mb-2 drop-shadow-lg leading-tight">
                           {study.title}
                         </h2>
-                        <p className="text-white/90 drop-shadow-md">{study.description}</p>
+                        <p className="text-white/90 drop-shadow-md text-sm sm:text-base line-clamp-2 sm:line-clamp-3">{study.description}</p>
                       </div>
                     </div>
                   </div>

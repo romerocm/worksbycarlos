@@ -28,7 +28,7 @@ export default function CaseStudy() {
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ duration: 0.8 }}
-        className="relative h-[50vh] w-full overflow-hidden"
+        className="relative h-[40vh] sm:h-[50vh] w-full overflow-hidden"
       >
         <Image
           src={study.thumbnail || "/placeholder.svg"}
@@ -38,18 +38,19 @@ export default function CaseStudy() {
           priority
         />
         <div className="absolute inset-0 bg-gradient-to-t from-black/95 via-black/60 to-black/20 opacity-85" />
-        <div className="absolute inset-0 flex items-end justify-start p-8">
-          <div className="backdrop-blur-sm bg-black/25 rounded-lg p-6 max-w-2xl">
+        {/* Updated positioning to center content and add mobile padding */}
+        <div className="absolute inset-0 flex items-center justify-start p-4 sm:p-8 pt-20 sm:pt-8">
+          <div className="backdrop-blur-sm bg-black/25 rounded-lg p-4 sm:p-6 max-w-2xl w-full">
             <motion.div
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.3 }}
             >
-              <div className="text-white/80 text-sm font-medium mb-2 drop-shadow-sm">{study.client}</div>
-              <h1 className="text-3xl md:text-4xl font-bold text-white mb-4 drop-shadow-lg">
+              <div className="text-white/80 text-xs sm:text-sm font-medium mb-2 drop-shadow-sm">{study.client}</div>
+              <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold text-white mb-3 sm:mb-4 drop-shadow-lg leading-tight">
                 {study.title}
               </h1>
-              <p className="text-white/90 text-lg drop-shadow-md leading-relaxed">
+              <p className="text-white/90 text-sm sm:text-base md:text-lg drop-shadow-md leading-relaxed">
                 {study.description}
               </p>
             </motion.div>
