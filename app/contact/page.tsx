@@ -69,6 +69,7 @@ export default function Contact() {
           "DevOps Automation",
           "Platform Engineering",
           "Security Implementation",
+          "← Back to main questions",
         ],
       },
     },
@@ -87,26 +88,67 @@ export default function Contact() {
     "Cloud Infrastructure": {
       id: "cloud",
       type: "bot",
-      content:
-        "I specialize in AWS, GCP, and Azure, focusing on scalable, secure, and cost-effective cloud solutions. Want to discuss your cloud needs?",
+      content: {
+        question: "I specialize in AWS, GCP, and Azure, focusing on scalable, secure, and cost-effective cloud solutions. Want to explore other services?",
+        options: [
+          "DevOps Automation",
+          "Platform Engineering", 
+          "Security Implementation",
+          "← Back to main questions",
+        ],
+      },
     },
     "DevOps Automation": {
       id: "devops",
       type: "bot",
-      content:
-        "I can help automate your development workflow using tools like GitHub Actions, GitLab CI, and Jenkins. Let's make your deployments faster and more reliable.",
+      content: {
+        question: "I can help automate your development workflow using tools like GitHub Actions, GitLab CI, and Jenkins. Interested in other services?",
+        options: [
+          "Cloud Infrastructure",
+          "Platform Engineering",
+          "Security Implementation",
+          "← Back to main questions",
+        ],
+      },
     },
     "Platform Engineering": {
       id: "platform",
       type: "bot",
-      content:
-        "I build robust platforms using Kubernetes, service mesh, and modern observability tools. Ready to modernize your infrastructure?",
+      content: {
+        question: "I build robust platforms using Kubernetes, service mesh, and modern observability tools. Want to know about other services?",
+        options: [
+          "Cloud Infrastructure",
+          "DevOps Automation",
+          "Security Implementation",
+          "← Back to main questions",
+        ],
+      },
     },
     "Security Implementation": {
       id: "security",
       type: "bot",
-      content:
-        "Security is crucial. I implement zero-trust architectures, IAM policies, and compliance frameworks to keep your systems secure.",
+      content: {
+        question: "Security is crucial. I implement zero-trust architectures, IAM policies, and compliance frameworks to keep your systems secure. Curious about other services?",
+        options: [
+          "Cloud Infrastructure",
+          "DevOps Automation",
+          "Platform Engineering",
+          "← Back to main questions",
+        ],
+      },
+    },
+    "← Back to main questions": {
+      id: "back-main",
+      type: "bot",
+      content: {
+        question: "What would you like to know about?",
+        options: [
+          "Tell me about your experience",
+          "What services do you offer?",
+          "Do you own a design studio?",
+          "What's your tech stack?",
+        ],
+      },
     },
   };
 
@@ -117,7 +159,8 @@ export default function Contact() {
     if (messagesEndRef.current) {
       messagesEndRef.current.scrollIntoView({ 
         behavior: "smooth",
-        block: "end"
+        block: "nearest", // Changed from "end" to "nearest" to prevent page scroll
+        inline: "nearest"
       });
     }
   };
@@ -366,9 +409,10 @@ export default function Contact() {
                     initial={{ opacity: 0, height: 0 }}
                     animate={{ opacity: 1, height: "auto" }}
                     exit={{ opacity: 0, height: 0 }}
-                    className="space-y-4 max-w-2xl mx-auto"
+                    className="grid grid-cols-1 lg:grid-cols-3 gap-6 max-w-6xl mx-auto"
                   >
-                    <Card className="p-4">
+                    {/* Chat Messages - Left Side */}
+                    <Card className="p-4 lg:col-span-2">
                       <ScrollArea className="h-[500px] pr-4">
                         <div className="space-y-4">
                           {messages.map((message) => (
@@ -386,7 +430,7 @@ export default function Contact() {
                                 <div className="flex gap-2 max-w-[80%]">
                                   <div className="w-8 h-8 rounded-full overflow-hidden flex-shrink-0">
                                     <Image
-                                      src="https://media.licdn.com/dms/image/v2/D4E03AQFOEltQwyEO3A/profile-displayphoto-shrink_200_200/profile-displayphoto-shrink_200_200/0/1724316058019?e=1743638400&v=beta&t=5XmN3Nryg_VxEIvI9oP_8lddYAU4Zt8JqKS2y-acmRE"
+                                      src="/assets/images/profile.jpeg"
                                       alt="Carlos"
                                       width={32}
                                       height={32}
@@ -394,27 +438,11 @@ export default function Contact() {
                                     />
                                   </div>
                                   <div className="bg-muted p-4 rounded-lg">
-                                    {typeof message.content === "string" ? (
-                                      <p>{message.content}</p>
-                                    ) : (
-                                      <div className="space-y-4">
-                                        <p>{message.content.question}</p>
-                                        <div className="grid gap-2">
-                                          {message.content.options.map((option) => (
-                                            <Button
-                                              key={option}
-                                              variant="outline"
-                                              className="justify-start"
-                                              onClick={() =>
-                                                handleOptionClick(option)
-                                              }
-                                            >
-                                              {option}
-                                            </Button>
-                                          ))}
-                                        </div>
-                                      </div>
-                                    )}
+                                    <p>
+                                      {typeof message.content === "string"
+                                        ? message.content
+                                        : message.content.question}
+                                    </p>
                                   </div>
                                 </div>
                               )}
@@ -432,6 +460,51 @@ export default function Contact() {
                           <div ref={messagesEndRef} />
                         </div>
                       </ScrollArea>
+                    </Card>
+
+                    {/* Question Options Sidebar - Right Side */}
+                    <Card className="p-4 backdrop-blur-xl backdrop-saturate-150 bg-background/90 border-border/20">
+                      <h3 className="font-semibold mb-4 text-center">Quick Questions</h3>
+                      <div className="space-y-3">
+                        {messages.length > 0 && 
+                         messages[messages.length - 1].type === "bot" && 
+                         typeof messages[messages.length - 1].content === "object" ? (
+                          // Show current question options
+                          <>
+                            <p className="text-sm text-muted-foreground mb-4">
+                              {(messages[messages.length - 1].content as any).question}
+                            </p>
+                            {(messages[messages.length - 1].content as any).options.map((option: string) => (
+                              <Button
+                                key={option}
+                                variant="outline"
+                                className="w-full justify-start text-left h-auto py-3 px-4"
+                                onClick={() => handleOptionClick(option)}
+                              >
+                                {option}
+                              </Button>
+                            ))}
+                          </>
+                        ) : (
+                          // Show initial/default options
+                          <>
+                            <p className="text-sm text-muted-foreground mb-4">
+                              What would you like to know?
+                            </p>
+                            {initialQuestion.content && typeof initialQuestion.content === "object" &&
+                             (initialQuestion.content as any).options.map((option: string) => (
+                              <Button
+                                key={option}
+                                variant="outline"
+                                className="w-full justify-start text-left h-auto py-3 px-4"
+                                onClick={() => handleOptionClick(option)}
+                              >
+                                {option}
+                              </Button>
+                            ))}
+                          </>
+                        )}
+                      </div>
                     </Card>
                   </motion.div>
                 )}
