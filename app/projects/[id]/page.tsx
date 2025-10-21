@@ -2,6 +2,7 @@
 
 import { useParams, useRouter } from 'next/navigation'
 import { motion } from 'framer-motion'
+import Image from 'next/image'
 import { Header } from '@/components/header'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
@@ -21,7 +22,42 @@ export default function CaseStudy() {
     <div className="min-h-screen flex flex-col bg-background/50 relative">
       <div className="animated-gradient-background" />
       <Header />
-      <main className="flex-grow container mx-auto px-4 sm:px-6 lg:px-8 py-12 pt-24">
+      
+      {/* Banner Image Section */}
+      <motion.div 
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 0.8 }}
+        className="relative h-[50vh] w-full overflow-hidden"
+      >
+        <Image
+          src={study.thumbnail || "/placeholder.svg"}
+          alt={study.title}
+          fill
+          className="object-cover"
+          priority
+        />
+        <div className="absolute inset-0 bg-gradient-to-t from-black/95 via-black/60 to-black/20 opacity-85" />
+        <div className="absolute inset-0 flex items-end justify-start p-8">
+          <div className="backdrop-blur-sm bg-black/25 rounded-lg p-6 max-w-2xl">
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.3 }}
+            >
+              <div className="text-white/80 text-sm font-medium mb-2 drop-shadow-sm">{study.client}</div>
+              <h1 className="text-3xl md:text-4xl font-bold text-white mb-4 drop-shadow-lg">
+                {study.title}
+              </h1>
+              <p className="text-white/90 text-lg drop-shadow-md leading-relaxed">
+                {study.description}
+              </p>
+            </motion.div>
+          </div>
+        </div>
+      </motion.div>
+
+      <main className="flex-grow container mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <div className="max-w-4xl mx-auto">
           <Button
             variant="ghost"
@@ -73,24 +109,6 @@ export default function CaseStudy() {
             </div>
 
             <div className="space-y-8">
-              <motion.h1
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5 }}
-                className="text-4xl font-bold"
-              >
-                {study.title}
-              </motion.h1>
-
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, delay: 0.1 }}
-                className="prose prose-gray dark:prose-invert max-w-none"
-              >
-                <p className="text-xl">{study.description}</p>
-              </motion.div>
-
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}

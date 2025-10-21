@@ -22,6 +22,45 @@ export interface CaseStudy {
 
 export const caseStudies: CaseStudy[] = [
   {
+    id: "cezoom-platform",
+    client: "CE ZOOM",
+    title: "Cloud Infrastructure Modernization & DevOps Transformation",
+    description:
+      "Migrated legacy infrastructure to modern AWS ECS architecture with Infrastructure as Code, implementing robust CI/CD pipelines and security hardening",
+    year: "2024 - ONGOING",
+    metrics: {
+      value: "90%",
+      label: "deployment time reduction",
+    },
+    tags: ["AWS", "DevOps", "Terraform", "Security"],
+    scope: ["Infrastructure as Code", "CI/CD Automation", "Security Hardening"],
+    stack: ["AWS ECS", "Terraform", "GitHub Actions", "Docker"],
+    industry: ["Healthcare", "EdTech", "Professional Services"],
+    thumbnail: "/assets/images/ce-zoom-cover.png",
+    results: [
+      {
+        title: "Infrastructure as Code Migration",
+        description:
+          "Migrated all AWS resources to Terraform-based configuration, enabling consistent, repeatable deployments and eliminating manual infrastructure management",
+      },
+      {
+        title: "ECS Architecture Implementation",
+        description:
+          "Redesigned platform architecture using AWS ECS for containerized deployments, improving scalability, reliability, and resource utilization",
+      },
+      {
+        title: "CI/CD Pipeline Automation",
+        description:
+          "Implemented comprehensive CI/CD workflows that enable rapid, automated deployments, significantly reducing time-to-market for developer features",
+      },
+      {
+        title: "Security Hardening & Compliance",
+        description:
+          "Applied enterprise-grade security measures across the infrastructure, ensuring HIPAA compliance and protecting sensitive healthcare education data",
+      },
+    ],
+  },
+  {
     id: "health-platform",
     client: "AI MEDICA",
     title: "Seamless Healthcare Platform Engineering",

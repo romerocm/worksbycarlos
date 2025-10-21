@@ -7,6 +7,7 @@ import { useTheme } from "next-themes"
 import { Button } from "@/components/ui/button"
 import { Moon, Sun, Ellipsis, X } from 'lucide-react'
 import { motion, AnimatePresence } from 'framer-motion'
+import { siteConfig } from '@/lib/config'
 
 export function Header() {
   const { setTheme, theme } = useTheme()
@@ -14,13 +15,18 @@ export function Header() {
   const [mounted, setMounted] = useState(false)
   const pathname = usePathname()
 
-  const links = [
+  const baseLinks = [
     { href: "/", label: "Home" },
     { href: "/about", label: "About" },
     { href: "/projects", label: "Projects" },
-    { href: "/blog", label: "Blog" },
     { href: "/contact", label: "Contact" },
   ]
+
+  const blogLink = { href: "/blog", label: "Blog" }
+  
+  const links = siteConfig.features.blog.enabled 
+    ? [...baseLinks.slice(0, 3), blogLink, ...baseLinks.slice(3)]
+    : baseLinks
 
   useEffect(() => {
     setMounted(true)
