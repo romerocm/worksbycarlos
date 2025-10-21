@@ -32,7 +32,7 @@ const experiences = [
     icon: Cloud,
   },
   {
-    company: "VIMIHOST",
+    company: "VIMI STUDIO",
     role: "DevOps Engineer",
     period: "Sep 2023 - Jun 2024 · 10 mos",
     description: [
@@ -163,7 +163,9 @@ export default function About() {
           transition={{ duration: 0.5 }}
           className="mb-12 flex flex-col items-center text-center"
         >
-          <h1 className="text-4xl font-bold mb-6">Cloud Engineer</h1>
+          <h1 className="text-4xl font-bold mb-6 text-black dark:text-white dark:font-bold">
+            Cloud Engineer
+          </h1>
           <div
             ref={contactsRef}
             className="flex gap-4 text-muted-foreground overflow-x-auto pb-2 max-w-full"
@@ -202,9 +204,12 @@ export default function About() {
           >
             <h2 className="text-2xl font-bold mb-4">Core Technologies</h2>
             {skills.map((skill, index) => (
-              <Card key={index} className="p-4">
+              <Card
+                key={index}
+                className="p-4 border-l-4 border-l-[#b6da9b] hover:shadow-lg transition-shadow duration-300"
+              >
                 <div className="flex items-center gap-2 mb-2">
-                  <skill.icon className="w-4 h-4" />
+                  <skill.icon className="w-4 h-4 text-black" />
                   <h3 className="font-semibold">{skill.category}</h3>
                 </div>
                 <ul className="space-y-1 text-sm text-muted-foreground">
@@ -227,7 +232,7 @@ export default function About() {
             <h2 className="text-2xl font-bold mb-8">Work Experience</h2>
             <div className="relative">
               <div
-                className="absolute left-8 top-0 bottom-0 w-px bg-border"
+                className="absolute left-8 top-0 bottom-0 w-px bg-[#b6da9b]/30"
                 style={{ transform: `scaleY(${scrollYProgress})` }}
               />
               {experiences.map((experience, index) => (
@@ -239,8 +244,8 @@ export default function About() {
                   className="mb-12 relative"
                 >
                   <div className="flex gap-4">
-                    <div className="w-16 h-16 rounded-full bg-muted flex items-center justify-center flex-shrink-0 animate-float">
-                      <experience.icon className="w-8 h-8" />
+                    <div className="w-16 h-16 rounded-full bg-[#b6da9b] border-2 border-[#b6da9b] flex items-center justify-center flex-shrink-0 animate-float">
+                      <experience.icon className="w-8 h-8 text-black" />
                     </div>
                     <div className="flex-1">
                       <h3 className="text-xl font-bold">
@@ -264,7 +269,7 @@ export default function About() {
           </motion.div>
         </div>
       </main>
-      
+
       <footer className="py-6 px-4 sm:px-6 lg:px-8 text-center text-muted-foreground">
         © {new Date().getFullYear()} WorksbyCarlos. All rights reserved.
       </footer>

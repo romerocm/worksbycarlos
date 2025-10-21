@@ -68,27 +68,49 @@ export function Header() {
         
         // Check if element has dark classes or dark gradients
         const classList = elementBelow.classList
+        const classListString = Array.from(classList).join(' ')
+        
         if (classList.contains('bg-black') || 
             classList.contains('bg-gray-900') || 
             classList.contains('bg-slate-900') ||
             classList.contains('bg-neutral-900') ||
-            elementBelow.closest('.bg-black, .bg-gray-900, .bg-slate-900, .bg-neutral-900')) {
+            classList.contains('bg-gray-800') ||
+            elementBelow.closest('.bg-black, .bg-gray-900, .bg-slate-900, .bg-neutral-900, .bg-gray-800')) {
           isDark = true
         }
         
-        // Check for dark gradient overlays (common in hero sections)
-        if (elementBelow.closest('[class*="bg-gradient"]') || 
+        // Check for dark gradient overlays and dark gradient cards
+        if (classListString.includes('bg-gradient') ||
+            classListString.includes('from-gray-900') ||
+            classListString.includes('to-gray-900') ||
+            classListString.includes('from-gray-800') ||
+            classListString.includes('to-gray-800') ||
+            classListString.includes('from-black') ||
+            classListString.includes('to-black') ||
+            elementBelow.closest('[class*="bg-gradient"]') || 
+            elementBelow.closest('[class*="from-gray-900"]') ||
+            elementBelow.closest('[class*="to-gray-900"]') ||
+            elementBelow.closest('[class*="from-gray-800"]') ||
+            elementBelow.closest('[class*="to-gray-800"]') ||
             elementBelow.closest('[class*="from-black"]') ||
             elementBelow.closest('[class*="to-black"]') ||
             (elementBelow as HTMLElement).style?.backgroundImage?.includes('gradient')) {
           isDark = true
         }
         
-        // Special check for case study banner sections
+        // Special check for case study banner sections and project cards
         if (elementBelow.closest('[class*="banner"]') || 
             elementBelow.closest('[class*="hero"]') ||
             elementBelow.closest('.relative.h-\\[40vh\\]') ||
-            elementBelow.closest('.relative.h-\\[50vh\\]')) {
+            elementBelow.closest('.relative.h-\\[50vh\\]') ||
+            elementBelow.closest('Card') ||
+            elementBelow.closest('.bg-gradient-to-br')) {
+          isDark = true
+        }
+        
+        // Additional check for nested elements within project cards
+        const cardParent = elementBelow.closest('[class*="from-gray"]')
+        if (cardParent) {
           isDark = true
         }
         
@@ -127,26 +149,55 @@ export function Header() {
           {/* Desktop Navigation */}
           <div className="hidden md:flex space-x-6 flex-1">
             {links.map((link) => (
-              <Link 
-                key={link.href} 
-                href={link.href} 
-                className={`text-sm transition-colors ${
-                  pathname === link.href 
-                    ? isDarkSection ? "text-white font-medium" : "text-primary font-medium"
-                    : isDarkSection 
-                      ? "text-white/80 hover:text-white" 
-                      : "text-secondary-foreground hover:text-primary"
-                }`}
+              <motion.div
+                key={link.href}
+                whileHover={{ y: -2 }}
+                transition={{ duration: 0.2 }}
               >
-                {link.label}
-              </Link>
+                <Link 
+                  href={link.href} 
+                  className={`text-sm transition-colors ${
+                    isDarkSection 
+                      ? "hover:text-white" 
+                      : "hover:text-black dark:hover:text-[#b6da9b]"
+                  } ${
+                    pathname === link.href 
+                      ? isDarkSection 
+                        ? "text-white font-bold" 
+                        : "text-black dark:text-[#b6da9b] font-bold navbar-stroke"
+                      : isDarkSection 
+                        ? "text-white/80 hover:text-white" 
+                        : "text-secondary-foreground dark:text-white/80"
+                  }`}
+                  onMouseEnter={(e) => {
+                    if (pathname !== link.href && !isDarkSection) {
+                      (e.target as HTMLElement).classList.add('navbar-stroke-hover');
+                    }
+                  }}
+                  onMouseLeave={(e) => {
+                    if (pathname !== link.href) {
+                      (e.target as HTMLElement).classList.remove('navbar-stroke-hover');
+                    }
+                  }}
+                >
+                  {link.label}
+                </Link>
+              </motion.div>
             ))}
           </div>
 
           {/* Mobile Layout: Menu - Logo - Theme */}
           <div className="flex items-center justify-between w-full md:hidden">
             {/* Mobile Menu Toggle - Left */}
-            <Button variant="ghost" size="icon" className={`${isDarkSection ? 'text-white hover:text-white' : ''}`} onClick={() => setIsOpen(!isOpen)}>
+            <Button 
+              variant="ghost" 
+              size="icon" 
+              className={`${isDarkSection ? 'text-white hover:text-white' : ''} ${isOpen ? 'bg-[#b6da9b] text-black hover:bg-[#b6da9b] hover:text-black focus:bg-[#b6da9b] focus:text-black' : 'focus:bg-transparent focus:text-inherit'}`} 
+              onClick={(e) => {
+                setIsOpen(!isOpen)
+                e.currentTarget.blur()
+              }}
+            >
               {isOpen ? <X className="h-6 w-6" /> : <Ellipsis className="h-6 w-6" />}
               <span className="sr-only">Toggle menu</span>
             </Button>
@@ -209,11 +260,7 @@ export function Header() {
                     >
                       <Link
                         href={link.href}
-                        className={`block text-lg font-medium transition-colors ${
-                          pathname === link.href 
-                            ? "text-primary" 
-                            : "text-secondary-foreground hover:text-primary"
-                        }`}
+                        className="block text-lg font-medium transition-colors text-secondary-foreground hover:text-secondary-foreground"
                         onClick={() => setIsOpen(false)}
                       >
                         {link.label}

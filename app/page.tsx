@@ -156,16 +156,16 @@ export default function Home() {
   // Interactive Terminal state
   const [showTerminal, setShowTerminal] = useState(false);
 
-  // Terminal scroll detection - only show at bottom of page
+  // Terminal scroll detection - only show at very bottom of page
   useEffect(() => {
     const handleScroll = () => {
       const scrollTop = window.scrollY;
       const windowHeight = window.innerHeight;
       const docHeight = document.documentElement.scrollHeight;
 
-      // Show terminal when user is within 100px of the bottom
-      const isNearBottom = scrollTop + windowHeight >= docHeight - 100;
-      setShowTerminal(isNearBottom);
+      // Show terminal only when user has reached the absolute bottom (within 1px)
+      const isAtBottom = Math.abs((scrollTop + windowHeight) - docHeight) <= 1;
+      setShowTerminal(isAtBottom);
     };
 
     window.addEventListener("scroll", handleScroll, { passive: true });
@@ -312,11 +312,13 @@ export default function Home() {
           >
             <Card className="group relative overflow-hidden h-full cursor-pointer">
               <div className="relative w-full h-full">
-                <Image
-                  src="/assets/images/sansalvador-cover.jpg"
-                  alt="San Salvador, El Salvador"
-                  fill
-                  className="object-cover object-center transition-transform duration-300 group-hover:scale-105"
+                <video
+                  src="/assets/images/hero-loop-web.webm"
+                  autoPlay
+                  loop
+                  muted
+                  playsInline
+                  className="w-full h-full object-cover object-center transition-transform duration-300 group-hover:scale-105"
                 />
                 <div className="absolute inset-0 bg-gradient-to-b from-transparent via-black/30 to-black/80" />
                 <div className="absolute bottom-4 left-4 right-4 text-white">
