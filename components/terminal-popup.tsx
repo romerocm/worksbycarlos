@@ -23,9 +23,10 @@ export function TerminalPopup({ isOpen, onClose }: TerminalPopupProps) {
     return () => window.removeEventListener('resize', checkIsDesktop);
   }, []);
 
-  const [content] = useState({
-    command: "curl https://worksbycarlos.com/api/stack | jq",
-    output: `# 🚀 My DevOps Favorites${isDesktop ? ' (scroll down for REAL curl commands!)' : ''}
+  const getContent = () => {
+    return {
+      command: "curl https://worksbycarlos.com/api/stack | jq",
+      output: `# 🚀 My DevOps Favorites${isDesktop ? ' (scroll down for REAL curl commands!)' : ''}
     tools:
       - name: Kubernetes
         type: Container Orchestration
@@ -129,7 +130,8 @@ export function TerminalPopup({ isOpen, onClose }: TerminalPopupProps) {
     
     # Done! Now go build something awesome. 🚀
     `,
-  });
+    };
+  };
 
   const [typedCommand, setTypedCommand] = useState("");
   const [showOutput, setShowOutput] = useState(false);
@@ -205,6 +207,7 @@ export function TerminalPopup({ isOpen, onClose }: TerminalPopupProps) {
   // Start typing animation when terminal is opened
   useEffect(() => {
     if (isOpen && !isTypingComplete) {
+      const content = getContent();
       let currentIndex = 0;
       const typeInterval = setInterval(() => {
         if (currentIndex <= content.command.length) {
@@ -221,7 +224,7 @@ export function TerminalPopup({ isOpen, onClose }: TerminalPopupProps) {
 
       return () => clearInterval(typeInterval);
     }
-  }, [isOpen, content.command, isTypingComplete]);
+  }, [isOpen, isTypingComplete, isDesktop]);
 
   // Lock body scroll when terminal is open
   useEffect(() => {
@@ -320,7 +323,7 @@ export function TerminalPopup({ isOpen, onClose }: TerminalPopupProps) {
               transition={{ duration: 0.3 }}
               className="mt-4 text-green-200 whitespace-pre-wrap break-words leading-relaxed font-mono"
             >
-              {renderOutputWithClickableCommands(content.output)}
+              {renderOutputWithClickableCommands(getContent().output)}
             </motion.div>
           )}
         </div>
