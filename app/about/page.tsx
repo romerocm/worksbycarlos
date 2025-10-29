@@ -23,7 +23,7 @@ const experiences = [
   {
     company: "AI MEDICA",
     role: "Platform Engineer",
-    period: "JULY 2024 - Present",
+    period: "Jul 2024 - Present",
     description: [
       "Architected and implemented a cloud-native infrastructure on AWS, optimized for healthcare data processing and storage",
       "Designed and deployed a HIPAA-compliant environment, ensuring data security and privacy at all levels",
@@ -45,7 +45,7 @@ const experiences = [
   {
     company: "RESULTIER",
     role: "DevOps Manager",
-    period: "2021 - JULY 2023 · 2 yr",
+    period: "2021 - Jul 2023 · 2 yr",
     description: [
       "Implement and manage continuous delivery pipelines for cloud-based applications, using tools such as Terraform and Ansible",
       "Administer Linux-based systems, including installing, configuring, and maintaining packages and services",
@@ -56,7 +56,7 @@ const experiences = [
   {
     company: "RESULTIER",
     role: "Program Manager",
-    period: "Jan 2022 - June 2023 · 1yr 5 mos",
+    period: "Jan 2022 - Jun 2023 · 1yr 5 mos",
     description: [
       "I was responsible for project kick-offs, retrospective sessions, and task prioritization in six different projects",
     ],
