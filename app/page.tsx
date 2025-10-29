@@ -1,7 +1,7 @@
 "use client";
 
 import { useRef, useEffect, useState } from "react";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import { Header } from "@/components/header";
 import { Card } from "@/components/ui/card";
 import {
@@ -155,6 +155,38 @@ export default function Home() {
 
   // Interactive Terminal state
   const [showTerminal, setShowTerminal] = useState(false);
+  
+  // All-Nighters counter state
+  const [allNightersCount, setAllNightersCount] = useState(25);
+  const [hasIncremented, setHasIncremented] = useState(false);
+  
+  // Hover states for card animations
+  const [serverHover, setServerHover] = useState(false);
+  const [experienceHover, setExperienceHover] = useState(false);
+  const [talkHover, setTalkHover] = useState(false);
+
+  // Visitor detection for All-Nighters counter
+  useEffect(() => {
+    const checkVisitor = () => {
+      if (typeof window === 'undefined') return;
+      
+      const hasVisited = localStorage.getItem('worksbycarlos:visitor-seen');
+      const storedCount = localStorage.getItem('worksbycarlos:all-nighters-count');
+      
+      if (!hasVisited) {
+        // New visitor - just show current count, increment happens on hover
+        const currentCount = storedCount ? parseInt(storedCount) : 25;
+        setAllNightersCount(currentCount);
+      } else {
+        // Returning visitor - use stored count and mark as already incremented
+        const count = storedCount ? parseInt(storedCount) : 25;
+        setAllNightersCount(count);
+        setHasIncremented(true);
+      }
+    };
+    
+    checkVisitor();
+  }, []);
 
   // Terminal scroll detection - only show at very bottom of page
   useEffect(() => {
@@ -390,12 +422,35 @@ export default function Home() {
             transition={{ duration: 0.6, delay: 0.4 }}
             className="col-span-1 md:col-span-1 row-span-1 order-4 md:order-4"
           >
-            <Card className="p-6 bg-[#98FB98] dark:bg-[#2E8B57] h-full group hover:scale-[1.02] transition-all duration-300 relative">
+            <Card 
+              className="p-6 bg-[#98FB98] dark:bg-[#2E8B57] h-full group hover:scale-[1.02] transition-all duration-300 relative"
+              onMouseEnter={() => setServerHover(true)}
+              onMouseLeave={() => setServerHover(false)}
+            >
               <div className="flex flex-col h-full">
                 <div>
-                  <span className="text-5xl font-bold mb-2 group-hover:scale-110 transition-transform duration-300">
-                    180+
-                  </span>
+                  <div className="relative h-16 flex items-center text-5xl font-bold group-hover:scale-110 transition-transform duration-300">
+                    {"180".split('').map((digit, index) => (
+                      <div key={index} className="relative overflow-hidden inline-block">
+                        <AnimatePresence mode="wait">
+                          <motion.span
+                            key={`server-${index}-${digit}`}
+                            className="inline-block"
+                            animate={serverHover ? { 
+                              scale: 1.1
+                            } : { scale: 1 }}
+                            transition={{
+                              duration: 0.2,
+                              ease: "easeOut"
+                            }}
+                          >
+                            {digit}
+                          </motion.span>
+                        </AnimatePresence>
+                      </div>
+                    ))}
+                    <span>+</span>
+                  </div>
                   <span className="text-lg block">Servers Tamed</span>
                 </div>
                 <div className="absolute bottom-4 right-4">
@@ -417,12 +472,45 @@ export default function Home() {
             transition={{ duration: 0.6, delay: 0.5 }}
             className="col-span-1 md:col-span-1 row-span-1 order-5 md:order-5"
           >
-            <Card className="p-6 bg-[#FFB6C1] dark:bg-[#CD5C5C] h-full text-white group hover:scale-[1.02] transition-all duration-300 relative">
+            <Card 
+              className="p-6 bg-[#FFB6C1] dark:bg-[#CD5C5C] h-full text-white group hover:scale-[1.02] transition-all duration-300 relative cursor-pointer"
+              onMouseEnter={() => {
+                const hasVisited = localStorage.getItem('worksbycarlos:visitor-seen');
+                if (!hasVisited && !hasIncremented) {
+                  const newCount = allNightersCount + 1;
+                  setAllNightersCount(newCount);
+                  setHasIncremented(true);
+                  localStorage.setItem('worksbycarlos:visitor-seen', 'true');
+                  localStorage.setItem('worksbycarlos:all-nighters-count', newCount.toString());
+                }
+              }}
+            >
               <div className="flex flex-col h-full">
                 <div>
-                  <span className="text-5xl font-bold mb-2 group-hover:scale-110 transition-transform duration-300">
-                    25+
-                  </span>
+                  <div className="relative h-16 flex items-center text-5xl font-bold group-hover:scale-110 transition-transform duration-300">
+                    {allNightersCount.toString().split('').map((digit, index) => (
+                      <div key={index} className="relative overflow-hidden inline-block">
+                        <AnimatePresence mode="wait">
+                          <motion.span
+                            key={`${index}-${digit}`}
+                            className="inline-block"
+                            initial={{ y: 30, opacity: 0 }}
+                            animate={{ y: 0, opacity: 1 }}
+                            exit={{ y: -30, opacity: 0 }}
+                            transition={{
+                              type: "spring",
+                              damping: 20,
+                              stiffness: 300,
+                              duration: 0.5
+                            }}
+                          >
+                            {digit}
+                          </motion.span>
+                        </AnimatePresence>
+                      </div>
+                    ))}
+                    <span>+</span>
+                  </div>
                   <span className="text-lg block">All-Nighters</span>
                 </div>
                 <div className="absolute bottom-4 right-4">
@@ -444,12 +532,35 @@ export default function Home() {
             transition={{ duration: 0.6, delay: 0.6 }}
             className="col-span-1 md:col-span-1 row-span-1 order-6 md:order-6"
           >
-            <Card className="p-6 bg-gradient-to-br from-purple-400 via-purple-500 to-purple-600 dark:from-purple-600 dark:via-purple-700 dark:to-purple-800 h-full text-white group hover:scale-[1.02] transition-all duration-300 relative">
+            <Card 
+              className="p-6 bg-gradient-to-br from-purple-400 via-purple-500 to-purple-600 dark:from-purple-600 dark:via-purple-700 dark:to-purple-800 h-full text-white group hover:scale-[1.02] transition-all duration-300 relative"
+              onMouseEnter={() => setExperienceHover(true)}
+              onMouseLeave={() => setExperienceHover(false)}
+            >
               <div className="flex flex-col h-full">
                 <div>
-                  <span className="text-5xl font-bold mb-2 group-hover:scale-110 transition-transform duration-300">
-                    6+
-                  </span>
+                  <div className="relative h-16 flex items-center text-5xl font-bold group-hover:scale-110 transition-transform duration-300">
+                    {"6".split('').map((digit, index) => (
+                      <div key={index} className="relative overflow-hidden inline-block">
+                        <AnimatePresence mode="wait">
+                          <motion.span
+                            key={`experience-${index}-${digit}`}
+                            className="inline-block"
+                            animate={experienceHover ? { 
+                              scale: 1.1
+                            } : { scale: 1 }}
+                            transition={{
+                              duration: 0.2,
+                              ease: "easeOut"
+                            }}
+                          >
+                            {digit}
+                          </motion.span>
+                        </AnimatePresence>
+                      </div>
+                    ))}
+                    <span>+</span>
+                  </div>
                   <span className="text-lg block">Years XP</span>
                 </div>
                 <div className="absolute bottom-4 right-4">
@@ -472,12 +583,26 @@ export default function Home() {
             className="col-span-1 md:col-span-1 row-span-1 order-7 md:order-7"
           >
             <Link href="/contact">
-              <Card className="p-6 bg-gradient-to-br from-orange-300 via-orange-400 to-orange-500 dark:from-orange-400 dark:via-orange-500 dark:to-orange-600 h-full text-white group hover:scale-[1.02] transition-all duration-300 relative cursor-pointer">
+              <Card 
+                className="p-6 bg-gradient-to-br from-orange-300 via-orange-400 to-orange-500 dark:from-orange-400 dark:via-orange-500 dark:to-orange-600 h-full text-white group hover:scale-[1.02] transition-all duration-300 relative cursor-pointer"
+                onMouseEnter={() => setTalkHover(true)}
+                onMouseLeave={() => setTalkHover(false)}
+              >
                 <div className="flex flex-col h-full">
                   <div>
-                    <span className="text-3xl font-bold mb-2 block">
+                    <motion.span 
+                      className="text-3xl font-bold mb-2 block"
+                      animate={talkHover ? { 
+                        y: [-3, 3, -3, 0],
+                        scale: [1, 1.05, 1, 1]
+                      } : {}}
+                      transition={{
+                        duration: 0.4,
+                        ease: "easeInOut"
+                      }}
+                    >
                       Let's Talk
-                    </span>
+                    </motion.span>
                     <span className="text-lg block opacity-90">
                       Start your project
                     </span>
