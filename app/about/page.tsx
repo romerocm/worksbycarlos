@@ -23,7 +23,7 @@ const experiences = [
   {
     company: "AI MEDICA",
     role: "Platform Engineer",
-    period: "JULY 2024 - Current",
+    period: "JULY 2024 - Present",
     description: [
       "Architected and implemented a cloud-native infrastructure on AWS, optimized for healthcare data processing and storage",
       "Designed and deployed a HIPAA-compliant environment, ensuring data security and privacy at all levels",
@@ -32,9 +32,9 @@ const experiences = [
     icon: Cloud,
   },
   {
-    company: "VIMI STUDIO",
-    role: "DevOps Engineer",
-    period: "Sep 2023 - Jun 2024 · 10 mos",
+    company: "CE ZOOM",
+    role: "DevOps Engineer (Consulting)",
+    period: "Jun 2024 - Present",
     description: [
       "Build and deploy Docker images for all projects, ensuring that applications are packaged with their dependencies for consistency across environments",
       "Design and implement Terraform configurations for provisioning and managing infrastructure across multiple environments",

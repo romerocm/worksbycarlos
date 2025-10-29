@@ -27,7 +27,7 @@ export const caseStudies: CaseStudy[] = [
     title: "Cloud Infrastructure Modernization & DevOps Transformation",
     description:
       "Migrated legacy infrastructure to modern AWS ECS architecture with Infrastructure as Code, implementing robust CI/CD pipelines and security hardening",
-    year: "2024 - ONGOING",
+    year: "2024 - PRESENT",
     metrics: {
       value: "90%",
       label: "deployment time reduction",
@@ -66,7 +66,7 @@ export const caseStudies: CaseStudy[] = [
     title: "Seamless Healthcare Platform Engineering",
     description:
       "Crafting a next-generation healthcare infrastructure that seamlessly blends security, automation, and innovation",
-    year: "2024 - ONGOING",
+    year: "2024 - PRESENT",
     metrics: {
       value: "80%",
       label: "faster deployments",
