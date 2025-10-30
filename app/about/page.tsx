@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useEffect } from "react";
+import { useRef, useEffect, useState } from "react";
 import { motion, useScroll, useTransform, useAnimation } from "framer-motion";
 import { Header } from "@/components/header";
 import { Card } from "@/components/ui/card";
@@ -24,21 +24,114 @@ import {
   Wrench,
 } from "lucide-react";
 
+// Custom hooks for micro-interactions
+const useTypewriter = (
+  text: string,
+  speed: number = 100,
+  startDelay: number = 0
+) => {
+  const [displayedText, setDisplayedText] = useState("");
+  const [isComplete, setIsComplete] = useState(false);
+
+  useEffect(() => {
+    const startTimeout = setTimeout(() => {
+      let index = 0;
+      const timer = setInterval(() => {
+        setDisplayedText(text.slice(0, index + 1));
+        index++;
+        if (index === text.length) {
+          setIsComplete(true);
+          clearInterval(timer);
+        }
+      }, speed);
+
+      return () => clearInterval(timer);
+    }, startDelay);
+
+    return () => clearTimeout(startTimeout);
+  }, [text, speed, startDelay]);
+
+  return { displayedText, isComplete };
+};
+
+const useMagneticMouse = (strength: number = 0.2) => {
+  const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
+  const elementRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const handleMouseMove = (e: MouseEvent) => {
+      if (elementRef.current) {
+        const rect = elementRef.current.getBoundingClientRect();
+        const centerX = rect.left + rect.width / 2;
+        const centerY = rect.top + rect.height / 2;
+
+        const distanceX = e.clientX - centerX;
+        const distanceY = e.clientY - centerY;
+        const distance = Math.sqrt(
+          distanceX * distanceX + distanceY * distanceY
+        );
+
+        if (distance < 100) {
+          // Within 100px
+          const force = Math.max(0, (100 - distance) / 100);
+          setMousePos({
+            x: distanceX * strength * force,
+            y: distanceY * strength * force,
+          });
+        } else {
+          setMousePos({ x: 0, y: 0 });
+        }
+      }
+    };
+
+    document.addEventListener("mousemove", handleMouseMove);
+    return () => document.removeEventListener("mousemove", handleMouseMove);
+  }, [strength]);
+
+  return {
+    elementRef,
+    transform: `translate(${mousePos.x}px, ${mousePos.y}px)`,
+  };
+};
+
 const workingWithMe = {
-  philosophy: "I build like I create music: with precision, creativity, and harmony between all components.",
-  style: "Systems thinker, infrastructure advocate, and composed during incidents.",
-  skills: ["Strategic", "Analytical", "Collaborative", "Resilient", "Efficiency-driven", "Problem Solver"]
+  philosophy:
+    "I build like I create music: with precision, creativity, and harmony between all components.",
+  style:
+    "Systems thinker, infrastructure advocate, and composed during incidents.",
+  skills: [
+    "Strategic",
+    "Analytical",
+    "Collaborative",
+    "Resilient",
+    "Efficiency-driven",
+    "Problem Solver",
+  ],
 };
 
 const technicalSkills = [
   {
     category: "PLATFORM SKILLS",
-    items: ["AWS", "GCP", "Azure", "Terraform", "Kubernetes", "Docker", "Ansible", "GitLab CI"],
+    items: [
+      "AWS",
+      "GCP",
+      "Azure",
+      "Terraform",
+      "Kubernetes",
+      "Docker",
+      "Ansible",
+      "GitLab CI",
+    ],
     icon: Cloud,
   },
   {
     category: "TECHNICAL SKILLS",
-    items: ["Infrastructure as Code", "CI/CD Pipelines", "Monitoring & Observability", "Container Orchestration"],
+    items: [
+      "Infrastructure as Code",
+      "CI/CD Pipelines",
+      "Monitoring & Observability",
+      "Container Orchestration",
+    ],
     icon: Code,
   },
   {
@@ -82,6 +175,17 @@ export default function About() {
   const contactsRef = useRef<HTMLDivElement>(null);
   const controls = useAnimation();
 
+  // Typewriter effects
+  const { displayedText: hiText, isComplete: hiComplete } = useTypewriter(
+    "HI THERE,",
+    80,
+    1000
+  );
+
+  // Magnetic effects
+  const cloudEngineerMagnetic = useMagneticMouse(0.15);
+  const contactMagnetic = useMagneticMouse(0.1);
+
   useEffect(() => {
     const checkScroll = () => {
       if (contactsRef.current) {
@@ -110,11 +214,19 @@ export default function About() {
       {/* Hero Section */}
       <section
         ref={heroRef}
-        className="relative h-screen w-screen flex items-center justify-center overflow-hidden bg-black"
+        className="relative h-screen w-screen flex items-center justify-start overflow-hidden bg-black"
       >
-        <div className="absolute inset-0 z-0 overflow-hidden">
+        <motion.div
+          className="absolute inset-0 z-0 overflow-hidden"
+          style={{ y: heroY }}
+        >
           {/* Desktop Image with closer crop */}
-          <div className="hidden md:block w-full h-full transform scale-[1.8] translate-y-[-15%]">
+          <motion.div
+            className="hidden md:block w-full h-full transform scale-[1.8] translate-y-[-15%]"
+            style={{
+              y: useTransform(heroScrollProgress, [0, 1], ["0%", "20%"]),
+            }}
+          >
             <Image
               src="/assets/images/me-urban-large.png"
               alt="Carlos Romero - Cloud Engineer"
@@ -122,9 +234,14 @@ export default function About() {
               className="object-cover"
               priority
             />
-          </div>
+          </motion.div>
           {/* Mobile Image with proper coverage and zoom */}
-          <div className="block md:hidden w-full h-full transform scale-[1.4] translate-y-[-5%]">
+          <motion.div
+            className="block md:hidden w-full h-full transform scale-[1.4] translate-y-[-5%]"
+            style={{
+              y: useTransform(heroScrollProgress, [0, 1], ["0%", "15%"]),
+            }}
+          >
             <Image
               src="/assets/images/me-urban-large.png"
               alt="Carlos Romero - Cloud Engineer"
@@ -132,13 +249,20 @@ export default function About() {
               className="object-cover object-center"
               priority
             />
-          </div>
-          <div className="absolute inset-0 bg-gradient-to-r from-black/40 via-black/15 to-transparent" />
-          <div className="absolute inset-0 bg-gradient-to-b from-black/30 via-transparent to-transparent" style={{ height: '100px' }} />
-        </div>
+          </motion.div>
+          <motion.div
+            className="absolute inset-0 bg-gradient-to-r from-black/40 via-black/15 to-transparent"
+            style={{
+              opacity: useTransform(heroScrollProgress, [0, 1], [1, 0.7]),
+            }}
+          />
+          <div
+            className="absolute inset-0 bg-gradient-to-b from-black/30 via-transparent to-transparent"
+            style={{ height: "100px" }}
+          />
+        </motion.div>
 
-        <div className="relative z-10 h-full flex items-end md:items-center justify-start px-4 md:px-12 pb-16 md:pb-0">
-
+        <div className="relative z-10 h-full flex items-end md:items-center justify-start container mx-auto px-4 sm:px-6 lg:px-8 pb-16 md:pb-0">
           {/* Main Content - Brutalist Style */}
           <motion.div
             initial={{ opacity: 0, x: -100 }}
@@ -146,80 +270,104 @@ export default function About() {
             transition={{ duration: 0.8 }}
             className="max-w-4xl"
           >
-            {/* Personal Greeting */}
+            {/* Personal Greeting with Typewriter */}
             <motion.div
               initial={{ opacity: 0, y: 50 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.2 }}
               className="relative mb-8"
             >
-              <h1 className="text-4xl md:text-6xl font-black leading-none tracking-tighter text-white mb-2">
-                HI THERE,
-              </h1>
-              <div className="bg-[#b6da9b] p-4 md:p-6 transform rotate-2 inline-block">
+              <div className="text-4xl md:text-6xl font-black leading-none tracking-tighter text-white mb-2 glitch-hover">
+                {hiText}
+                {!hiComplete && <span className="animate-pulse">|</span>}
+              </div>
+              <motion.div
+                initial={{ opacity: 0, scale: 0.8, y: 10 }}
+                animate={{
+                  opacity: hiComplete ? 1 : 0,
+                  scale: hiComplete ? 1 : 0.8,
+                  y: hiComplete ? 0 : 10,
+                }}
+                transition={{ duration: 0.8, ease: "easeOut", delay: 0.2 }}
+                className="bg-[#b6da9b] p-4 md:p-6 transform rotate-2 inline-block magnetic-element"
+                ref={cloudEngineerMagnetic.elementRef}
+                style={{
+                  transform: `rotate(2deg) ${cloudEngineerMagnetic.transform}`,
+                }}
+              >
                 <h1 className="text-5xl md:text-8xl font-black leading-none tracking-tighter text-black">
                   I'M CARLOS
                 </h1>
-              </div>
+              </motion.div>
             </motion.div>
-            
+
             {/* Cloud Engineer in Geometric Box */}
-            <motion.div
-              initial={{ opacity: 0, x: -50 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.8, delay: 0.6 }}
-              className="bg-black p-4 md:p-6 transform -rotate-1 mb-12 max-w-fit"
-            >
-              <h2 className="text-2xl md:text-4xl font-black text-white tracking-tight">
-                CLOUD ENGINEER
-              </h2>
-            </motion.div>
-            
+            {hiComplete && (
+              <motion.div
+                initial={{ opacity: 0, x: -50 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.8, delay: 0.3 }}
+                className="bg-black p-4 md:p-6 transform -rotate-1 mb-12 max-w-fit"
+              >
+                <h2 className="text-2xl md:text-4xl font-black text-white tracking-tight glitch-hover">
+                  CLOUD ENGINEER
+                </h2>
+              </motion.div>
+            )}
+
             {/* Contact Info - Brutalist Style */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.8 }}
-              className="flex flex-col md:flex-row gap-4 md:gap-6 mb-12 items-start"
-            >
-              <div className="bg-white/10 backdrop-blur-sm p-3 md:p-4 transform rotate-1">
-                <a
-                  href="https://linkedin.com/in/romerocm"
-                  className="flex items-center gap-2 md:gap-3 text-white hover:text-[#b6da9b] transition-colors font-bold text-sm md:text-lg"
-                >
-                  <Linkedin className="w-5 h-5 md:w-6 md:h-6" />
-                  <span>ROMEROCM</span>
-                </a>
-              </div>
-              
-              <div className="bg-white/10 backdrop-blur-sm p-3 md:p-4 transform -rotate-1">
-                <a
-                  href="mailto:cmromero.dev@gmail.com"
-                  className="flex items-center gap-2 md:gap-3 text-white hover:text-[#b6da9b] transition-colors font-bold text-sm md:text-lg"
-                >
-                  <Mail className="w-5 h-5 md:w-6 md:h-6" />
-                  <span className="hidden sm:inline">CMROMERO.DEV@GMAIL.COM</span>
-                  <span className="sm:hidden">EMAIL</span>
-                </a>
-              </div>
-              
-            </motion.div>
-            
+            {hiComplete && (
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.8, delay: 0.6 }}
+                className="flex flex-col md:flex-row gap-4 md:gap-6 mb-12 items-start"
+                ref={contactMagnetic.elementRef}
+                style={{ transform: contactMagnetic.transform }}
+              >
+                <div className="bg-white/10 backdrop-blur-sm p-3 md:p-4 transform rotate-1 heartbeat-hover magnetic-element">
+                  <a
+                    href="https://linkedin.com/in/romerocm"
+                    className="flex items-center gap-2 md:gap-3 text-white hover:text-[#b6da9b] transition-colors font-bold text-sm md:text-lg"
+                  >
+                    <Linkedin className="w-5 h-5 md:w-6 md:h-6" />
+                    <span>ROMEROCM</span>
+                  </a>
+                </div>
+
+                <div className="bg-white/10 backdrop-blur-sm p-3 md:p-4 transform -rotate-1 heartbeat-hover magnetic-element">
+                  <a
+                    href="mailto:cmromero.dev@gmail.com"
+                    className="flex items-center gap-2 md:gap-3 text-white hover:text-[#b6da9b] transition-colors font-bold text-sm md:text-lg"
+                  >
+                    <Mail className="w-5 h-5 md:w-6 md:h-6" />
+                    <span className="hidden sm:inline">
+                      CMROMERO.DEV@GMAIL.COM
+                    </span>
+                    <span className="sm:hidden">EMAIL</span>
+                  </a>
+                </div>
+              </motion.div>
+            )}
+
             {/* Brutalist Download Button */}
-            <motion.button
-              initial={{ opacity: 0, scale: 0.8, rotate: -5 }}
-              animate={{ opacity: 1, scale: 1, rotate: -3 }}
-              whileHover={{ scale: 1.1, rotate: 0 }}
-              whileTap={{ scale: 0.95 }}
-              transition={{ duration: 0.8, delay: 1 }}
-              className="inline-flex items-center gap-4 bg-[#b6da9b] text-black px-12 py-6 font-black text-2xl tracking-tight transform -rotate-3 hover:rotate-0 transition-all duration-300 shadow-xl hover:shadow-2xl"
-            >
-              <Download className="w-8 h-8" />
-              DOWNLOAD RESUME
-            </motion.button>
+            {hiComplete && (
+              <motion.a
+                href="https://33vyi7jhxz3mujt2.public.blob.vercel-storage.com/CarlosRomero-CloudEngineer.pdf"
+                target="_blank"
+                rel="noopener noreferrer"
+                initial={{ opacity: 0, scale: 0.8, rotate: -5 }}
+                animate={{ opacity: 1, scale: 1, rotate: -3 }}
+                transition={{ duration: 0.8, delay: 0.9 }}
+                className="inline-flex items-center gap-4 bg-[#b6da9b] text-black px-12 py-6 font-black text-2xl tracking-tight transform -rotate-3 hover:rotate-0 hover:scale-110 transition-all duration-300 shadow-xl hover:shadow-2xl"
+              >
+                <Download className="w-8 h-8" />
+                DOWNLOAD RESUME
+              </motion.a>
+            )}
           </motion.div>
         </div>
-        
+
         {/* Scroll indicator */}
         <motion.div
           initial={{ opacity: 0 }}
@@ -247,15 +395,19 @@ export default function About() {
             transition={{ duration: 0.6 }}
             className="mb-24"
           >
-            <h2 className="text-6xl font-black mb-16 text-black dark:text-white tracking-tight">
-              WORKING<br />WITH ME
+            <h2 className="text-6xl font-black mb-16 text-black dark:text-white tracking-tight text-breathe glitch-hover">
+              WORKING
+              <br />
+              WITH ME
             </h2>
-            
+
             {/* Asymmetric Layout */}
             <div className="space-y-12">
               {/* Philosophy - Full Width */}
               <div className="bg-[#b6da9b] p-8 transform -rotate-1 hover:rotate-0 transition-transform duration-300">
-                <h3 className="text-3xl font-black mb-4 text-black tracking-tight">PHILOSOPHY</h3>
+                <h3 className="text-3xl font-black mb-4 text-black tracking-tight">
+                  PHILOSOPHY
+                </h3>
                 <p className="text-xl text-black font-medium leading-tight max-w-3xl">
                   {workingWithMe.philosophy}
                 </p>
@@ -265,7 +417,9 @@ export default function About() {
               <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-start">
                 {/* Style */}
                 <div className="lg:col-span-2 bg-black dark:bg-white p-8 transform rotate-1 hover:rotate-0 transition-transform duration-300">
-                  <h3 className="text-3xl font-black mb-4 text-white dark:text-black tracking-tight">STYLE</h3>
+                  <h3 className="text-3xl font-black mb-4 text-white dark:text-black tracking-tight">
+                    STYLE
+                  </h3>
                   <p className="text-lg text-gray-200 dark:text-gray-800 font-medium leading-tight">
                     {workingWithMe.style}
                   </p>
@@ -273,7 +427,9 @@ export default function About() {
 
                 {/* Professional Skills */}
                 <div className="bg-gray-100 dark:bg-gray-800 p-6">
-                  <h3 className="text-2xl font-black mb-6 text-black dark:text-white tracking-tight">SKILLS</h3>
+                  <h3 className="text-2xl font-black mb-6 text-black dark:text-white tracking-tight">
+                    SKILLS
+                  </h3>
                   <div className="space-y-3">
                     {workingWithMe.skills.map((skill, index) => (
                       <div
@@ -297,32 +453,59 @@ export default function About() {
             transition={{ duration: 0.6, delay: 0.2 }}
             className="mb-24"
           >
-            <h2 className="text-5xl font-black mb-16 text-black dark:text-white tracking-tight">
-              TECHNICAL<br />EXPERTISE
+            <h2 className="text-5xl font-black mb-16 text-black dark:text-white tracking-tight text-breathe glitch-hover">
+              TECHNICAL
+              <br />
+              EXPERTISE
             </h2>
-            
-            {/* Broken Grid Layout */}
+
+            {/* Broken Grid Layout with Staggered Animations */}
             <div className="space-y-8">
               {technicalSkills.map((skill, index) => (
-                <div
+                <motion.div
                   key={index}
+                  initial={{ opacity: 0, x: index % 2 === 0 ? -50 : 50 }}
+                  whileInView={{ opacity: 1, x: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.6, delay: index * 0.2 }}
                   className={`p-6 ${
-                    index % 3 === 0 
-                      ? 'bg-[#b6da9b] text-black ml-0 mr-8' 
-                      : index % 3 === 1 
-                      ? 'bg-black dark:bg-white text-white dark:text-black ml-8 mr-0' 
-                      : 'bg-gray-200 dark:bg-gray-700 text-black dark:text-white ml-4 mr-4'
-                  } transform ${index % 2 === 0 ? 'rotate-1' : '-rotate-1'} hover:rotate-0 transition-transform duration-300`}
+                    index % 3 === 0
+                      ? "bg-[#b6da9b] text-black ml-0 mr-8"
+                      : index % 3 === 1
+                      ? "bg-black dark:bg-white text-white dark:text-black ml-8 mr-0"
+                      : "bg-gray-200 dark:bg-gray-700 text-black dark:text-white ml-4 mr-4"
+                  } transform ${
+                    index % 2 === 0 ? "rotate-1" : "-rotate-1"
+                  } hover:rotate-0 transition-transform duration-300`}
+                  style={
+                    {
+                      "--initial-rotation": `${
+                        index % 2 === 0 ? "1deg" : "-1deg"
+                      }`,
+                    } as any
+                  }
                 >
-                  <h3 className="text-2xl font-black mb-4 tracking-tight">{skill.category}</h3>
+                  <h3 className="text-2xl font-black mb-4 tracking-tight glitch-hover">
+                    {skill.category}
+                  </h3>
                   <div className="grid grid-cols-2 gap-2">
                     {skill.items.map((item, i) => (
-                      <div key={i} className="text-sm font-bold tracking-wide">
+                      <motion.div
+                        key={i}
+                        className="text-sm font-bold tracking-wide"
+                        initial={{ opacity: 0, scale: 0.8 }}
+                        whileInView={{ opacity: 1, scale: 1 }}
+                        viewport={{ once: true }}
+                        transition={{
+                          duration: 0.3,
+                          delay: index * 0.2 + i * 0.1,
+                        }}
+                      >
                         {item}
-                      </div>
+                      </motion.div>
                     ))}
                   </div>
-                </div>
+                </motion.div>
               ))}
             </div>
           </motion.section>
@@ -335,26 +518,32 @@ export default function About() {
             transition={{ duration: 0.6, delay: 0.4 }}
             className="mb-24 relative"
           >
-            <h2 className="text-6xl font-black mb-16 text-black dark:text-white tracking-tight">
-              BEYOND<br />CODE
+            <h2 className="text-6xl font-black mb-16 text-black dark:text-white tracking-tight text-breathe glitch-hover">
+              BEYOND
+              <br />
+              CODE
             </h2>
-            
-            
+
             {/* Interactive Musical Elements */}
             <div className="space-y-12">
               {/* Guitar Section */}
-              <div 
+              <div
                 className="group cursor-pointer relative"
-                onMouseEnter={() => {/* Add hover sound effect later */}}
+                onMouseEnter={() => {
+                  /* Add hover sound effect later */
+                }}
               >
                 <div className="flex flex-col lg:flex-row items-start gap-8">
                   <div className="bg-[#b6da9b] p-8 flex-1 transform -rotate-2 group-hover:rotate-0 group-hover:scale-105 transition-all duration-500">
-                    <h3 className="text-4xl font-black mb-4 text-black tracking-tight">TAYLOR 314CE</h3>
+                    <h3 className="text-4xl font-black mb-4 text-black tracking-tight">
+                      TAYLOR 314CE
+                    </h3>
                     <p className="text-xl text-black font-medium">
-                      I've played guitar since I was 12 and finally got my dream guitar.
+                      I've been playing guitar since I was 12 and just recently
+                      got one of my dream guitars – I've always wanted a Taylor.
                     </p>
                   </div>
-                  
+
                   {/* Paper Guitar Image */}
                   <div className="w-48 transform rotate-3 group-hover:rotate-0 group-hover:scale-110 transition-all duration-500 shadow-lg group-hover:shadow-2xl">
                     <Image
@@ -382,14 +571,17 @@ export default function About() {
                       className="w-full h-auto"
                     />
                   </div>
-                  
+
                   <div className="bg-black dark:bg-white p-8 transform rotate-1 group-hover:rotate-0 group-hover:scale-105 transition-all duration-500">
-                    <h3 className="text-3xl font-black mb-4 text-white dark:text-black tracking-tight">PIANO</h3>
+                    <h3 className="text-3xl font-black mb-4 text-white dark:text-black tracking-tight">
+                      KURZWEIL MP20F
+                    </h3>
                     <p className="text-lg text-gray-200 dark:text-gray-800 font-medium">
-                      Classical foundations meet contemporary exploration
+                      Started playing piano in my early 20s and quickly fell in
+                      love with it.
                     </p>
                   </div>
-                  
+
                   {/* Mobile Piano Image */}
                   <div className="lg:hidden mt-6 transform rotate-2 group-hover:rotate-0 group-hover:scale-105 transition-all duration-500 shadow-lg group-hover:shadow-2xl">
                     <Image
@@ -405,7 +597,9 @@ export default function About() {
                 {/* Saxophone - Learning */}
                 <div className="group cursor-pointer relative">
                   <div className="bg-gray-100 dark:bg-gray-800 p-8 transform -rotate-1 group-hover:rotate-0 group-hover:scale-105 transition-all duration-500">
-                    <h3 className="text-3xl font-black mb-4 text-black dark:text-white tracking-tight">SAXOPHONE</h3>
+                    <h3 className="text-3xl font-black mb-4 text-black dark:text-white tracking-tight">
+                      SAXOPHONE
+                    </h3>
                     <p className="text-lg text-gray-700 dark:text-gray-300 font-medium">
                       Currently exploring jazz fundamentals
                     </p>
@@ -415,23 +609,51 @@ export default function About() {
                       </span>
                     </div>
                   </div>
-                  
-                  {/* Paper Sax Placeholder */}
-                  <div className="absolute -right-4 -bottom-4 w-32 h-40 bg-amber-100 dark:bg-amber-200 flex items-center justify-center transform rotate-12 group-hover:rotate-6 group-hover:scale-110 transition-all duration-500 shadow-md group-hover:shadow-xl">
-                    <div className="text-center">
-                      <Music className="w-8 h-8 mx-auto text-amber-600 mb-1" />
-                      <p className="text-xs font-black text-amber-800">SAX IMAGE<br />PLACEHOLDER</p>
-                    </div>
+
+                  {/* Alto Saxophone Image - Positioned on the container */}
+                  <div className="absolute -right-4 top-12 w-32 transform rotate-12 group-hover:rotate-6 group-hover:scale-110 transition-all duration-500 shadow-md group-hover:shadow-xl">
+                    <Image
+                      src="/assets/images/alto-sax.png"
+                      alt="Alto Saxophone"
+                      width={128}
+                      height={160}
+                      className="w-full h-auto"
+                    />
                   </div>
                 </div>
               </div>
 
-              {/* Mac Miller Inspiration */}
-              <div className="bg-[#b6da9b] p-8 transform rotate-1 hover:rotate-0 transition-transform duration-300 max-w-2xl ml-auto">
-                <h3 className="text-3xl font-black mb-4 text-black tracking-tight">MAC MILLER VIBES</h3>
-                <p className="text-lg text-black font-medium">
-                  Drawing inspiration from artists who dedicate themselves to their craft. The same precision and creativity that goes into music flows into code.
-                </p>
+              {/* Mac Miller & FKJ Section - Two Column Layout */}
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start">
+                {/* Mac Miller Tiny Desk YouTube Embed */}
+                <div className="transform -rotate-2 shadow-lg">
+                  <div
+                    className="relative w-full"
+                    style={{ paddingBottom: "56.25%" /* 16:9 aspect ratio */ }}
+                  >
+                    <iframe
+                      className="absolute top-0 left-0 w-full h-full rounded-sm"
+                      src="https://www.youtube-nocookie.com/embed/QrR_gm6RqCo?si=LbLRZKtAzPxyNq0Z"
+                      title="Mac Miller: NPR Music Tiny Desk Concert"
+                      frameBorder="0"
+                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                      allowFullScreen
+                      loading="lazy"
+                    ></iframe>
+                  </div>
+                </div>
+
+                {/* MAC MILLER & FKJ Text Box */}
+                <div className="bg-[#b6da9b] p-8 transform rotate-1 hover:rotate-0 transition-transform duration-300">
+                  <h3 className="text-3xl font-black mb-4 text-black tracking-tight">
+                    LATELY I'VE BEEN INTO
+                  </h3>
+                  <p className="text-lg text-black font-medium">
+                    Drawing inspiration from artists who dedicate themselves to
+                    their craft. The same precision and creativity that goes
+                    into music flows into code.
+                  </p>
+                </div>
               </div>
             </div>
           </motion.section>
@@ -446,19 +668,25 @@ export default function About() {
           >
             <div className="bg-black dark:bg-white p-12 transform -rotate-1 hover:rotate-0 transition-transform duration-300">
               <h2 className="text-5xl font-black mb-8 text-white dark:text-black tracking-tight">
-                WANT THE<br />FULL STORY?
+                WANT THE
+                <br />
+                FULL STORY?
               </h2>
               <p className="text-xl text-gray-300 dark:text-gray-700 font-medium mb-12 max-w-2xl mx-auto">
-                Download my detailed resume for complete professional experience and technical expertise.
+                Download my detailed resume for complete professional experience
+                and technical expertise.
               </p>
-              <motion.button
+              <motion.a
+                href="https://33vyi7jhxz3mujt2.public.blob.vercel-storage.com/CarlosRomero-CloudEngineer.pdf"
+                target="_blank"
+                rel="noopener noreferrer"
                 whileHover={{ scale: 1.1, rotate: 0 }}
                 whileTap={{ scale: 0.95 }}
                 className="inline-flex items-center gap-4 bg-[#b6da9b] text-black px-12 py-6 font-black text-2xl tracking-tight transform rotate-2 hover:rotate-0 transition-all duration-300 shadow-xl hover:shadow-2xl"
               >
                 <Download className="w-8 h-8" />
                 DOWNLOAD RESUME
-              </motion.button>
+              </motion.a>
             </div>
           </motion.section>
         </main>
