@@ -651,7 +651,7 @@ export default function About() {
                   <p className="text-lg text-black font-medium">
                     Drawing inspiration from artists who dedicate themselves to
                     their craft. The same precision and creativity that goes
-                    into music flows into code.
+                    into my music flows into my code.
                   </p>
                 </div>
               </div>
