@@ -231,3 +231,17 @@
   @apply bg-gray-900 rounded-lg shadow-xl border border-gray-700;
   @apply flex flex-col overflow-hidden;
 }
+
+/* Wave animation */
+@keyframes wave {
+  0% {
+    transform: translateX(0%);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+.wave-animation {
+  animation: wave 8s ease-in-out infinite alternate;
+}

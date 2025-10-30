@@ -4,129 +4,81 @@ import { useRef, useEffect } from "react";
 import { motion, useScroll, useTransform, useAnimation } from "framer-motion";
 import { Header } from "@/components/header";
 import { Card } from "@/components/ui/card";
+import Image from "next/image";
 import {
   Cloud,
   Server,
   Database,
   Code,
-  Github,
-  DockIcon as Docker,
   Terminal,
-  Award,
-  Building2,
   MapPin,
   Mail,
   Linkedin,
+  Download,
+  Music,
+  Guitar,
+  Piano,
+  User,
+  Lightbulb,
+  Users,
+  Wrench,
 } from "lucide-react";
 
-const experiences = [
+const workingWithMe = {
+  philosophy: "I build like I create music: with precision, creativity, and harmony between all components.",
+  style: "Systems thinker, infrastructure advocate, and composed during incidents.",
+  skills: ["Strategic", "Analytical", "Collaborative", "Resilient", "Efficiency-driven", "Problem Solver"]
+};
+
+const technicalSkills = [
   {
-    company: "AI MEDICA",
-    role: "Platform Engineer",
-    period: "Jul 2024 - Present",
-    description: [
-      "Architected and implemented a cloud-native infrastructure on AWS, optimized for healthcare data processing and storage",
-      "Designed and deployed a HIPAA-compliant environment, ensuring data security and privacy at all levels",
-      "Implemented auto-scaling solutions that improved system responsiveness by 40% during peak usage periods",
-    ],
+    category: "PLATFORM SKILLS",
+    items: ["AWS", "GCP", "Azure", "Terraform", "Kubernetes", "Docker", "Ansible", "GitLab CI"],
     icon: Cloud,
   },
   {
-    company: "CE ZOOM",
-    role: "DevOps Engineer (Consulting)",
-    period: "Jun 2024 - Present",
-    description: [
-      "Build and deploy Docker images for all projects, ensuring that applications are packaged with their dependencies for consistency across environments",
-      "Design and implement Terraform configurations for provisioning and managing infrastructure across multiple environments",
-      "Develop and maintain CI/CD pipelines to automate the build, test, and deployment",
-    ],
-    icon: Server,
-  },
-  {
-    company: "RESULTIER",
-    role: "DevOps Manager",
-    period: "2021 - Jul 2023 · 2 yr",
-    description: [
-      "Implement and manage continuous delivery pipelines for cloud-based applications, using tools such as Terraform and Ansible",
-      "Administer Linux-based systems, including installing, configuring, and maintaining packages and services",
-      "Mentor and train other engineers in cloud engineering best practices, including infrastructure as code and continuous integration/continuous delivery",
-    ],
+    category: "TECHNICAL SKILLS",
+    items: ["Infrastructure as Code", "CI/CD Pipelines", "Monitoring & Observability", "Container Orchestration"],
     icon: Code,
   },
   {
-    company: "RESULTIER",
-    role: "Program Manager",
-    period: "Jan 2022 - Jun 2023 · 1yr 5 mos",
-    description: [
-      "I was responsible for project kick-offs, retrospective sessions, and task prioritization in six different projects",
-    ],
-    icon: Award,
-  },
-  {
-    company: "ELANIIN TECH COMPANY",
-    role: "Engineering Manager",
-    period: "Feb 2021 - Jan 2022 · 1 yr",
-    description: [
-      "As an Engineering Manager, I have successfully led and managed engineering teams across multiple locations, catering to esteemed clients in the US",
-      "Managed engineers across multiple teams and locations for US based clients",
-      "Managed large product budgets and oversee medium to large-scale deployments",
-      "Followed 1:1 meetings with team members to ensure satisfaction within the organization",
-      "Led DevOps team and served as a mentor to help empower team members for their own professional and personal growth",
-    ],
-    icon: Building2,
-  },
-  {
-    company: "ELANIIN TECH COMPANY",
-    role: "DevOps Engineer",
-    period: "Nov 2019 - Feb 2021 · 1yr 4 mos",
-    description: [
-      "In charge of the maintenance, support, planning and design of cloud to comply with clients' needs",
-      "Setting up development, testing and production environment",
-      "Designing, implementing, and administrating high-availability, auto-scalable, and secure AWS infrastructure",
-      "Building and deploying Docker images for all of our projects",
-      "Developing products with CI / CD on Gitlab",
-    ],
-    icon: Docker,
+    category: "DATABASES & SERVERS",
+    items: ["PostgreSQL", "MySQL", "MongoDB", "Nginx", "Apache"],
+    icon: Database,
   },
 ];
 
-const skills = [
+const musicalInterests = [
   {
-    category: "CLOUD PROVIDERS",
-    items: ["AWS", "GCP", "Microsoft Azure", "DigitalOcean"],
-    icon: Cloud,
+    title: "Taylor 314ce Guitar",
+    description: "Acoustic fingerstyle and songwriting",
+    icon: Guitar,
   },
   {
-    category: "LINUX DISTRIBUTIONS",
-    items: ["RHEL/CentOS", "UbuntuServer", "Debian", "FreeBSD"],
-    icon: Terminal,
+    title: "Piano",
+    description: "Classical and contemporary pieces",
+    icon: Piano,
   },
   {
-    category: "HTTP SERVERS",
-    items: ["Nginx", "Apache"],
-    icon: Server,
-  },
-  {
-    category: "INFRASTRUCTURE",
-    items: ["Docker", "Kubernetes", "Terraform", "Ansible"],
-    icon: Database,
-  },
-  {
-    category: "CI/CD TOOLING",
-    items: ["GitLabCI", "Github Actions", "CloudBuild / CloudRun", "Jenkins"],
-    icon: Code,
-  },
-  {
-    category: "DATABASES",
-    items: ["PostgreSQL", "MySQL", "MongoDB"],
-    icon: Database,
+    title: "Saxophone (Learning)",
+    description: "Currently exploring jazz fundamentals",
+    icon: Music,
   },
 ];
 
 export default function About() {
   const ref = useRef(null);
+  const heroRef = useRef(null);
   const { scrollYProgress } = useScroll({ target: ref });
+  const { scrollYProgress: heroScrollProgress } = useScroll({
+    target: heroRef,
+    offset: ["start start", "end start"],
+  });
+
   const y = useTransform(scrollYProgress, [0, 1], ["0%", "100%"]);
+  const heroY = useTransform(heroScrollProgress, [0, 1], ["0%", "50%"]);
+  const heroOpacity = useTransform(heroScrollProgress, [0, 0.5], [1, 0]);
+
   const contactsRef = useRef<HTMLDivElement>(null);
   const controls = useAnimation();
 
@@ -152,127 +104,369 @@ export default function About() {
   }, [controls]);
 
   return (
-    <div className="min-h-screen bg-background/50 relative">
-      <div className="animated-gradient-background" />
+    <>
       <Header />
-      <main className="container mx-auto px-4 py-12 pt-24">
-        {/* Contact Info */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5 }}
-          className="mb-12 flex flex-col items-center text-center"
-        >
-          <h1 className="text-4xl font-bold mb-6 text-black dark:text-white dark:font-bold">
-            Cloud Engineer
-          </h1>
-          <div
-            ref={contactsRef}
-            className="flex gap-4 text-muted-foreground overflow-x-auto pb-2 max-w-full"
-            style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
-          >
-            <motion.div className="flex whitespace-nowrap" animate={controls}>
-              <a
-                href="https://linkedin.com/in/romerocm"
-                className="flex items-center gap-2 hover:text-foreground transition-colors px-2"
-              >
-                <Linkedin className="w-4 h-4 flex-shrink-0" />
-                <span>romerocm</span>
-              </a>
-              <a
-                href="mailto:cmromero.dev@gmail.com"
-                className="flex items-center gap-2 hover:text-foreground transition-colors px-2"
-              >
-                <Mail className="w-4 h-4 flex-shrink-0" />
-                <span>cmromero.dev@gmail.com</span>
-              </a>
-              <span className="flex items-center gap-2 px-2">
-                <MapPin className="w-4 h-4 flex-shrink-0" />
-                <span>San Salvador, El Salvador</span>
-              </span>
-            </motion.div>
+
+      {/* Hero Section */}
+      <section
+        ref={heroRef}
+        className="relative h-screen w-screen flex items-center justify-center overflow-hidden bg-black"
+      >
+        <div className="absolute inset-0 z-0 overflow-hidden">
+          {/* Desktop Image with closer crop */}
+          <div className="hidden md:block w-full h-full transform scale-[1.8] translate-y-[-15%]">
+            <Image
+              src="/assets/images/me-urban-large.png"
+              alt="Carlos Romero - Cloud Engineer"
+              fill
+              className="object-cover"
+              priority
+            />
           </div>
-        </motion.div>
+          {/* Mobile Image with proper coverage and zoom */}
+          <div className="block md:hidden w-full h-full transform scale-[1.4] translate-y-[-5%]">
+            <Image
+              src="/assets/images/me-urban-large.png"
+              alt="Carlos Romero - Cloud Engineer"
+              fill
+              className="object-cover object-center"
+              priority
+            />
+          </div>
+          <div className="absolute inset-0 bg-gradient-to-r from-black/40 via-black/15 to-transparent" />
+          <div className="absolute inset-0 bg-gradient-to-b from-black/30 via-transparent to-transparent" style={{ height: '100px' }} />
+        </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
-          {/* Skills Section */}
-          <motion.div
-            initial={{ opacity: 0, x: -20 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.5, delay: 0.2 }}
-            className="lg:col-span-3 space-y-6"
-          >
-            <h2 className="text-2xl font-bold mb-4">Core Technologies</h2>
-            {skills.map((skill, index) => (
-              <Card
-                key={index}
-                className="p-4 border-l-4 border-l-[#b6da9b] hover:shadow-lg transition-shadow duration-300"
-              >
-                <div className="flex items-center gap-2 mb-2">
-                  <skill.icon className="w-4 h-4 text-black" />
-                  <h3 className="font-semibold">{skill.category}</h3>
-                </div>
-                <ul className="space-y-1 text-sm text-muted-foreground">
-                  {skill.items.map((item, i) => (
-                    <li key={i}>{item}</li>
-                  ))}
-                </ul>
-              </Card>
-            ))}
-          </motion.div>
+        <div className="relative z-10 h-full flex items-end md:items-center justify-start px-4 md:px-12 pb-16 md:pb-0">
 
-          {/* Experience Timeline */}
+          {/* Main Content - Brutalist Style */}
           <motion.div
-            initial={{ opacity: 0, x: 20 }}
+            initial={{ opacity: 0, x: -100 }}
             animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.5, delay: 0.4 }}
-            className="lg:col-span-9"
-            ref={ref}
+            transition={{ duration: 0.8 }}
+            className="max-w-4xl"
           >
-            <h2 className="text-2xl font-bold mb-8">Work Experience</h2>
-            <div className="relative">
-              <div
-                className="absolute left-8 top-0 bottom-0 w-px bg-[#b6da9b]/30"
-                style={{ transform: `scaleY(${scrollYProgress})` }}
-              />
-              {experiences.map((experience, index) => (
-                <motion.div
-                  key={index}
-                  initial={{ opacity: 0, x: 20 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{ duration: 0.5, delay: index * 0.1 }}
-                  className="mb-12 relative"
+            {/* Personal Greeting */}
+            <motion.div
+              initial={{ opacity: 0, y: 50 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 0.2 }}
+              className="relative mb-8"
+            >
+              <h1 className="text-4xl md:text-6xl font-black leading-none tracking-tighter text-white mb-2">
+                HI THERE,
+              </h1>
+              <div className="bg-[#b6da9b] p-4 md:p-6 transform rotate-2 inline-block">
+                <h1 className="text-5xl md:text-8xl font-black leading-none tracking-tighter text-black">
+                  I'M CARLOS
+                </h1>
+              </div>
+            </motion.div>
+            
+            {/* Cloud Engineer in Geometric Box */}
+            <motion.div
+              initial={{ opacity: 0, x: -50 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.8, delay: 0.6 }}
+              className="bg-black p-4 md:p-6 transform -rotate-1 mb-12 max-w-fit"
+            >
+              <h2 className="text-2xl md:text-4xl font-black text-white tracking-tight">
+                CLOUD ENGINEER
+              </h2>
+            </motion.div>
+            
+            {/* Contact Info - Brutalist Style */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 0.8 }}
+              className="flex flex-col md:flex-row gap-4 md:gap-6 mb-12 items-start"
+            >
+              <div className="bg-white/10 backdrop-blur-sm p-3 md:p-4 transform rotate-1">
+                <a
+                  href="https://linkedin.com/in/romerocm"
+                  className="flex items-center gap-2 md:gap-3 text-white hover:text-[#b6da9b] transition-colors font-bold text-sm md:text-lg"
                 >
-                  <div className="flex gap-4">
-                    <div className="w-16 h-16 rounded-full bg-[#b6da9b] border-2 border-[#b6da9b] flex items-center justify-center flex-shrink-0 animate-float">
-                      <experience.icon className="w-8 h-8 text-black" />
-                    </div>
-                    <div className="flex-1">
-                      <h3 className="text-xl font-bold">
-                        {experience.company}
-                      </h3>
-                      <div className="flex flex-col sm:flex-row sm:items-center gap-2 text-muted-foreground mb-4">
-                        <span className="font-medium">{experience.role}</span>
-                        <span className="hidden sm:inline">•</span>
-                        <span>{experience.period}</span>
-                      </div>
-                      <ul className="list-disc list-inside space-y-2 text-sm text-muted-foreground">
-                        {experience.description.map((item, i) => (
-                          <li key={i}>{item}</li>
-                        ))}
-                      </ul>
-                    </div>
-                  </div>
-                </motion.div>
-              ))}
-            </div>
+                  <Linkedin className="w-5 h-5 md:w-6 md:h-6" />
+                  <span>ROMEROCM</span>
+                </a>
+              </div>
+              
+              <div className="bg-white/10 backdrop-blur-sm p-3 md:p-4 transform -rotate-1">
+                <a
+                  href="mailto:cmromero.dev@gmail.com"
+                  className="flex items-center gap-2 md:gap-3 text-white hover:text-[#b6da9b] transition-colors font-bold text-sm md:text-lg"
+                >
+                  <Mail className="w-5 h-5 md:w-6 md:h-6" />
+                  <span className="hidden sm:inline">CMROMERO.DEV@GMAIL.COM</span>
+                  <span className="sm:hidden">EMAIL</span>
+                </a>
+              </div>
+              
+            </motion.div>
+            
+            {/* Brutalist Download Button */}
+            <motion.button
+              initial={{ opacity: 0, scale: 0.8, rotate: -5 }}
+              animate={{ opacity: 1, scale: 1, rotate: -3 }}
+              whileHover={{ scale: 1.1, rotate: 0 }}
+              whileTap={{ scale: 0.95 }}
+              transition={{ duration: 0.8, delay: 1 }}
+              className="inline-flex items-center gap-4 bg-[#b6da9b] text-black px-12 py-6 font-black text-2xl tracking-tight transform -rotate-3 hover:rotate-0 transition-all duration-300 shadow-xl hover:shadow-2xl"
+            >
+              <Download className="w-8 h-8" />
+              DOWNLOAD RESUME
+            </motion.button>
           </motion.div>
         </div>
-      </main>
+        
+        {/* Scroll indicator */}
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 1, delay: 1.2 }}
+          className="absolute bottom-8 left-1/2 transform -translate-x-1/2 text-white"
+        >
+          <motion.div
+            animate={{ y: [0, 10, 0] }}
+            transition={{ duration: 2, repeat: Infinity }}
+            className="w-6 h-10 border-2 border-white/30 rounded-full flex justify-center"
+          >
+            <motion.div className="w-1 h-3 bg-white/60 rounded-full mt-2" />
+          </motion.div>
+        </motion.div>
+      </section>
 
-      <footer className="py-6 px-4 sm:px-6 lg:px-8 text-center text-muted-foreground">
-        © {new Date().getFullYear()} WorksbyCarlos. All rights reserved.
-      </footer>
-    </div>
+      <div className="min-h-screen bg-white dark:bg-gray-950 relative">
+        <main className="container mx-auto px-4 py-16 max-w-5xl">
+          {/* Working with Me Section - Brutalist */}
+          <motion.section
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
+            className="mb-24"
+          >
+            <h2 className="text-6xl font-black mb-16 text-black dark:text-white tracking-tight">
+              WORKING<br />WITH ME
+            </h2>
+            
+            {/* Asymmetric Layout */}
+            <div className="space-y-12">
+              {/* Philosophy - Full Width */}
+              <div className="bg-[#b6da9b] p-8 transform -rotate-1 hover:rotate-0 transition-transform duration-300">
+                <h3 className="text-3xl font-black mb-4 text-black tracking-tight">PHILOSOPHY</h3>
+                <p className="text-xl text-black font-medium leading-tight max-w-3xl">
+                  {workingWithMe.philosophy}
+                </p>
+              </div>
+
+              {/* Style & Skills - Broken Grid */}
+              <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-start">
+                {/* Style */}
+                <div className="lg:col-span-2 bg-black dark:bg-white p-8 transform rotate-1 hover:rotate-0 transition-transform duration-300">
+                  <h3 className="text-3xl font-black mb-4 text-white dark:text-black tracking-tight">STYLE</h3>
+                  <p className="text-lg text-gray-200 dark:text-gray-800 font-medium leading-tight">
+                    {workingWithMe.style}
+                  </p>
+                </div>
+
+                {/* Professional Skills */}
+                <div className="bg-gray-100 dark:bg-gray-800 p-6">
+                  <h3 className="text-2xl font-black mb-6 text-black dark:text-white tracking-tight">SKILLS</h3>
+                  <div className="space-y-3">
+                    {workingWithMe.skills.map((skill, index) => (
+                      <div
+                        key={index}
+                        className="bg-[#b6da9b] px-4 py-2 text-black font-bold text-sm tracking-wide"
+                      >
+                        {skill}
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            </div>
+          </motion.section>
+
+          {/* Technical Skills - Brutalist */}
+          <motion.section
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6, delay: 0.2 }}
+            className="mb-24"
+          >
+            <h2 className="text-5xl font-black mb-16 text-black dark:text-white tracking-tight">
+              TECHNICAL<br />EXPERTISE
+            </h2>
+            
+            {/* Broken Grid Layout */}
+            <div className="space-y-8">
+              {technicalSkills.map((skill, index) => (
+                <div
+                  key={index}
+                  className={`p-6 ${
+                    index % 3 === 0 
+                      ? 'bg-[#b6da9b] text-black ml-0 mr-8' 
+                      : index % 3 === 1 
+                      ? 'bg-black dark:bg-white text-white dark:text-black ml-8 mr-0' 
+                      : 'bg-gray-200 dark:bg-gray-700 text-black dark:text-white ml-4 mr-4'
+                  } transform ${index % 2 === 0 ? 'rotate-1' : '-rotate-1'} hover:rotate-0 transition-transform duration-300`}
+                >
+                  <h3 className="text-2xl font-black mb-4 tracking-tight">{skill.category}</h3>
+                  <div className="grid grid-cols-2 gap-2">
+                    {skill.items.map((item, i) => (
+                      <div key={i} className="text-sm font-bold tracking-wide">
+                        {item}
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              ))}
+            </div>
+          </motion.section>
+
+          {/* Beyond Code - Musical Interests with Paper Instruments */}
+          <motion.section
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6, delay: 0.4 }}
+            className="mb-24 relative"
+          >
+            <h2 className="text-6xl font-black mb-16 text-black dark:text-white tracking-tight">
+              BEYOND<br />CODE
+            </h2>
+            
+            
+            {/* Interactive Musical Elements */}
+            <div className="space-y-12">
+              {/* Guitar Section */}
+              <div 
+                className="group cursor-pointer relative"
+                onMouseEnter={() => {/* Add hover sound effect later */}}
+              >
+                <div className="flex flex-col lg:flex-row items-start gap-8">
+                  <div className="bg-[#b6da9b] p-8 flex-1 transform -rotate-2 group-hover:rotate-0 group-hover:scale-105 transition-all duration-500">
+                    <h3 className="text-4xl font-black mb-4 text-black tracking-tight">TAYLOR 314CE</h3>
+                    <p className="text-xl text-black font-medium">
+                      I've played guitar since I was 12 and finally got my dream guitar.
+                    </p>
+                  </div>
+                  
+                  {/* Paper Guitar Image */}
+                  <div className="w-48 transform rotate-3 group-hover:rotate-0 group-hover:scale-110 transition-all duration-500 shadow-lg group-hover:shadow-2xl">
+                    <Image
+                      src="/assets/images/taylor-guitar.png"
+                      alt="Taylor 314ce Guitar"
+                      width={192}
+                      height={256}
+                      className="w-full h-auto"
+                    />
+                  </div>
+                </div>
+              </div>
+
+              {/* Piano & Sax Section */}
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
+                {/* Piano */}
+                <div className="group cursor-pointer">
+                  {/* Piano Image - Above Piano Text on Desktop */}
+                  <div className="hidden lg:block mb-6 transform -rotate-1 group-hover:rotate-0 group-hover:scale-105 transition-all duration-500 shadow-lg group-hover:shadow-2xl">
+                    <Image
+                      src="/assets/images/kurzweil-piano.png"
+                      alt="Kurzweil Piano"
+                      width={400}
+                      height={128}
+                      className="w-full h-auto"
+                    />
+                  </div>
+                  
+                  <div className="bg-black dark:bg-white p-8 transform rotate-1 group-hover:rotate-0 group-hover:scale-105 transition-all duration-500">
+                    <h3 className="text-3xl font-black mb-4 text-white dark:text-black tracking-tight">PIANO</h3>
+                    <p className="text-lg text-gray-200 dark:text-gray-800 font-medium">
+                      Classical foundations meet contemporary exploration
+                    </p>
+                  </div>
+                  
+                  {/* Mobile Piano Image */}
+                  <div className="lg:hidden mt-6 transform rotate-2 group-hover:rotate-0 group-hover:scale-105 transition-all duration-500 shadow-lg group-hover:shadow-2xl">
+                    <Image
+                      src="/assets/images/kurzweil-piano.png"
+                      alt="Kurzweil Piano"
+                      width={300}
+                      height={96}
+                      className="w-full h-auto"
+                    />
+                  </div>
+                </div>
+
+                {/* Saxophone - Learning */}
+                <div className="group cursor-pointer relative">
+                  <div className="bg-gray-100 dark:bg-gray-800 p-8 transform -rotate-1 group-hover:rotate-0 group-hover:scale-105 transition-all duration-500">
+                    <h3 className="text-3xl font-black mb-4 text-black dark:text-white tracking-tight">SAXOPHONE</h3>
+                    <p className="text-lg text-gray-700 dark:text-gray-300 font-medium">
+                      Currently exploring jazz fundamentals
+                    </p>
+                    <div className="absolute -top-2 -right-2">
+                      <span className="bg-[#b6da9b] text-black text-xs font-black px-3 py-1 transform rotate-12">
+                        LEARNING
+                      </span>
+                    </div>
+                  </div>
+                  
+                  {/* Paper Sax Placeholder */}
+                  <div className="absolute -right-4 -bottom-4 w-32 h-40 bg-amber-100 dark:bg-amber-200 flex items-center justify-center transform rotate-12 group-hover:rotate-6 group-hover:scale-110 transition-all duration-500 shadow-md group-hover:shadow-xl">
+                    <div className="text-center">
+                      <Music className="w-8 h-8 mx-auto text-amber-600 mb-1" />
+                      <p className="text-xs font-black text-amber-800">SAX IMAGE<br />PLACEHOLDER</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {/* Mac Miller Inspiration */}
+              <div className="bg-[#b6da9b] p-8 transform rotate-1 hover:rotate-0 transition-transform duration-300 max-w-2xl ml-auto">
+                <h3 className="text-3xl font-black mb-4 text-black tracking-tight">MAC MILLER VIBES</h3>
+                <p className="text-lg text-black font-medium">
+                  Drawing inspiration from artists who dedicate themselves to their craft. The same precision and creativity that goes into music flows into code.
+                </p>
+              </div>
+            </div>
+          </motion.section>
+
+          {/* Download Resume CTA - Brutalist */}
+          <motion.section
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6, delay: 0.6 }}
+            className="text-center"
+          >
+            <div className="bg-black dark:bg-white p-12 transform -rotate-1 hover:rotate-0 transition-transform duration-300">
+              <h2 className="text-5xl font-black mb-8 text-white dark:text-black tracking-tight">
+                WANT THE<br />FULL STORY?
+              </h2>
+              <p className="text-xl text-gray-300 dark:text-gray-700 font-medium mb-12 max-w-2xl mx-auto">
+                Download my detailed resume for complete professional experience and technical expertise.
+              </p>
+              <motion.button
+                whileHover={{ scale: 1.1, rotate: 0 }}
+                whileTap={{ scale: 0.95 }}
+                className="inline-flex items-center gap-4 bg-[#b6da9b] text-black px-12 py-6 font-black text-2xl tracking-tight transform rotate-2 hover:rotate-0 transition-all duration-300 shadow-xl hover:shadow-2xl"
+              >
+                <Download className="w-8 h-8" />
+                DOWNLOAD RESUME
+              </motion.button>
+            </div>
+          </motion.section>
+        </main>
+
+        <footer className="py-6 px-4 sm:px-6 lg:px-8 text-center text-muted-foreground">
+          © {new Date().getFullYear()} WorksbyCarlos. All rights reserved.
+        </footer>
+      </div>
+    </>
   );
 }
