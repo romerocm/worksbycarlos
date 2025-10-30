@@ -231,3 +231,106 @@
   @apply bg-gray-900 rounded-lg shadow-xl border border-gray-700;
   @apply flex flex-col overflow-hidden;
 }
+
+
+/* Micro-interaction animations */
+@keyframes glitch {
+  0% {
+    text-shadow: 0 0 0 rgba(255, 0, 0, 0), 0 0 0 rgba(0, 255, 0, 0), 0 0 0 rgba(0, 0, 255, 0);
+  }
+  20% {
+    text-shadow: 2px 0 0 rgba(255, 0, 0, 0.8), -2px 0 0 rgba(0, 255, 0, 0.8), 0 0 0 rgba(0, 0, 255, 0.8);
+  }
+  40% {
+    text-shadow: -1px 0 0 rgba(255, 0, 0, 0.8), 1px 0 0 rgba(0, 255, 0, 0.8), 1px 0 0 rgba(0, 0, 255, 0.8);
+  }
+  60% {
+    text-shadow: 1px 0 0 rgba(255, 0, 0, 0.8), -1px 0 0 rgba(0, 255, 0, 0.8), -1px 0 0 rgba(0, 0, 255, 0.8);
+  }
+  80% {
+    text-shadow: 0 0 0 rgba(255, 0, 0, 0), 0 0 0 rgba(0, 255, 0, 0), 0 0 0 rgba(0, 0, 255, 0);
+  }
+  100% {
+    text-shadow: 0 0 0 rgba(255, 0, 0, 0), 0 0 0 rgba(0, 255, 0, 0), 0 0 0 rgba(0, 0, 255, 0);
+  }
+}
+
+@keyframes textBreathe {
+  0%, 100% {
+    text-shadow: -1px -1px 0 #b6da9b, 1px -1px 0 #b6da9b, -1px 1px 0 #b6da9b, 1px 1px 0 #b6da9b;
+  }
+  50% {
+    text-shadow: -2px -2px 0 #b6da9b, 2px -2px 0 #b6da9b, -2px 2px 0 #b6da9b, 2px 2px 0 #b6da9b;
+  }
+}
+
+@keyframes heartbeat {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.05);
+  }
+}
+
+@keyframes rotationDrift {
+  0% {
+    transform: rotate(var(--initial-rotation));
+  }
+  100% {
+    transform: rotate(calc(var(--initial-rotation) + 2deg));
+  }
+}
+
+
+@keyframes stringVibrate {
+  0%, 100% { transform: scaleY(1); }
+  25% { transform: scaleY(0.98); }
+  50% { transform: scaleY(1.02); }
+  75% { transform: scaleY(0.99); }
+}
+
+/* Utility classes for micro-interactions */
+.glitch-hover:hover {
+  animation: glitch 0.3s ease-in-out;
+}
+
+.text-breathe {
+  animation: textBreathe 3s ease-in-out infinite;
+}
+
+.heartbeat-hover:hover {
+  animation: heartbeat 0.6s ease-in-out;
+}
+
+.rotation-drift-hover:hover {
+  animation: rotationDrift 2s linear infinite;
+}
+
+
+.magnetic-element {
+  transition: transform 0.2s ease-out;
+}
+
+/* Dark mode adjustments for text breathing */
+.dark .text-breathe {
+  animation: textBreathe 3s ease-in-out infinite;
+}
+
+.dark .text-breathe {
+  text-shadow: -1px -1px 0 #ffffff, 1px -1px 0 #ffffff, -1px 1px 0 #ffffff, 1px 1px 0 #ffffff;
+}
+
+/* Reduce motion for accessibility */
+@media (prefers-reduced-motion: reduce) {
+  .glitch-hover:hover,
+  .text-breathe,
+  .heartbeat-hover:hover,
+  .rotation-drift-hover:hover {
+    animation: none;
+  }
+  
+  .magnetic-element {
+    transition: none;
+  }
+}
