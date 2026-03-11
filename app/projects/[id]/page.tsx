@@ -6,7 +6,8 @@ import Image from 'next/image'
 import { Header } from '@/components/header'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
-import { ArrowLeft } from 'lucide-react'
+import { HugeiconsIcon } from "@hugeicons/react"
+import { ArrowLeft01Icon } from "@hugeicons-pro/core-stroke-rounded"
 import { caseStudies } from '@/types/case-study'
 
 export default function CaseStudy() {
@@ -65,7 +66,7 @@ export default function CaseStudy() {
             className="mb-8"
             onClick={() => router.back()}
           >
-            <ArrowLeft className="mr-2 h-4 w-4" />
+            <HugeiconsIcon icon={ArrowLeft01Icon} size={16} className="mr-2" />
             Go Back
           </Button>
 

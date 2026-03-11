@@ -4,16 +4,17 @@ import { useRef, useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Header } from "@/components/header";
 import { Card } from "@/components/ui/card";
+import { HugeiconsIcon } from "@hugeicons/react";
 import {
-  Play,
-  Award,
-  Briefcase,
-  Coffee,
-  Pizza,
-  Sparkles,
-  Terminal,
-  Zap,
-} from "lucide-react";
+  PlayIcon,
+  Award01Icon,
+  Briefcase01Icon,
+  Coffee01Icon,
+  Pizza01Icon,
+  SparklesIcon,
+  CommandLineIcon,
+  ZapIcon,
+} from "@hugeicons-pro/core-stroke-rounded";
 import Image from "next/image";
 import Link from "next/link";
 import { InteractiveTerminal } from "@/components/interactive-terminal";
@@ -318,19 +319,19 @@ export default function Home() {
                 className="absolute top-4 right-4 text-white/60"
                 whileHover={{ scale: 1.1 }}
               >
-                <Sparkles className="w-6 h-6" />
+                <HugeiconsIcon icon={SparklesIcon} size={24} />
               </motion.div>
               <motion.div
                 className="absolute bottom-4 left-4 text-white/60"
                 whileHover={{ scale: 1.1 }}
               >
-                <Terminal className="w-6 h-6" />
+                <HugeiconsIcon icon={CommandLineIcon} size={24} />
               </motion.div>
               <motion.div
                 className="absolute bottom-4 right-4 text-white/60"
                 whileHover={{ scale: 1.1 }}
               >
-                <Zap className="w-6 h-6" />
+                <HugeiconsIcon icon={ZapIcon} size={24} />
               </motion.div>
             </Card>
           </motion.div>
@@ -397,7 +398,7 @@ export default function Home() {
                   <div className="absolute inset-0 bg-gradient-to-b from-transparent via-black/50 to-black/80" />
                   <div className="absolute bottom-4 left-4 right-4 text-white">
                     <div className="flex items-center gap-2 mb-1">
-                      <Play className="w-3 h-3" />
+                      <HugeiconsIcon icon={PlayIcon} size={12} />
                       <span className="text-xs">Featured Project</span>
                     </div>
                     <h2 className="text-lg font-bold mb-1">
@@ -408,7 +409,7 @@ export default function Home() {
                     </p>
                   </div>
                   <div className="absolute top-3 right-3 opacity-0 group-hover:opacity-100 transition-opacity">
-                    <Play className="w-5 h-5 text-white" />
+                    <HugeiconsIcon icon={PlayIcon} size={20} className="text-white" />
                   </div>
                 </div>
               </Card>
@@ -458,7 +459,7 @@ export default function Home() {
                     whileHover={{ rotate: 360 }}
                     transition={{ duration: 0.6 }}
                   >
-                    <Coffee className="w-8 h-8 opacity-60" />
+                    <HugeiconsIcon icon={Coffee01Icon} size={32} className="opacity-60" />
                   </motion.div>
                 </div>
               </div>
@@ -518,7 +519,7 @@ export default function Home() {
                     whileHover={{ rotate: 360 }}
                     transition={{ duration: 0.6 }}
                   >
-                    <Pizza className="w-8 h-8 opacity-60" />
+                    <HugeiconsIcon icon={Pizza01Icon} size={32} className="opacity-60" />
                   </motion.div>
                 </div>
               </div>
@@ -568,7 +569,7 @@ export default function Home() {
                     whileHover={{ rotate: 360 }}
                     transition={{ duration: 0.6 }}
                   >
-                    <Award className="w-8 h-8 opacity-60" />
+                    <HugeiconsIcon icon={Award01Icon} size={32} className="opacity-60" />
                   </motion.div>
                 </div>
               </div>
@@ -612,7 +613,7 @@ export default function Home() {
                       whileHover={{ rotate: 360 }}
                       transition={{ duration: 0.6 }}
                     >
-                      <Briefcase className="w-6 h-6 opacity-60" />
+                      <HugeiconsIcon icon={Briefcase01Icon} size={24} className="opacity-60" />
                     </motion.div>
                   </div>
                 </div>

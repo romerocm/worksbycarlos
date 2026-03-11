@@ -5,7 +5,8 @@ import { cn } from "@/lib/utils";
 import Image from "next/image";
 import { MDXRemote } from "next-mdx-remote";
 import "highlight.js/styles/github-dark.css";
-import { Check, Copy } from "lucide-react";
+import { HugeiconsIcon } from "@hugeicons/react";
+import { Tick01Icon, Copy01Icon } from "@hugeicons-pro/core-stroke-rounded";
 import { Button } from "@/components/ui/button";
 
 const CodeBlock = React.forwardRef<
@@ -89,9 +90,9 @@ const CodeBlock = React.forwardRef<
         onClick={copyToClipboard}
       >
         {copied ? (
-          <Check className="h-4 w-4 text-green-500" />
+          <HugeiconsIcon icon={Tick01Icon} size={16} className="text-green-500" />
         ) : (
-          <Copy className="h-4 w-4" />
+          <HugeiconsIcon icon={Copy01Icon} size={16} />
         )}
         <span className="sr-only">
           {copied ? "Copied to clipboard" : "Copy code"}

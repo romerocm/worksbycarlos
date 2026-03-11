@@ -3,6 +3,7 @@ FROM node:18-alpine
 WORKDIR /app
 
 COPY package*.json ./
+COPY vendor/ ./vendor/
 
 # Install both the main dependencies and the typography plugin
 RUN npm install --legacy-peer-deps && \

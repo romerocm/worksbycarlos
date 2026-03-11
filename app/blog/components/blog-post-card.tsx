@@ -4,7 +4,8 @@ import { motion } from 'framer-motion'
 import { Card } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
-import { ArrowRight } from 'lucide-react'
+import { HugeiconsIcon } from '@hugeicons/react'
+import { ArrowRight01Icon } from '@hugeicons-pro/core-stroke-rounded'
 
 interface BlogPostCardProps {
   post: {
@@ -94,7 +95,7 @@ export function BlogPostCard({ post, index, featured = false }: BlogPostCardProp
                 size={featured ? "default" : "sm"}
                 className="group-hover:translate-x-1 transition-transform"
               >
-                Read More <ArrowRight className="ml-2 h-4 w-4" />
+                Read More <HugeiconsIcon icon={ArrowRight01Icon} size={16} className="ml-2" />
               </Button>
             </div>
           </div>

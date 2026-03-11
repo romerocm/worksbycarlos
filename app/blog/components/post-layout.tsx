@@ -6,7 +6,8 @@ import { TableOfContents } from './table-of-contents'
 import Image from 'next/image'
 import { Header } from '@/components/header'
 import { Badge } from '@/components/ui/badge'
-import { Calendar, Clock, ArrowLeft } from 'lucide-react'
+import { HugeiconsIcon } from '@hugeicons/react'
+import { Calendar01Icon, Clock01Icon, ArrowLeft01Icon } from '@hugeicons-pro/core-stroke-rounded'
 import Link from 'next/link'
 import { Button } from '@/components/ui/button'
 import { BlogPost } from '@/types/blog'
@@ -35,7 +36,7 @@ function PostContent({ post }: PostLayoutProps) {
       >
         <Link href="/blog">
           <Button variant="ghost" className="mb-8">
-            <ArrowLeft className="mr-2 h-4 w-4" />
+            <HugeiconsIcon icon={ArrowLeft01Icon} size={16} className="mr-2" />
             Back to Blog
           </Button>
         </Link>
@@ -77,11 +78,11 @@ function PostContent({ post }: PostLayoutProps) {
               <span>{post.author}</span>
             </div>
             <span className="flex items-center gap-1">
-              <Calendar className="h-4 w-4" />
+              <HugeiconsIcon icon={Calendar01Icon} size={16} />
               {new Date(post.date).toLocaleDateString()}
             </span>
             <span className="flex items-center gap-1">
-              <Clock className="h-4 w-4" />
+              <HugeiconsIcon icon={Clock01Icon} size={16} />
               {post.readingTime}
             </span>
           </div>
