@@ -5,24 +5,25 @@ import { motion, useScroll, useTransform, useAnimation } from "framer-motion";
 import { Header } from "@/components/header";
 import { Card } from "@/components/ui/card";
 import Image from "next/image";
+import { HugeiconsIcon } from "@hugeicons/react";
 import {
-  Cloud,
-  Server,
-  Database,
-  Code,
-  Terminal,
-  MapPin,
-  Mail,
-  Linkedin,
-  Download,
-  Music,
-  Guitar,
-  Piano,
-  User,
-  Lightbulb,
-  Users,
-  Wrench,
-} from "lucide-react";
+  CloudIcon,
+  ServerStackIcon,
+  Database01Icon,
+  CodeIcon,
+  CommandLineIcon,
+  MapPinIcon,
+  Mail01Icon,
+  Linkedin01Icon,
+  Download01Icon,
+  MusicNote01Icon,
+  MusicNote03Icon,
+  MusicNote04Icon,
+  UserIcon,
+  BulbIcon,
+  UserMultipleIcon,
+  Wrench01Icon,
+} from "@hugeicons-pro/core-stroke-rounded";
 
 // Custom hooks for micro-interactions
 const useTypewriter = (
@@ -122,7 +123,7 @@ const technicalSkills = [
       "Ansible",
       "GitLab CI",
     ],
-    icon: Cloud,
+    icon: CloudIcon,
   },
   {
     category: "TECHNICAL SKILLS",
@@ -132,12 +133,12 @@ const technicalSkills = [
       "Monitoring & Observability",
       "Container Orchestration",
     ],
-    icon: Code,
+    icon: CodeIcon,
   },
   {
     category: "DATABASES & SERVERS",
     items: ["PostgreSQL", "MySQL", "MongoDB", "Nginx", "Apache"],
-    icon: Database,
+    icon: Database01Icon,
   },
 ];
 
@@ -145,17 +146,17 @@ const musicalInterests = [
   {
     title: "Taylor 314ce Guitar",
     description: "Acoustic fingerstyle and songwriting",
-    icon: Guitar,
+    icon: MusicNote03Icon,
   },
   {
     title: "Piano",
     description: "Classical and contemporary pieces",
-    icon: Piano,
+    icon: MusicNote04Icon,
   },
   {
     title: "Saxophone (Learning)",
     description: "Currently exploring jazz fundamentals",
-    icon: Music,
+    icon: MusicNote01Icon,
   },
 ];
 
@@ -330,7 +331,7 @@ export default function About() {
                     href="https://linkedin.com/in/romerocm"
                     className="flex items-center gap-2 md:gap-3 text-white hover:text-[#b6da9b] transition-colors font-bold text-sm md:text-lg"
                   >
-                    <Linkedin className="w-5 h-5 md:w-6 md:h-6" />
+                    <HugeiconsIcon icon={Linkedin01Icon} size={24} />
                     <span>ROMEROCM</span>
                   </a>
                 </div>
@@ -340,7 +341,7 @@ export default function About() {
                     href="mailto:cmromero.dev@gmail.com"
                     className="flex items-center gap-2 md:gap-3 text-white hover:text-[#b6da9b] transition-colors font-bold text-sm md:text-lg"
                   >
-                    <Mail className="w-5 h-5 md:w-6 md:h-6" />
+                    <HugeiconsIcon icon={Mail01Icon} size={24} />
                     <span className="hidden sm:inline">
                       CMROMERO.DEV@GMAIL.COM
                     </span>
@@ -361,7 +362,7 @@ export default function About() {
                 transition={{ duration: 0.8, delay: 0.9 }}
                 className="inline-flex items-center gap-4 bg-[#b6da9b] text-black px-12 py-6 font-black text-2xl tracking-tight transform -rotate-3 hover:rotate-0 hover:scale-110 transition-all duration-300 shadow-xl hover:shadow-2xl"
               >
-                <Download className="w-8 h-8" />
+                <HugeiconsIcon icon={Download01Icon} size={32} />
                 DOWNLOAD RESUME
               </motion.a>
             )}
@@ -684,7 +685,7 @@ export default function About() {
                 whileTap={{ scale: 0.95 }}
                 className="inline-flex items-center gap-4 bg-[#b6da9b] text-black px-12 py-6 font-black text-2xl tracking-tight transform rotate-2 hover:rotate-0 transition-all duration-300 shadow-xl hover:shadow-2xl"
               >
-                <Download className="w-8 h-8" />
+                <HugeiconsIcon icon={Download01Icon} size={32} />
                 DOWNLOAD RESUME
               </motion.a>
             </div>

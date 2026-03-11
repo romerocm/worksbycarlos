@@ -4,7 +4,8 @@ import { useEffect, useState } from 'react'
 import { motion } from 'framer-motion'
 import { cn } from '@/lib/utils'
 import { Button } from '@/components/ui/button'
-import { List } from 'lucide-react'
+import { HugeiconsIcon } from '@hugeicons/react'
+import { CheckListIcon } from '@hugeicons-pro/core-stroke-rounded'
 
 interface Heading {
   id: string
@@ -55,7 +56,7 @@ export function TableOfContents() {
     >
       <div className="sticky top-24 max-h-[calc(100vh-6rem)] overflow-auto scrollbar-hide">
         <div className="flex items-center gap-2 mb-4 text-muted-foreground">
-          <List className="h-4 w-4" />
+          <HugeiconsIcon icon={CheckListIcon} size={16} />
           <span className="text-sm font-medium">Table of Contents</span>
         </div>
         <nav className="space-y-1">

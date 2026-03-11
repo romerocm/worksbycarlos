@@ -1,7 +1,8 @@
 import { motion } from "framer-motion";
 import { cn } from "@/lib/utils";
 import { useState, useEffect } from "react";
-import { Copy, Check } from "lucide-react";
+import { HugeiconsIcon } from "@hugeicons/react";
+import { Copy01Icon, Tick01Icon } from "@hugeicons-pro/core-stroke-rounded";
 
 interface TerminalPopupProps {
   isOpen: boolean;
@@ -176,12 +177,12 @@ export function TerminalPopup({ isOpen, onClose }: TerminalPopupProps) {
             >
               {copiedCommands[curlCommand] ? (
                 <>
-                  <Check className="w-3 h-3 text-green-400" />
+                  <HugeiconsIcon icon={Tick01Icon} size={12} className="text-green-400" />
                   <span className="text-green-400">Copied!</span>
                 </>
               ) : (
                 <>
-                  <Copy className="w-3 h-3" />
+                  <HugeiconsIcon icon={Copy01Icon} size={12} />
                   <span>Copy</span>
                 </>
               )}

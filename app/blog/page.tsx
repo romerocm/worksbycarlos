@@ -9,7 +9,8 @@ import { Header } from '@/components/header'
 import { Card } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
-import { Calendar, Clock, ArrowRight, Tag as TagIcon } from 'lucide-react'
+import { HugeiconsIcon } from "@hugeicons/react"
+import { Calendar01Icon, Clock01Icon, ArrowRight01Icon, Tag01Icon } from "@hugeicons-pro/core-stroke-rounded"
 import { LoadingSkeleton } from '@/components/loading-skeleton'
 
 interface Post {
@@ -157,7 +158,7 @@ function BlogContent() {
                         </div>
                       </div>
                       <Button variant="ghost" className="group-hover:translate-x-1 transition-transform">
-                        Read More <ArrowRight className="ml-2 h-4 w-4" />
+                        Read More <HugeiconsIcon icon={ArrowRight01Icon} size={16} className="ml-2" />
                       </Button>
                     </div>
                   </Card>
@@ -189,7 +190,7 @@ function BlogContent() {
                   : "hover:bg-muted"
               )}
             >
-              {tag === 'All' && <TagIcon className="mr-2 h-4 w-4" />}
+              {tag === 'All' && <HugeiconsIcon icon={Tag01Icon} size={16} className="mr-2" />}
               {tag}
               <span className="ml-2 text-xs bg-muted-foreground/10 px-2 py-0.5 rounded-full">
                 {tagCounts[tag]}
@@ -269,7 +270,7 @@ function BlogContent() {
                           <span className="text-sm text-muted-foreground">{post.author}</span>
                         </div>
                         <Button variant="ghost" size="sm">
-                          Read More <ArrowRight className="ml-2 h-4 w-4" />
+                          Read More <HugeiconsIcon icon={ArrowRight01Icon} size={16} className="ml-2" />
                         </Button>
                       </div>
                     </div>

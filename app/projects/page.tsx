@@ -10,7 +10,8 @@ import { Header } from "@/components/header";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
-import { ArrowRight } from "lucide-react";
+import { HugeiconsIcon } from "@hugeicons/react";
+import { ArrowRight01Icon } from "@hugeicons-pro/core-stroke-rounded";
 import { LoadingSkeleton } from "@/components/loading-skeleton";
 import { caseStudies } from "@/types/case-study";
 import { Suspense } from "react";
@@ -187,7 +188,7 @@ export default function Projects() {
                       className="project-card-button text-white bg-black/20 hover:bg-white/10 hover:text-white transition-all duration-300"
                     >
                       View Case Study{" "}
-                      <ArrowRight className="ml-2 h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
+                      <HugeiconsIcon icon={ArrowRight01Icon} size={16} className="ml-2 transition-transform duration-300 group-hover:translate-x-1" />
                     </Button>
                   </div>
                 </Card>

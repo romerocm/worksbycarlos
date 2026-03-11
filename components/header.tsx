@@ -5,7 +5,8 @@ import { usePathname } from 'next/navigation'
 import Link from 'next/link'
 import { useTheme } from "next-themes"
 import { Button } from "@/components/ui/button"
-import { Moon, Sun, Ellipsis, X } from 'lucide-react'
+import { HugeiconsIcon } from '@hugeicons/react'
+import { Moon02Icon, Sun01Icon, MoreHorizontalIcon, MultiplicationSignIcon } from '@hugeicons-pro/core-stroke-rounded'
 import { motion, AnimatePresence } from 'framer-motion'
 import { siteConfig } from '@/lib/config'
 
@@ -198,7 +199,7 @@ export function Header() {
                 e.currentTarget.blur()
               }}
             >
-              {isOpen ? <X className="h-6 w-6" /> : <Ellipsis className="h-6 w-6" />}
+              {isOpen ? <HugeiconsIcon icon={MultiplicationSignIcon} size={24} /> : <HugeiconsIcon icon={MoreHorizontalIcon} size={24} />}
               <span className="sr-only">Toggle menu</span>
             </Button>
 
@@ -218,8 +219,8 @@ export function Header() {
               onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
               className={`rounded-full ${isDarkSection ? 'text-white hover:text-white' : ''}`}
             >
-              <Sun className="h-[1.2rem] w-[1.2rem] rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />
-              <Moon className="absolute h-[1.2rem] w-[1.2rem] rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" />
+              <HugeiconsIcon icon={Sun01Icon} size={19} className="rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />
+              <HugeiconsIcon icon={Moon02Icon} size={19} className="absolute rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" />
               <span className="sr-only">Toggle theme</span>
             </Button>
           </div>
@@ -232,8 +233,8 @@ export function Header() {
               onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
               className={`rounded-full ${isDarkSection ? 'text-white hover:text-white' : ''}`}
             >
-              <Sun className="h-[1.2rem] w-[1.2rem] rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />
-              <Moon className="absolute h-[1.2rem] w-[1.2rem] rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" />
+              <HugeiconsIcon icon={Sun01Icon} size={19} className="rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />
+              <HugeiconsIcon icon={Moon02Icon} size={19} className="absolute rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" />
               <span className="sr-only">Toggle theme</span>
             </Button>
           </div>

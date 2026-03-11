@@ -7,14 +7,17 @@ import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import Image from "next/image";
+import { HugeiconsIcon } from "@hugeicons/react";
 import {
-  Copy,
-  Mail,
-  Calendar,
-  MessageSquare,
-  Check,
-  ExternalLink,
-} from "lucide-react";
+  Copy01Icon,
+  Mail01Icon,
+  Calendar01Icon,
+  Comment01Icon,
+  Tick01Icon,
+  LinkSquare01Icon,
+  GithubIcon,
+  Linkedin01Icon,
+} from "@hugeicons-pro/core-stroke-rounded";
 import { useToast } from "@/hooks/use-toast";
 import Cal, { getCalApi } from "@calcom/embed-react";
 import { cn } from "@/lib/utils";
@@ -267,19 +270,19 @@ export default function Contact() {
     {
       id: "form",
       title: "Send a Message",
-      icon: Mail,
+      icon: Mail01Icon,
       description: "Get my email address to contact me directly",
     },
     {
       id: "call",
       title: "Schedule a Call",
-      icon: Calendar,
+      icon: Calendar01Icon,
       description: "Book a time that works best for you",
     },
     {
       id: "chat",
       title: "Quick Chat",
-      icon: MessageSquare,
+      icon: Comment01Icon,
       description: "Get quick answers to common questions",
     },
   ];
@@ -335,7 +338,7 @@ export default function Contact() {
                   >
                     <div className="flex items-center gap-4 mb-4">
                       <div className="p-2 rounded-lg bg-primary/10">
-                        <method.icon className="w-6 h-6 text-primary" />
+                        <HugeiconsIcon icon={method.icon} size={24} className="text-primary" />
                       </div>
                       <h3 className="font-semibold">{method.title}</h3>
                     </div>
@@ -361,7 +364,7 @@ export default function Contact() {
                 {activeMethod === "form" && (
                   <Card className="p-6">
                     <div className="flex flex-col items-center text-center">
-                      <Mail className="w-12 h-12 mb-4 text-primary" />
+                      <HugeiconsIcon icon={Mail01Icon} size={48} className="mb-4 text-primary" />
                       <h3 className="text-xl font-semibold mb-2">
                         Email Me Directly
                       </h3>
@@ -377,9 +380,9 @@ export default function Contact() {
                           className="ml-2"
                         >
                           {copied ? (
-                            <Check className="h-4 w-4 text-green-500" />
+                            <HugeiconsIcon icon={Tick01Icon} size={16} className="text-green-500" />
                           ) : (
-                            <Copy className="h-4 w-4" />
+                            <HugeiconsIcon icon={Copy01Icon} size={16} />
                           )}
                         </Button>
                       </div>
@@ -551,43 +554,17 @@ export default function Contact() {
               {[
                 {
                   href: "https://github.com/romerocm",
-                  icon: (props: any) => (
-                    <svg
-                      viewBox="0 0 24 24"
-                      {...props}
-                      fill="none"
-                      stroke="currentColor"
-                      strokeWidth="2"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                    >
-                      <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22" />
-                    </svg>
-                  ),
+                  icon: GithubIcon,
                   label: "GitHub",
                 },
                 {
                   href: "https://linkedin.com/in/romerocm",
-                  icon: (props: any) => (
-                    <svg
-                      viewBox="0 0 24 24"
-                      {...props}
-                      fill="none"
-                      stroke="currentColor"
-                      strokeWidth="2"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                    >
-                      <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z" />
-                      <rect x="2" y="9" width="4" height="12" />
-                      <circle cx="4" cy="4" r="2" />
-                    </svg>
-                  ),
+                  icon: Linkedin01Icon,
                   label: "LinkedIn",
                 },
                 {
                   href: "https://vimistudio.com",
-                  icon: ExternalLink,
+                  icon: LinkSquare01Icon,
                   label: "Vimi Studio",
                 },
               ].map((link) => (
@@ -603,7 +580,7 @@ export default function Contact() {
                     rel="noopener noreferrer"
                     className="transition-transform hover:scale-105 active:scale-95"
                   >
-                    <link.icon className="h-4 w-4 mr-2" />
+                    <HugeiconsIcon icon={link.icon} size={16} className="mr-2" />
                     {link.label}
                   </a>
                 </Button>

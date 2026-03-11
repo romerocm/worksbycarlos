@@ -25,13 +25,7 @@ const nextConfig = {
     unoptimized: process.env.NODE_ENV === 'production',
   },
   experimental: {
-    // Enable optimizations
     optimizeCss: true,
-    // Optimize fonts
-    optimizeFonts: true,
-    // Enable modern JavaScript features
-    serverActions: true,
-    // Enable MDX
     mdxRs: true,
   },
   // Optimize webpack configuration
@@ -42,13 +36,6 @@ const nextConfig = {
         poll: 1000,
         aggregateTimeout: 300,
       }
-    }
-
-    // Optimize bundle size
-    config.optimization = {
-      ...config.optimization,
-      moduleIds: 'deterministic',
-      chunkIds: 'deterministic',
     }
 
     return config
