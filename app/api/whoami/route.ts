@@ -6,9 +6,9 @@ export async function GET(request: NextRequest) {
 
   const data = {
     name: "Carlos Romero",
-    role: "DevOps Engineer & Platform Architect",
+    role: "Platform Engineer",
     location: "Building the future, one YAML file at a time",
-    experience: "8+ years turning coffee into infrastructure",
+    experience: "6+ years turning coffee into infrastructure",
     specialties: [
       "Making servers behave (mostly)",
       "Kubernetes whispering",

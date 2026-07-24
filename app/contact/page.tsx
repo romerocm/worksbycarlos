@@ -60,7 +60,7 @@ export default function Contact() {
       id: "exp",
       type: "bot",
       content:
-        "I have over 8 years of experience in DevOps and cloud engineering. I've worked with major companies in healthcare, banking, and technology sectors. Currently, I'm focusing on platform engineering at AI MEDICA.",
+        "I have over 6 years of experience in DevOps and cloud engineering. I've worked with major companies in healthcare, banking, and technology sectors. Currently, I'm focusing on platform engineering at AI MEDICA.",
     },
     "What services do you offer?": {
       id: "services",

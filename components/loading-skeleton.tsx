@@ -93,7 +93,7 @@ export function LoadingSkeleton() {
           {/* Skills Section */}
           <div className="lg:col-span-3 space-y-6">
             <Skeleton className="h-8 w-48" />
-            {[1, 2, 3, 4, 5, 6].map((i) => (
+            {[1, 2, 3, 4, 5].map((i) => (
               <Skeleton key={i} className="h-[120px] rounded-lg" />
             ))}
           </div>
