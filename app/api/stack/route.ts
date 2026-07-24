@@ -7,13 +7,14 @@ export async function GET(request: NextRequest) {
   const data = {
     message: "Don't try this in production (or do, I'm not your dad) 🤷‍♂️",
     author: "Carlos Romero",
-    role: "DevOps Engineer & Platform Architect",
+    role: "Platform Engineer",
     motto: "Scalable Infrastructure. Reliable Systems.",
     tech_stack: {
       cloud_platforms: [
         "AWS ☁️",
-        "Google Cloud Platform 🌤️", 
-        "Microsoft Azure 🌩️"
+        "Google Cloud Platform 🌤️",
+        "Microsoft Azure 🌩️",
+        "DigitalOcean 🌊"
       ],
       infrastructure: [
         "Terraform 🏗️",
@@ -35,8 +36,8 @@ export async function GET(request: NextRequest) {
       monitoring: [
         "Prometheus 📊",
         "Grafana 📈",
-        "ELK Stack 🔍",
-        "Airflow 🌊"
+        "Loki 🔍",
+        "Tempo ⏱️"
       ],
       databases: [
         "PostgreSQL 🐘",

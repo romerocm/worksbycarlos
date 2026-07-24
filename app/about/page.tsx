@@ -112,32 +112,38 @@ const workingWithMe = {
 
 const technicalSkills = [
   {
-    category: "PLATFORM SKILLS",
-    items: [
-      "AWS",
-      "GCP",
-      "Azure",
-      "Terraform",
-      "Kubernetes",
-      "Docker",
-      "Ansible",
-      "GitLab CI",
-    ],
+    category: "CLOUD PROVIDERS",
+    items: ["AWS", "GCP", "Microsoft Azure", "DigitalOcean"],
     icon: CloudIcon,
   },
   {
-    category: "TECHNICAL SKILLS",
-    items: [
-      "Infrastructure as Code",
-      "CI/CD Pipelines",
-      "Monitoring & Observability",
-      "Container Orchestration",
-    ],
+    category: "INFRASTRUCTURE",
+    items: ["Docker", "Kubernetes", "Terraform", "Ansible"],
+    icon: ServerStackIcon,
+  },
+  {
+    category: "CI/CD TOOLING",
+    items: ["GitHub Actions", "GitLab CI", "Jenkins", "CloudBuild / CloudRun"],
     icon: CodeIcon,
   },
   {
-    category: "DATABASES & SERVERS",
-    items: ["PostgreSQL", "MySQL", "MongoDB", "Nginx", "Apache"],
+    category: "MONITORING",
+    items: ["Prometheus", "Grafana", "Loki", "Tempo"],
+    icon: Wrench01Icon,
+  },
+  {
+    category: "LINUX, SERVERS & DATABASES",
+    items: [
+      "RHEL / CentOS",
+      "Ubuntu Server",
+      "Debian",
+      "FreeBSD",
+      "Nginx",
+      "Apache",
+      "PostgreSQL",
+      "MySQL",
+      "MongoDB",
+    ],
     icon: Database01Icon,
   },
 ];
@@ -230,7 +236,7 @@ export default function About() {
           >
             <Image
               src="/assets/images/me-urban-large.png"
-              alt="Carlos Romero - Cloud Engineer"
+              alt="Carlos Romero - Platform Engineer"
               fill
               className="object-cover"
               priority
@@ -245,7 +251,7 @@ export default function About() {
           >
             <Image
               src="/assets/images/me-urban-large.png"
-              alt="Carlos Romero - Cloud Engineer"
+              alt="Carlos Romero - Platform Engineer"
               fill
               className="object-cover object-center"
               priority
@@ -302,7 +308,7 @@ export default function About() {
               </motion.div>
             </motion.div>
 
-            {/* Cloud Engineer in Geometric Box */}
+            {/* Platform Engineer in Geometric Box */}
             {hiComplete && (
               <motion.div
                 initial={{ opacity: 0, x: -50 }}
@@ -311,7 +317,7 @@ export default function About() {
                 className="bg-black p-4 md:p-6 transform -rotate-1 mb-12 max-w-fit"
               >
                 <h2 className="text-2xl md:text-4xl font-black text-white tracking-tight glitch-hover">
-                  CLOUD ENGINEER
+                  PLATFORM ENGINEER
                 </h2>
               </motion.div>
             )}
@@ -354,7 +360,7 @@ export default function About() {
             {/* Brutalist Download Button */}
             {hiComplete && (
               <motion.a
-                href="https://33vyi7jhxz3mujt2.public.blob.vercel-storage.com/CarlosRomero-CloudEngineer.pdf"
+                href="https://33vyi7jhxz3mujt2.public.blob.vercel-storage.com/CarlosRomero-PlatformEngineer.pdf"
                 target="_blank"
                 rel="noopener noreferrer"
                 initial={{ opacity: 0, scale: 0.8, rotate: -5 }}
@@ -678,7 +684,7 @@ export default function About() {
                 and technical expertise.
               </p>
               <motion.a
-                href="https://33vyi7jhxz3mujt2.public.blob.vercel-storage.com/CarlosRomero-CloudEngineer.pdf"
+                href="https://33vyi7jhxz3mujt2.public.blob.vercel-storage.com/CarlosRomero-PlatformEngineer.pdf"
                 target="_blank"
                 rel="noopener noreferrer"
                 whileHover={{ scale: 1.1, rotate: 0 }}

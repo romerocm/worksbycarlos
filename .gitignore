@@ -62,3 +62,6 @@ yarn-error.log*
 *.log
 *.pem
 public/chunks/
+.vercel
+.env*
+.gstack/
